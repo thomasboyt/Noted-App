@@ -18,41 +18,56 @@ Noted.OutlineView = Ember.View.extend({
   },
 
   keyDown: function(e) {
-    e.preventDefault(); //my justification on preventing any keyboard shortcuts: this is only active when the canvas is focused!
+    //e.preventDefault(); //my justification on preventing any keyboard shortcuts: this is only active when the canvas is focused!
 
     var code = e.keyCode;
     console.log(code);
 
     if (code==76 || code==9) {         //tab or l, indent one level
+      e.preventDefault();
       this.active.changeIndentBy(1);
     }
     if (code==72) {                   //h, outdent one level
+      e.preventDefault();
       this.active.changeIndentBy(-1);
     }
 
     if (!this.active.get('isEditing')) {
       if (code==75) {                 //k, move up
+        e.preventDefault();
         this._changeActiveByOffset(-1);
       }; 
       if (code==74) {                 //j, move down
+        e.preventDefault();
         this._changeActiveByOffset(1);
       }; 
       if (code==32 || code==73) {     //space or i, enter editing
+        e.preventDefault();
         this.active.set('isEditing', true);
       }; 
       if (code==13 || code==79) {     //enter or o, insert new entry below cursor
+        e.preventDefault();
         this.get("controller").insertItemAt(this.activeIndex+1, this.active.get("indentionLevel"));
         this._changeActiveByOffset(1);
+      }
+      if (code==8 || code==68) {      //backspace/delete (mac) or d, delete
+        e.preventDefault();
+        this.active.deleteRecord();
+        Noted.store.commit();
+
+        this._changeActiveByOffset(0);
       }
     }
     else {
       if (code==13) {     //enter, end editing & save
+        e.preventDefault();
         var value = this.$("input:first-child").val();
         this.active.set('isEditing', false);
         this.$("ul:first-child").focus();
         this.active.set("text", value);
       }; 
       if (code==27) {
+        e.preventDefault();
         var value = this.$("input:first-child").val();
         this.active.set('isEditing', false);
         this.$("ul:first-child").focus();

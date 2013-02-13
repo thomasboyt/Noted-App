@@ -21,5 +21,6 @@ Noted.ListItem = DS.Model.extend({
     var newIndent = this.get("indentionLevel") + add;
     if (newIndent > -1)
       this.set("indentionLevel", newIndent);
+    Noted.store.commit();
   }
 })
