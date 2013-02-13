@@ -1,8 +1,9 @@
 Noted.NoteController = Ember.ObjectController.extend({
-  insertItemAt: function(index) {
+  insertItemAt: function(index, indent) {
     var item = Noted.ListItem.createRecord({
       text: "",
       order: index,
+      indentionLevel: indent,      // todo: indention level of whatever level parent was on
       note: this.content,
       isEditing: true
     });
@@ -26,6 +27,6 @@ Noted.NoteController = Ember.ObjectController.extend({
   }).property('content.listItems'),
 
   createItem: function() {
-    this.insertItemAt(0);
+    this.insertItemAt(0,0);
   }
 })

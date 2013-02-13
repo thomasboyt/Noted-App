@@ -7,6 +7,19 @@ Noted.ListItem = DS.Model.extend({
 
   // state
   isEditing: false,
-  isActive: false,    // currently highlighted (cursor is on)
-  isSelected: false   // multiple selections
+  isActive: false,     // currently highlighted (cursor is on)
+  isSelected: false,   // multiple selections
+
+  // computed properties
+  computedIndentionStyle: function() {
+    var offset = this.get("indentionLevel") * 40;
+    return "margin-left: " + offset + "px";
+  }.property('indentionLevel'),
+
+  // methods
+  changeIndentBy: function(add) {
+    var newIndent = this.get("indentionLevel") + add;
+    if (newIndent > -1)
+      this.set("indentionLevel", newIndent);
+  }
 })
