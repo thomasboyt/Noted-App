@@ -1,0 +1,11 @@
+<h3>{{title}}</h3>
+
+{{#view Noted.OutlineView itemsBinding="listItems" }}
+  <ul tabindex='0'>
+    {{#each listItem in controller.sortedItems}}
+      {{view Noted.ItemView listItemBinding=listItem}}
+    {{/each}}
+  </ul>
+{{/view}}
+
+<a href="#" {{action "createItem"}}>Create New Item</a>
