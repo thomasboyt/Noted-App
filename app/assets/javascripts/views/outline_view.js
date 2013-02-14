@@ -53,6 +53,10 @@ Noted.OutlineView = Ember.View.extend({
         e.preventDefault();
         this.active.changeIndentBy(-1);
       }
+      if (code==76) {
+        e.preventDefault();
+        this.active.changeIndentBy(1);
+      }
     }
     else {
       if (code==13) {     //enter, end editing & save
@@ -84,6 +88,22 @@ Noted.OutlineView = Ember.View.extend({
       this.activeIndex = newIndex;
       this.active = this.get('controller.sortedItems').objectAt(this.activeIndex);
       this.active.set("isActive", true);
+
+      //this._updateScrollPosition(newIndex);
     }
+
+    
+  },
+
+
+
+  updateScrollPosition: function() {
+    // to update the scroll position, we need to calculate the position of the bottom of the active item versus the position of the bottom of the screen, and scroll accordingly
+
+    //so first... how do we find the item view element of the active one?
+    //with a jquery selector for now, but may be more elegant way later
+
+    // problem: .is-active is not getting updated before this line is called!
+    
   }
 });
