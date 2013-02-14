@@ -1,11 +1,7 @@
 Noted.ItemView = Ember.View.extend({
   isEditing: false,
   templateName: "item_static",
-
-  // attributeBindings: ['style'],
-
-  // style: this.listItem.get('computedIndentionStyle'),
-
+  
   didInsertElement: function() {
 
     if (this.listItem.get("isEditing") == true) {

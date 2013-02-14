@@ -18,20 +18,14 @@ Noted.OutlineView = Ember.View.extend({
   },
 
   keyDown: function(e) {
-    //e.preventDefault(); //my justification on preventing any keyboard shortcuts: this is only active when the canvas is focused!
-
     var code = e.keyCode;
     console.log(code);
 
-    if (code==76 || code==9) {         //tab or l, indent one level
+    if (code==9) {         //tab, indent one level
       e.preventDefault();
       this.active.changeIndentBy(1);
     }
-    if (code==72) {                   //h, outdent one level
-      e.preventDefault();
-      this.active.changeIndentBy(-1);
-    }
-
+    
     if (!this.active.get('isEditing')) {
       if (code==75) {                 //k, move up
         e.preventDefault();
@@ -47,15 +41,17 @@ Noted.OutlineView = Ember.View.extend({
       }; 
       if (code==13 || code==79) {     //enter or o, insert new entry below cursor
         e.preventDefault();
-        this.get("controller").insertItemAt(this.activeIndex+1, this.active.get("indentionLevel"));
+        this.get("controller").insertItemAt(this.active.get("order")+1, this.active.get("indentionLevel"));
         this._changeActiveByOffset(1);
       }
       if (code==8 || code==68) {      //backspace/delete (mac) or d, delete
         e.preventDefault();
-        this.active.deleteRecord();
-        Noted.store.commit();
-
+        this.get("controller").deleteItemAt(this.activeIndex);
         this._changeActiveByOffset(0);
+      }
+      if (code==72) {                   //h, outdent one level
+        e.preventDefault();
+        this.active.changeIndentBy(-1);
       }
     }
     else {
@@ -65,6 +61,7 @@ Noted.OutlineView = Ember.View.extend({
         this.active.set('isEditing', false);
         this.$("ul:first-child").focus();
         this.active.set("text", value);
+        Noted.store.commit();
       }; 
       if (code==27) {
         e.preventDefault();
