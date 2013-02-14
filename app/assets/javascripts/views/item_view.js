@@ -3,16 +3,13 @@ Noted.ItemView = Ember.View.extend({
   templateName: "item_static",
   
   didInsertElement: function() {
-
     if (this.listItem.get("isEditing") == true) {
-      // switch to editing view when created
       this._toEditingView();
     }
   },
 
   editingObserver: function() {
     this.isEditing = this.listItem.get("isEditing");
-    console.log("isediting is now " + this.isEditing);
     if (this.isEditing) {
       this._toEditingView();
     }
@@ -21,19 +18,32 @@ Noted.ItemView = Ember.View.extend({
       this.rerender();
       this.didInsertElement = function() {this._updateScrollPosition()}
     }
-    //this._updateScrollPosition();
 
   }.observes("listItem.isEditing"),
-
-  /*didInsertElement: function() {
-    //if (this.get("isNew") == true)
-  }*/
 
   activeObserver: function() {
     if (this.get('listItem.isActive')) {
       this._updateScrollPosition();
     }
+    else {
+      if (this.get("listItem.isEditing")) {
+        this.set("listItem.isEditing", false);
+      }
+    }
   }.observes('listItem.isActive'),
+
+  willDestroy: function() {
+    this._super();
+  },
+
+  click: function() {
+    // set as active
+    this.get('parentView').changeActive(this.listItem);
+  },
+
+  doubleClick: function() {
+    this.listItem.set("isEditing", true);
+  },
 
   _toEditingView: function() {
     this.set("templateName", "item_editing");
@@ -51,8 +61,6 @@ Noted.ItemView = Ember.View.extend({
     var viewportBottom = viewportTop + $(window).height();
     var activeTop = $(activeView).position().top;
     var activeBottom = activeTop + $(activeView).height();
-
-    //console.log("viewportBottom is " + viewportBottom + ". activeBottom is " + activeBottom);
 
     if (viewportTop > activeTop) {
       var offset = viewportTop - activeTop;

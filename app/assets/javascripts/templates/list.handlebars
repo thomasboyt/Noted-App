@@ -1,7 +1,7 @@
 <h3>Notes</h3>
 
 <ul id="notes">
-  {{#each note in content}} {{! this is gross, change later }}
+  {{#each note in content}}
     <li>{{#linkTo note note}}{{note.title}}{{/linkTo}}</li>
   {{/each}}
 </ul>

@@ -20,7 +20,6 @@ Noted.NoteRoute = Ember.Route.extend({
     controller.set('content', note)
   },
 
-  // fwiw, this is default behavior 
   model: function(params) {
     return Noted.Note.find(params.note_id);
   }

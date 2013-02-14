@@ -8,7 +8,6 @@ Noted.OutlineView = Ember.View.extend({
   activeIndex:0,
 
   init: function() {
-
     this._super();
 
     if (this.items.get("length") > 0) {
@@ -21,7 +20,7 @@ Noted.OutlineView = Ember.View.extend({
     var code = e.keyCode;
     console.log(code);
 
-    if (code==9) {         //tab, indent one level
+    if (code==9) {                    //tab, indent one level
       e.preventDefault();
       this.active.changeIndentBy(1);
     }
@@ -49,11 +48,11 @@ Noted.OutlineView = Ember.View.extend({
         this.get("controller").deleteItemAt(this.activeIndex);
         this._changeActiveByOffset(0);
       }
-      if (code==72) {                   //h, outdent one level
+      if (code==72) {                 //h, outdent one level
         e.preventDefault();
         this.active.changeIndentBy(-1);
       }
-      if (code==76) {
+      if (code==76) {                 //j, indent one level
         e.preventDefault();
         this.active.changeIndentBy(1);
       }
@@ -67,43 +66,34 @@ Noted.OutlineView = Ember.View.extend({
         this.active.set("text", value);
         Noted.store.commit();
       }; 
-      if (code==27) {
+      if (code==27) {     //esc, CANCEL editing
         e.preventDefault();
         var value = this.$("input:first-child").val();
         this.active.set('isEditing', false);
         this.$("ul:first-child").focus();
-      }; //esc, CANCEL editing
+      }; 
     }
   },
 
-  click: function(e) {
-    //console.log('clicked')
+  willDestroy: function() {
+    this._super();
+    this.items.forEach(function(item) {
+      item.resetState();
+    })
+  },
+
+  changeActive: function(item) {
+    this.active.set("isActive", false);
+    this.active = item;
+    item.set("isActive", true);
+    this.activeIndex = this.active.get("order");
   },
 
   _changeActiveByOffset: function(offset) {
     var newIndex = this.activeIndex + offset;
 
     if (newIndex >= 0 && newIndex < this.items.get('length')) {
-      this.active.set("isActive", false);
-      this.activeIndex = newIndex;
-      this.active = this.get('controller.sortedItems').objectAt(this.activeIndex);
-      this.active.set("isActive", true);
-
-      //this._updateScrollPosition(newIndex);
-    }
-
-    
-  },
-
-
-
-  updateScrollPosition: function() {
-    // to update the scroll position, we need to calculate the position of the bottom of the active item versus the position of the bottom of the screen, and scroll accordingly
-
-    //so first... how do we find the item view element of the active one?
-    //with a jquery selector for now, but may be more elegant way later
-
-    // problem: .is-active is not getting updated before this line is called!
-    
+      this.changeActive(this.get('controller.sortedItems').objectAt(newIndex));
+    } 
   }
 });

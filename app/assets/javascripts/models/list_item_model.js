@@ -22,5 +22,11 @@ Noted.ListItem = DS.Model.extend({
     if (newIndent > -1)
       this.set("indentionLevel", newIndent);
     Noted.store.commit();
+  },
+
+  resetState: function() {
+    this.set("isEditing", false);
+    this.set("isActive", false);
+    this.set("isSelected", false);
   }
 })

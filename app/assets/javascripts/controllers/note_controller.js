@@ -1,12 +1,7 @@
 Noted.NoteController = Ember.ObjectController.extend({
   insertItemAt: function(index, indent) {
 
-    // This is the grossest and possibly (probably) wildly inefficient
-    this.get("sortedItems").forEach(function (item, idx) {
-      if (item.get("order") >= index) {
-        item.set("order", item.get("order") + 1);
-      }
-    });
+    this._shiftItemsAt(index, 1);
 
     var item = Noted.ListItem.createRecord({
       text: "",
@@ -21,6 +16,9 @@ Noted.NoteController = Ember.ObjectController.extend({
 
   deleteItemAt: function(index) {
     this.get("sortedItems").objectAt(index).deleteRecord();
+
+    this._shiftItemsAt(index, -1);
+
     Noted.store.commit();
   },
 
@@ -32,7 +30,11 @@ Noted.NoteController = Ember.ObjectController.extend({
     })
   }).property('content.listItems'),
 
-  createItem: function() {
-    this.insertItemAt(0,0);
+  _shiftItemsAt: function(index, shift) {
+    this.get("sortedItems").forEach(function(item) {
+      if (item.get("order") >= index) {
+        item.set("order", item.get("order") + shift)
+      }
+    })
   }
 })
