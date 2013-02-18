@@ -24,45 +24,50 @@ Noted.OutlineView = Ember.View.extend({
   keyDown: function(e) {
     var code = e.keyCode;
 
-    if (code==9) {                    //tab, indent one level
+    if (jwerty.is('tab/cmd+]', e)) {                    //tab, indent one level
       e.preventDefault();
       this.active.changeIndentBy(1);
     }
+
+    if (jwerty.is('shift+tab/cmd+[', e)) {
+      e.preventDefault();
+      this.active.changeIndentBy(-1);
+    }
     
     if (!this.active.get('isEditing')) {
-      if (code==75) {                 //k, move up
+      if (jwerty.is('k/up', e)) {                 //k, move up
         e.preventDefault();
         this._changeActiveByOffset(-1);
       }; 
-      if (code==74) {                 //j, move down
+      if (jwerty.is('j/down', e)) {                 //j, move down
         e.preventDefault();
         this._changeActiveByOffset(1);
       }; 
-      if (code==32 || code==73) {     //space or i, enter editing
+      if (jwerty.is('space/i',e )) {     //space or i, enter editing
         e.preventDefault();
         this.active.set('isEditing', true);
       }; 
-      if (code==13 || code==79) {     //enter or o, insert new entry below cursor
+      if (jwerty.is('enter/o', e)) {     //enter or o, insert new entry below cursor
         e.preventDefault();
         this.get("controller").insertItemAt(this.active.get("order")+1, this.active.get("indentionLevel"));
         this._changeActiveByOffset(1);
       }
-      if (code==8 || code==68) {      //backspace/delete (mac) or d, delete
+      if (jwerty.is('backspace/d', e)) {      //backspace/delete (mac) or d, delete
         e.preventDefault();
         this.get("controller").deleteItemAt(this.activeIndex);
         this._changeActiveByOffset(0);
       }
-      if (code==72) {                 //h, outdent one level
+      if (jwerty.is('h', e)) {                 //h, outdent one level
         e.preventDefault();
         this.active.changeIndentBy(-1);
       }
-      if (code==76) {                 //l, indent one level
+      if (jwerty.is('l', e)) {                 //l, indent one level
         e.preventDefault();
         this.active.changeIndentBy(1);
       }
     }
     else {
-      if (code==13) {     //enter, end editing & save
+      if (jwerty.is('enter', e)) {     //enter, end editing & save
         e.preventDefault();
         var value = this.$("input:first-child").val();
         this.active.set('isEditing', false);
@@ -70,7 +75,7 @@ Noted.OutlineView = Ember.View.extend({
         this.active.set("text", value);
         Noted.store.commit();
       }; 
-      if (code==27) {     //esc, CANCEL editing
+      if (jwerty.is('esc', e)) {     //esc, CANCEL editing
         e.preventDefault();
         var value = this.$("input:first-child").val();
         this.active.set('isEditing', false);

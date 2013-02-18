@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.ba-resize.min
 //= require jquery.ba-outside-events.min
+//= require jwerty
 //= require twitter/bootstrap
 //= require handlebars
 //= require ember
