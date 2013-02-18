@@ -19,6 +19,15 @@ Noted.NotesController = Ember.ArrayController.extend({
     Noted.store.commit();
   },
 
+  deleteNote: function() {
+    var willDelete = window.confirm("Are you sure you want to delete this note?");
+    if (willDelete) {
+      this.selected.deleteRecord();
+      Noted.store.commit();
+      this.transitionTo("index");
+    }
+  },
+
   setSelected: function(note) {
     if (this.selected) {
       this.selected.set("isSelected", false);

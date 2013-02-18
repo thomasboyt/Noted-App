@@ -11,6 +11,15 @@ Noted.IndexRoute = Ember.Route.extend({
       controller: noteController,
       outlet: 'list'
     })
+  },
+
+  events: {
+    createNote: function() {
+      this.controllerFor('notes').createNote();
+    },
+    deleteNote: function() {
+      this.controllerFor('notes').deleteNote();
+    }
   }
 })
 

@@ -42,7 +42,6 @@ Noted.ItemView = Ember.View.extend({
   },
 
   doubleClick: function() {
-    console.log("doubleClick");
     this.listItem.set("isEditing", true);
   },
 

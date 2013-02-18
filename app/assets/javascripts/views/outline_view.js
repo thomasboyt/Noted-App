@@ -15,6 +15,12 @@ Noted.OutlineView = Ember.View.extend({
     }
   },
 
+  didInsertElement: function() {
+    this.$("").bind('clickoutside', function(e) {
+      this.changeActive(null);
+    }.bind(this));
+  },
+
   keyDown: function(e) {
     var code = e.keyCode;
 
@@ -70,12 +76,6 @@ Noted.OutlineView = Ember.View.extend({
         this.active.set('isEditing', false);
         this.$("ul:first-child").focus();
       }; 
-    }
-  },
-
-  focusOut: function(e) {
-    if (this.active && !this.active.get("isEditing")) {
-      this.changeActive(null);
     }
   },
 
