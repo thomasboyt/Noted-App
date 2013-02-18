@@ -3,7 +3,6 @@
 // ***Try to remove the "state tracking" from the model. It's not a bad pattern but not a good one either.
 
 Noted.OutlineView = Ember.View.extend({
-  isEditing: false,
   active: undefined,
   activeIndex:0,
 
@@ -18,7 +17,6 @@ Noted.OutlineView = Ember.View.extend({
 
   keyDown: function(e) {
     var code = e.keyCode;
-    console.log(code);
 
     if (code==9) {                    //tab, indent one level
       e.preventDefault();
@@ -52,7 +50,7 @@ Noted.OutlineView = Ember.View.extend({
         e.preventDefault();
         this.active.changeIndentBy(-1);
       }
-      if (code==76) {                 //j, indent one level
+      if (code==76) {                 //l, indent one level
         e.preventDefault();
         this.active.changeIndentBy(1);
       }
@@ -75,6 +73,12 @@ Noted.OutlineView = Ember.View.extend({
     }
   },
 
+  focusOut: function(e) {
+    if (this.active && !this.active.get("isEditing")) {
+      this.changeActive(null);
+    }
+  },
+
   willDestroy: function() {
     this._super();
     this.items.forEach(function(item) {
@@ -83,10 +87,19 @@ Noted.OutlineView = Ember.View.extend({
   },
 
   changeActive: function(item) {
-    this.active.set("isActive", false);
+    if (this.active) {
+      this.active.set("isActive", false);
+    }
+
     this.active = item;
-    item.set("isActive", true);
-    this.activeIndex = this.active.get("order");
+
+    if (item) {
+      item.set("isActive", true);
+      this.activeIndex = this.active.get("order");
+    }
+    else {
+      this.activeIndex = null;
+    }
   },
 
   _changeActiveByOffset: function(offset) {
@@ -95,5 +108,16 @@ Noted.OutlineView = Ember.View.extend({
     if (newIndex >= 0 && newIndex < this.items.get('length')) {
       this.changeActive(this.get('controller.sortedItems').objectAt(newIndex));
     } 
+    else if (newIndex <= 0) {
+      // make sure it's scrolled to true top
+      $(".body-pane .scroller").scrollTop(0);
+    }
   }
 });
+
+
+Noted.TitleView = Ember.TextField.extend({
+  focusOut: function(e) {
+    Noted.store.commit();
+  }
+})

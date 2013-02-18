@@ -1,9 +1,13 @@
-<h3>{{title}}</h3>
+<div class='scroller' >
+  <div class='scroller-content'>
+    <h3>{{view Noted.TitleView valueBinding="title"}}</h3>
+    {{#view Noted.OutlineView itemsBinding="listItems" }}
+      <ul tabindex='0'>
+        {{#each listItem in controller.sortedItems}}
+          {{view Noted.ItemView listItemBinding=listItem}}
+        {{/each}}
+      </ul>
+    {{/view}}
+  </div>
+</div>
 
-{{#view Noted.OutlineView itemsBinding="listItems" }}
-  <ul tabindex='0'>
-    {{#each listItem in controller.sortedItems}}
-      {{view Noted.ItemView listItemBinding=listItem}}
-    {{/each}}
-  </ul>
-{{/view}}

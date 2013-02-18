@@ -1,4 +1,6 @@
 Noted.NotesController = Ember.ArrayController.extend({
+  selected: null,
+
   createNote: function() {
     var name = prompt("Note name");
 
@@ -15,5 +17,13 @@ Noted.NotesController = Ember.ArrayController.extend({
     }));
 
     Noted.store.commit();
+  },
+
+  setSelected: function(note) {
+    if (this.selected) {
+      this.selected.set("isSelected", false);
+    }
+    note.set("isSelected", true);
+    this.selected = note;
   }
 })

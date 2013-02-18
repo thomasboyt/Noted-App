@@ -1,0 +1,282 @@
+@import "twitter/bootstrap/bootstrap";
+
+@controls-bg: rgb(228,228,228);
+
+html, body {
+  background-color:#212133;
+  height:100%;
+  overflow:hidden;
+}
+
+.scrollable() {
+  overflow:auto;
+  height:inherit;
+}
+
+// http://stackoverflow.com/questions/13119906/turning-off-twitter-bootstrap-navbar-transition-animation
+.no-transition {
+  -webkit-transition: height 0;
+  -moz-transition: height 0;
+  -ms-transition: height 0;
+  -o-transition: height 0;
+  transition: height 0;
+}
+
+.border-radius-custom(@topLeft, @topRight, @bottomRight, @bottomLeft) {
+  -webkit-border-top-left-radius: @topLeft;
+      -moz-border-radius-topleft: @topLeft;
+          border-top-left-radius: @topLeft;
+  -webkit-border-top-right-radius: @topRight;
+      -moz-border-radius-topright: @topRight;
+          border-top-right-radius: @topRight;
+  -webkit-border-bottom-right-radius: @bottomRight;
+      -moz-border-radius-bottomright: @bottomRight;
+          border-bottom-right-radius: @bottomRight;
+  -webkit-border-bottom-left-radius: @bottomLeft;
+      -moz-border-radius-bottomleft: @bottomLeft;
+          border-bottom-left-radius: @bottomLeft;
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+}
+
+.controls-gradient() {
+  #gradient > .vertical(rgb(228,228,228), rgb(175,175,175))
+}
+
+/*
+
+--------------
+ Scaffolding
+--------------
+
+*/
+
+.wrapper {
+  margin:0px auto 0;
+  width:90%;
+  height:100%;
+  min-height:100%;
+}
+
+header {
+  position:relative;
+  margin: 0px auto 0px auto;
+  height:64px;
+  margin-bottom:-64px;
+}
+
+.window {
+  position:absolute;
+  left:50%;
+  margin-left:-48%;
+  top:60px;
+  bottom:80px;
+  width:96%;
+
+
+  &.full-screen {
+    padding-top:20px;
+  }
+
+  .controls {
+    height:30px;
+    &:bottom {
+      .clearfix();
+    }
+
+    .left-controls {
+      margin-left:10px;
+      margin-top:2px;
+
+      .btn {
+        .buttonBackground(rgb(175,175,175), darken(rgb(175,175,175), 10%));
+        #gradient > .vertical(darken(rgb(228,228,228), 10%), darken(rgb(175,175,175), 10%));
+        border-color:#555;
+
+        i {
+          color:#333;
+        }
+      }
+    }
+  }
+
+  > .ember-view {
+    height:100%;
+  }
+
+  .main {
+    height:100%;
+    width:100%;
+    .clearfix();
+  }
+
+  .sidebar-pane, .body-pane {
+    //height:inherit;
+  }
+
+  .sidebar-pane {
+    width:180px;
+    display: inline;
+    float: left;
+  }
+}
+
+.app-content {
+  background-color:#f3f3f3;
+  border:1px #000 solid;
+  .border-radius(10px);
+}
+
+header {
+  h1 {
+    position:absolute;
+    //font-size:84px;
+    //line-height:84px;
+    bottom:0px;
+    font-weight:bold;
+    color: #eeee00;
+  }
+  div.right {
+    position:absolute;
+    bottom:5px;
+    right:0px;
+    text-align:right;
+    font-size:36px;
+    line-height:36px;
+    color:#fff;
+  }
+}
+
+
+
+// ------------
+// App Sections
+// ------------
+
+.controls {
+  height:30px;
+  &.top {
+    border-bottom: 1px rgb(125,125,125) solid;
+    .border-radius-custom(10px, 10px, 0, 0)
+  }
+  &.bottom {
+    border-top: 1px rgb(125,125,125) solid;
+    .border-radius-custom(0, 0, 10px, 10px)
+  }
+  .controls-gradient();
+
+}
+
+.window > * {  
+  background-color:#f3f3f3;
+}
+
+.sidebar-pane {
+  .scrollable();
+
+  border-right: 1px #aaa solid;
+  cursor:default;
+
+  resize: horizontal;
+  overflow: scroll;
+  float:left;
+  width:200px;
+  max-width:400px;
+
+  li {
+    padding:5px;
+    border-top:1px solid #aaa;
+    font-size:14px;
+
+    > a.active {
+      font-weight:bold;
+    }
+
+    //:first-child doesn't work due to metamorph tags
+    &:nth-of-type(1) {
+      border-top:none;
+    }
+  }
+}
+
+
+.body-pane {
+  //.scrollable();
+  overflow:hidden;
+  height:inherit;
+  margin-left:180px;
+  position:relative;
+  margin-right:5px;
+
+  .scroller {
+    position:absolute;
+    overflow-x:hidden;
+    overflow-y:scroll;
+    top:0px;
+    bottom:0px;
+    //bottom:10px;
+    width:100%;
+
+    .scroller-content {
+      position:relative;
+
+      ul {
+        //position:relative;
+        //margin-top:10px;
+
+        &:focus {
+          outline:none !important;
+        }
+
+        li {
+          position:relative;
+          &.is-active, &.is-editing {
+            background-color:#eeee00;
+            font-weight:bold;
+          }
+          &.is-editing {
+            margin-right:10px;
+            //display:list-item;
+            //list-style-type: disc !important;
+          }
+          //line-height:16px;
+          &:focus {
+            //outline:none;
+          }
+
+          textarea {
+            background:#d9dee6;
+            width:100%;
+            padding:0px;
+            .border-radius(0px);
+            box-shadow: none;
+            color: @grayDark;
+
+            height:18px;
+            //display:list-item;
+          }
+        }
+      }
+    }
+  }
+
+  h3 {
+    margin-right:20px;
+    margin-top:0px;
+  }
+
+  h3 input {
+    margin:5px;
+    background:none;
+    .border-radius(0px);
+    box-shadow: none;
+
+    font-size:30px;
+    height: @baseLineHeight * 2;
+    color:@grayDark;
+    font-weight:bold;
+
+    width:100%;
+  }
+}

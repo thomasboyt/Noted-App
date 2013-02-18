@@ -42,6 +42,7 @@ Noted.ItemView = Ember.View.extend({
   },
 
   doubleClick: function() {
+    console.log("doubleClick");
     this.listItem.set("isEditing", true);
   },
 
@@ -56,19 +57,21 @@ Noted.ItemView = Ember.View.extend({
 
   _updateScrollPosition: function() {
     var activeView = this.$();
+    var container = $(".body-pane .scroller"); // don't like how hard coded this is - alternatives?
 
-    var viewportTop = $(window).scrollTop()
-    var viewportBottom = viewportTop + $(window).height();
+    var viewportTop = $(container).scrollTop()
+    var viewportBottom = viewportTop + $(container).height();
     var activeTop = $(activeView).position().top;
     var activeBottom = activeTop + $(activeView).height();
 
+    var offset;
     if (viewportTop > activeTop) {
-      var offset = viewportTop - activeTop;
-      $(window).scrollTop($(window).scrollTop() - offset);
+      offset = viewportTop - activeTop;
+      $(container).scrollTop($(container).scrollTop() - offset);
     }
     else if (viewportBottom < activeBottom) {
-      var offset = activeBottom - viewportBottom;
-      $(window).scrollTop($(window).scrollTop() + offset);
+      offset = activeBottom - viewportBottom;
+      $(container).scrollTop($(container).scrollTop() + offset);
     }
   }
 
