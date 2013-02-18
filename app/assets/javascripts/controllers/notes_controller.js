@@ -18,6 +18,9 @@ Noted.NotesController = Ember.ArrayController.extend({
     }));
 
     Noted.store.commit();
+
+    this.transitionTo('note', note)
+    this.setSelected(note);
   },
 
   deleteNote: function() {

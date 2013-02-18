@@ -19,6 +19,8 @@ Noted.OutlineView = Ember.View.extend({
     this.$("").bind('clickoutside', function(e) {
       this.changeActive(null);
     }.bind(this));
+
+    this.$("ul").focus();
   },
 
   keyDown: function(e) {

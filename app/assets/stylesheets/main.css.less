@@ -129,21 +129,30 @@ header {
 }
 
 header {
-  h1 {
+  margin:0;
+  div.left {
     position:absolute;
-    //font-size:84px;
-    //line-height:84px;
-    bottom:0px;
-    font-weight:bold;
-    color: #eeee00;
+    left:0px;
+    bottom:10px;
+    
+    h1 {
+      //font-size:84px;
+      //line-height:84px;
+      font-size:38px;
+      line-height:38px;
+      margin:0;
+      padding:0;
+      font-weight:bold;
+      color: #eeee00;
+    }
   }
   div.right {
     position:absolute;
-    bottom:5px;
+    bottom:15px;
     right:0px;
     text-align:right;
-    font-size:36px;
-    line-height:36px;
+    font-size:24px;
+    line-height:24px;
     color:#fff;
   }
 }
@@ -278,5 +287,12 @@ header {
     font-weight:bold;
 
     width:100%;
+  }
+}
+
+#shortcuts-modal {
+  top:5%;
+  .modal-body {
+    max-height: 450px !important;
   }
 }
