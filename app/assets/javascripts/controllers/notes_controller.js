@@ -6,6 +6,7 @@ Noted.NotesController = Ember.ArrayController.extend({
 
     var note = Noted.Note.createRecord({
       title: name,
+      created_date: new Date()
       //order: 
     });
 
@@ -34,5 +35,13 @@ Noted.NotesController = Ember.ArrayController.extend({
     }
     note.set("isSelected", true);
     this.selected = note;
-  }
+  },
+
+  sortedList: (function() {
+    return Ember.ArrayProxy.createWithMixins(Ember.SortableMixin, {
+      sortProperties: ['created_date'],
+      content: this.get('content'),
+      sortAscending: false
+    });
+  }).property('content')
 })

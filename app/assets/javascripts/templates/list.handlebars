@@ -1,7 +1,5 @@
 <ul class="notes-list unstyled">
-  {{#each note in content}}
+  {{#each note in controller.sortedList}}
     <li {{bindAttr class='isSelected'}}>{{#linkTo note note}}{{note.title}}{{/linkTo}}</li>
   {{/each}}
 </ul>
-
-<a href="#" {{action "createNote"}}>Create New Note</a>
