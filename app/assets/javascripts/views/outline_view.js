@@ -26,6 +26,7 @@ Noted.OutlineView = Ember.View.extend({
   keyDown: function(e) {
     var code = e.keyCode;
 
+
     if (jwerty.is('tab/cmd+]', e)) {                    //tab, indent one level
       e.preventDefault();
       this.active.changeIndentBy(1);
@@ -69,6 +70,7 @@ Noted.OutlineView = Ember.View.extend({
       }
     }
     else {
+      e.stopPropagation();
       if (jwerty.is('enter', e)) {     //enter, end editing & save
         e.preventDefault();
         var value = this.$("input:first-child").val();
