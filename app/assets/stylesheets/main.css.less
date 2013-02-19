@@ -221,8 +221,6 @@ header {
       position:relative;
 
       ul {
-        //position:relative;
-        //margin-top:10px;
 
         &:focus {
           outline:none !important;
@@ -232,28 +230,36 @@ header {
           position:relative;
           &.is-active, &.is-editing {
             background-color:#eeee00;
-            font-weight:bold;
           }
           &.is-editing {
             margin-right:10px;
-            //display:list-item;
-            //list-style-type: disc !important;
           }
-          //line-height:16px;
-          &:focus {
-            //outline:none;
+          line-height:24px;
+          height:24px;
+          padding:0;
+
+          span {
+            padding-left:1px;
           }
 
-          textarea {
+          input {
+            display:inline-block;
+            box-sizing:border-box;
+            vertical-align:top;
             background:#d9dee6;
-            width:100%;
-            padding:0px;
+            
             .border-radius(0px);
             box-shadow: none;
             color: @grayDark;
 
-            height:18px;
-            //display:list-item;
+            height:24px;
+            line-height:24px;
+            margin:0;
+            margin-left:-2px;
+
+            padding:0 2px;
+            
+            width:100%;
           }
         }
       }
