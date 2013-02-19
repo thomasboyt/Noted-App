@@ -96,17 +96,16 @@ Noted.OutlineView = Ember.View.extend({
       e.stopPropagation();
       if (jwerty.is('enter', e)) {     //enter, end editing & save
         e.preventDefault();
-        var value = this.$("input:first-child").val();
+        var value = this.$("input").val();
         this.get("active").set('isEditing', false);
-        this.$("ul:first-child").focus();
+        this.$("ul").focus();
         this.get("active").set("text", value);
         Noted.store.commit();
       }; 
       if (jwerty.is('esc', e)) {     //esc, CANCEL editing
         e.preventDefault();
-        var value = this.$("input:first-child").val();
         this.get("active").set('isEditing', false);
-        this.$("ul:first-child").focus();
+        this.$("ul").focus();
       }; 
     }
   },

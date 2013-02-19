@@ -26,12 +26,6 @@ Noted.IndexRoute = Ember.Route.extend({
   }
 })
 
-/*Noted.NotFoundRoute = Ember.Route.extend({
-  renderTemplate: function() {
-    this.render('static/404');
-  }
-})*/
-
 Noted.NoteRoute = Noted.IndexRoute.extend({
   setupController: function(controller, note) {
     controller.set('content', note)
