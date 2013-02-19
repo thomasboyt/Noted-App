@@ -32,7 +32,7 @@ Noted.NotesController = Ember.ArrayController.extend({
 
     Noted.store.commit();
 
-    this.transitionTo('note', note);
+    this.transitionToRoute('note', note);
     this.set("selected", note);
   },
 
@@ -50,7 +50,7 @@ Noted.NotesController = Ember.ArrayController.extend({
       this.get("selected").deleteRecord();
       this.set("selected", undefined);
       Noted.store.commit();
-      this.transitionTo("index");
+      this.transitionToRoute("index");
     }
   },
 

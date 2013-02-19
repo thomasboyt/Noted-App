@@ -3,30 +3,26 @@ Noted.Router.map(function() {
   this.resource('note', {path: "/notes/:note_id"});
 });
 
+// this is a little weird but convenient at least
+Noted.windowRenderHelper = function(ctx, notesController) {
+  ctx.render('app_window');
+  ctx.render('bottom_controls', {
+    controller: notesController,
+    into: 'app_window',
+    outlet: 'bottom_controls'
+  });
+  ctx.render('list', {
+    controller: notesController,
+    into: 'app_window',
+    outlet: 'list'
+  });
+}
+
 Noted.IndexRoute = Ember.Route.extend({
   renderTemplate: function() {
     var notesController = this.controllerFor('notes');
     notesController.set('content', Noted.Note.find());
-    this.render('app_window');
-    this.render('bottom_controls', {
-      controller: notesController,
-      into: 'app_window',
-      outlet: 'bottom_controls'
-    });
-    this.render('list', {
-      controller: notesController,
-      into: 'app_window',
-      outlet: 'list'
-    })
-  },
-
-  events: {
-    createNote: function() {
-      this.controllerFor('notes').createNote();
-    },
-    deleteNote: function() {
-      this.controllerFor('notes').deleteNote();
-    }
+    Noted.windowRenderHelper(this, notesController);
   }
 })
 
@@ -56,17 +52,7 @@ Noted.NoteRoute = Noted.IndexRoute.extend({
     // or possibly test for list template's render status? is that accessible?
     // alt set some sort of Noted.listIsRendered global but that's crazy gross
 
-    this.render('app_window');
-    this.render('bottom_controls', {
-      controller: notesController,
-      into: 'app_window',
-      outlet: 'bottom_controls'
-    })
-    this.render('list', {
-      controller: notesController,
-      into: 'app_window',
-      outlet: 'list'
-    });
+    Noted.windowRenderHelper(this, notesController);
     this.render('note', {
       controller: noteController,
       into: 'app_window',

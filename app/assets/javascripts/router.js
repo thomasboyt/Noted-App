@@ -12,6 +12,6 @@ Noted.Router = Ember.Router.extend({
   },
 
   handleRouteNotFound: function(url) {
-    this.transitionTo("static/404");
+    this.transitionToRoute("static/404");
   }
 })
