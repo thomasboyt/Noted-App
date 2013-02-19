@@ -3,11 +3,16 @@ Noted.NotesController = Ember.ArrayController.extend({
 
   selected: function(key, note) {
     if (arguments.length > 1) {
-      if (this.get("_selected")) {
-        this.get("_selected").set("isSelected", false);
+      if (note===undefined) {
+        this.set("_selected", undefined);
       }
-      note.set("isSelected", true);
-      this.set("_selected", note);
+      else {
+        if (this.get("_selected")) {
+          this.get("_selected").set("isSelected", false);
+        }
+        note.set("isSelected", true);
+        this.set("_selected", note);
+      }
     }
     return this.get("_selected");
   }.property("_selected"),
@@ -27,7 +32,7 @@ Noted.NotesController = Ember.ArrayController.extend({
 
     Noted.store.commit();
 
-    this.transitionTo('note', note)
+    this.transitionTo('note', note);
     this.set("selected", note);
   },
 
@@ -42,7 +47,8 @@ Noted.NotesController = Ember.ArrayController.extend({
         this.get("selected.listItems").objectAt(0).deleteRecord();
       }
 
-      this.selected.deleteRecord();
+      this.get("selected").deleteRecord();
+      this.set("selected", undefined);
       Noted.store.commit();
       this.transitionTo("index");
     }

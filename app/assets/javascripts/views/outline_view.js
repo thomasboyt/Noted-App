@@ -45,6 +45,10 @@ Noted.OutlineView = Ember.View.extend({
     }.bind(this));
   },
 
+  willDestroyElement: function() {
+    this.$().unbind('clickoutside');
+  },
+
   keyDown: function(e) {
     if (jwerty.is('tab/cmd+]', e)) {                    //tab, indent one level
       e.preventDefault();

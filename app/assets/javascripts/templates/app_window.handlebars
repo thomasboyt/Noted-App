@@ -15,10 +15,7 @@
 </div>
 
 <div class='controls bottom'>
-  <div class='left-controls btn-group'>
-    <button class='btn btn-small' {{action "createNote"}}><i class='icon-plus'></i> New</button>
-    <button class='btn btn-small' {{action "deleteNote"}}><i class='icon-remove'></i> Delete</button>
-  </div>
+  {{outlet bottom_controls}}
 </div>
 
 <script>

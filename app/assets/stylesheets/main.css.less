@@ -106,10 +106,6 @@ header {
     .clearfix();
   }
 
-  .sidebar-pane, .body-pane {
-    //height:inherit;
-  }
-
   .sidebar-pane {
     width:180px;
     display: inline;
@@ -182,18 +178,23 @@ header {
   width:200px;
   max-width:400px;
 
+  a:hover {
+    text-decoration:none !important;
+  }
+
   li {
     padding:5px;
-    border-top:1px solid #aaa;
+    border-bottom:1px solid #aaa;
     font-size:14px;
 
-    > a.active {
-      font-weight:bold;
+    //:last-child doesn't work due to metamorph tags
+    &:nth-last-of-type(1) {
+      border-top:none;
     }
 
-    //:first-child doesn't work due to metamorph tags
-    &:nth-of-type(1) {
-      border-top:none;
+    &.is-selected {
+      color:#eee;
+      background-color:darken(#0088cc, 15%);
     }
   }
 }

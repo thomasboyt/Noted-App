@@ -1,0 +1,10 @@
+<div class='left-controls '>
+  <button class='btn btn-small' {{action "createNote"}}><i class='icon-plus'></i> New</button>
+  {{#if controller.selected}}
+    <button class='btn btn-small' {{action "deleteNote"}}><i class='icon-remove'></i> Delete</button>
+  {{/if}}
+</div>
+
+<div class='right-controls'>
+  {{! todo }}
+</div>

@@ -8,6 +8,11 @@ Noted.IndexRoute = Ember.Route.extend({
     var notesController = this.controllerFor('notes');
     notesController.set('content', Noted.Note.find());
     this.render('app_window');
+    this.render('bottom_controls', {
+      controller: notesController,
+      into: 'app_window',
+      outlet: 'bottom_controls'
+    });
     this.render('list', {
       controller: notesController,
       into: 'app_window',
@@ -52,6 +57,11 @@ Noted.NoteRoute = Noted.IndexRoute.extend({
     // alt set some sort of Noted.listIsRendered global but that's crazy gross
 
     this.render('app_window');
+    this.render('bottom_controls', {
+      controller: notesController,
+      into: 'app_window',
+      outlet: 'bottom_controls'
+    })
     this.render('list', {
       controller: notesController,
       into: 'app_window',

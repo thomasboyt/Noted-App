@@ -1,5 +1,5 @@
 <ul class="notes-list unstyled">
   {{#each note in controller.sortedList}}
-    <li {{bindAttr class='isSelected'}}>{{#linkTo note note}}{{note.title}}{{/linkTo}}</li>
+    {{#linkTo note note}}<li {{bindAttr class='note.isSelected'}}>{{note.title}}</li>{{/linkTo}}
   {{/each}}
 </ul>
