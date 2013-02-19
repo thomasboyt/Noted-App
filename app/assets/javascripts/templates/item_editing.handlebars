@@ -1,5 +1,5 @@
 {{#with listItem}}
   <li {{bindAttr class=':entry-item isActive'}} {{bindAttr style='computedIndentionStyle'}}>
-    <input type="text" {{bindAttr value='text'}} />
+    {{view Noted.ItemTextArea valueBinding=text}}
   </li>
 {{/with}}

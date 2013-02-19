@@ -36,7 +36,7 @@ Noted.ItemView = Ember.View.extend({
 
   click: function(e) {
     if (this.get("listItem.isEditing")) {
-      if ($(e.target).prop("tagName") != "INPUT") {
+      if ($(e.target).prop("tagName") != "TEXTAREA") {
         this.set('listItem.isEditing', false);
       }
     }
@@ -55,7 +55,8 @@ Noted.ItemView = Ember.View.extend({
     this.rerender();
 
     this.didInsertElement = function() {
-      this.$("input:first-child").focus();
+      this.$("textarea").focus();
+      this.$("textarea").height(this.$("textarea").prop("scrollHeight"));
     }
   },
 
@@ -80,3 +81,29 @@ Noted.ItemView = Ember.View.extend({
   }
 
 });
+
+Noted.ItemTextArea = Ember.TextArea.extend({
+  didInsertElement: function() {
+    this._super();
+    this.resize();
+
+    this.$().bind('paste', function(e) {
+      // workaround: paste actually fires BEFORE the text has been pasted in
+      setTimeout(function() {this.resize()}.bind(this), 0);
+    }.bind(this));
+  },
+
+  willDestroyElement: function() {
+    this.$().unbind('paste');
+  },
+
+  keyDown: function() {
+    this._super();
+    this.resize();
+  },
+
+  resize: function() {
+    var textarea = this.$();
+    textarea.height(textarea.prop('scrollHeight'));
+  }
+})

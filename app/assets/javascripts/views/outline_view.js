@@ -96,7 +96,7 @@ Noted.OutlineView = Ember.View.extend({
       e.stopPropagation();
       if (jwerty.is('enter', e)) {     //enter, end editing & save
         e.preventDefault();
-        var value = this.$("input").val();
+        var value = this.$("textarea").val();
         this.get("active").set('isEditing', false);
         this.$("ul").focus();
         this.get("active").set("text", value);
