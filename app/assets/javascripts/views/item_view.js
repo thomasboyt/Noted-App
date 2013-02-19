@@ -38,7 +38,7 @@ Noted.ItemView = Ember.View.extend({
 
   click: function() {
     // set as active
-    this.get('parentView').changeActive(this.listItem);
+    this.set('parentView.active', this.listItem);
   },
 
   doubleClick: function() {
