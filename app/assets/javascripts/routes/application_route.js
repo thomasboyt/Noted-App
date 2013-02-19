@@ -1,5 +1,5 @@
 Noted.Router.map(function() {
-  this.route("404", {path: "404"});
+  this.route("static/404", {path: "404"});
   this.resource('note', {path: "/notes/:note_id"});
 });
 
@@ -25,11 +25,11 @@ Noted.IndexRoute = Ember.Route.extend({
   }
 })
 
-Noted.NotFoundRoute = Ember.Route.extend({
+/*Noted.NotFoundRoute = Ember.Route.extend({
   renderTemplate: function() {
-    this.render('404');
+    this.render('static/404');
   }
-})
+})*/
 
 Noted.NoteRoute = Noted.IndexRoute.extend({
   setupController: function(controller, note) {
@@ -42,10 +42,6 @@ Noted.NoteRoute = Noted.IndexRoute.extend({
   },
 
   renderTemplate: function(some_controller, note) {
-    if (!note) {
-      this.transitionTo("404");
-      return;
-    }
     var notesController = this.controllerFor('notes').set('content', Noted.Note.find());
     var noteController = this.controllerFor('note').set('content', note);
     notesController.set("selected", note);

@@ -1,5 +1,4 @@
 Noted.ItemView = Ember.View.extend({
-  isEditing: false,
   templateName: "item_static",
   
   didInsertElement: function() {
@@ -9,14 +8,13 @@ Noted.ItemView = Ember.View.extend({
   },
 
   editingObserver: function() {
-    this.isEditing = this.listItem.get("isEditing");
-    if (this.isEditing) {
+    if (this.listItem.get("isEditing")) {
       this._toEditingView();
     }
     else {
       this.set("templateName", "item_static");
       this.rerender();
-      this.didInsertElement = function() {this._updateScrollPosition()}
+      //this.didInsertElement = function() {this._updateScrollPosition()}
     }
 
   }.observes("listItem.isEditing"),
@@ -36,9 +34,16 @@ Noted.ItemView = Ember.View.extend({
     this._super();
   },
 
-  click: function() {
-    // set as active
-    this.set('parentView.active', this.listItem);
+  click: function(e) {
+    if (this.get("listItem.isEditing")) {
+      if ($(e.target).prop("tagName") != "INPUT") {
+        this.set('listItem.isEditing', false);
+      }
+    }
+    else {
+      this.set('parentView.active', this.get('listItem'));
+    }
+    
   },
 
   doubleClick: function() {

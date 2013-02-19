@@ -28,21 +28,21 @@ Noted.OutlineView = Ember.View.extend({
     return this.get("_active");
   }.property("_active"),
 
-  init: function() {
-    this._super();
-
-    if (this.items.get("length") > 0) {
-      this.set("active", this.items.objectAt(0));
-      this.set("active.isActive", true);
-    }
-  },
-
   didInsertElement: function() {
-    this.$("").bind('clickoutside', function(e) {
-      this.set("active", undefined);
-    }.bind(this));
+    this.$().bind('clickoutside', function(e) {
+      e.preventDefault();
+      
+      // so, normally, any element inside this.$() (i.e. the view div) would not trigger clickoutside. the problem is, if you have an editing item view and then click on another (or the same) list item to get out of it, the editing list view is updated before the handler is reached. because of this, e.target.parents() totally breaks (since the DOM's been updated and e.target no longer is attached!).
+      // terribly lazy workaround: if it's an input or an li with class 'entry-item', we know it's inside. seems to be the only major cause of this issue. may change with circumstances.
 
-    this.$("ul").focus();
+      if ($(e.target).parent().hasClass("entry-item") || $(e.target).hasClass('entry-item')) {
+        return; // no-op
+      }
+      else {
+        this.set("active", undefined);
+      }
+
+    }.bind(this));
   },
 
   keyDown: function(e) {
