@@ -5,7 +5,6 @@ Noted.ApplicationView = Ember.View.extend({
     // body keybindings go here, for lack of a better place
 
     $('body').keydown(function(e) {
-      console.log(e);
       if (jwerty.is('shift+/', e)) {
         $("#shortcuts-modal").modal();
       }

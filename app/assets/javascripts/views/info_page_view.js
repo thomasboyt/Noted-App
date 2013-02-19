@@ -1,0 +1,1 @@
+Noted.InfoPageView = Ember.View.extend({});

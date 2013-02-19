@@ -1,4 +1,17 @@
-Noted.Router.map(function() {
-  //this.route('list', {path: '/'})
-  this.route('index', {path:'/'})
-});
+Noted.Router = Ember.Router.extend({
+  handleURL: function(url) {
+    var results = this.router.recognizer.recognize(url),
+      objects = [];
+
+    if (!results) {
+      this.handleRouteNotFound(url);
+    }
+    else {
+      this._super(url);
+    }
+  },
+
+  handleRouteNotFound: function(url) {
+    this.transitionTo("404");
+  }
+})

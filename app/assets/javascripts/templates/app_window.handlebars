@@ -1,0 +1,32 @@
+<div class='controls top'>
+  &nbsp;
+</div>
+
+<div class="main">
+
+  <div class="sidebar-pane">
+  {{outlet list}}
+  </div>
+
+  <div class="body-pane">
+  {{outlet note}}
+  </div>
+
+</div>
+
+<div class='controls bottom'>
+  <div class='left-controls btn-group'>
+    <button class='btn btn-small' {{action "createNote"}}><i class='icon-plus'></i></button>
+    <button class='btn btn-small' {{action "deleteNote"}}><i class='icon-remove'></i></button>
+  </div>
+</div>
+
+<script>
+$(".sidebar-pane").resize(function(e) {
+  $(".body-pane").css("margin-left", $(e.target).width() + "px");
+})
+</script>
+
+  
+
+{{partial shortcuts_modal}}

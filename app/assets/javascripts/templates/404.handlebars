@@ -1,0 +1,18 @@
+<div class='controls top'>
+  &nbsp;
+</div>
+<div class="main">
+  <div class="text-content">
+    <p>Page does not exist.</p>
+    <button id="home-button" class="btn">Return home</class>
+  </div>
+</div>
+<div class='controls bottom'>
+  &nbsp;
+</div>
+
+<script>
+  $("#home-button").click(function() {
+    Noted.Router.router.transitionTo("index");
+  })
+</script>

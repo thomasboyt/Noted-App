@@ -6,7 +6,7 @@ Noted.NoteController = Ember.ObjectController.extend({
     var item = Noted.ListItem.createRecord({
       text: "",
       order: index,
-      indentionLevel: indent,      // todo: indention level of whatever level parent was on
+      indentionLevel: indent,
       note: this.content,
       isEditing: true
     });
