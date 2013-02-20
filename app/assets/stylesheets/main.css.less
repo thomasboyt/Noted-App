@@ -217,9 +217,21 @@ header {
       position:relative;
 
       ul {
+        padding-right:10px;
+
+        div.placeholder { 
+           -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+          text-align:center;
+          padding:100px 300px;
+          border:1px #000 solid;
+        }
 
         &:focus {
           outline:none !important;
+
+          div.placeholder {
+            background-color:#eeee00;
+          }
         }
 
         li {

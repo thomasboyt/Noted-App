@@ -3,9 +3,13 @@
     <h3>{{view Noted.TitleView valueBinding="title"}}</h3>
     {{#view Noted.OutlineView itemsBinding="listItems" }}
       <ul tabindex='0'>
-        {{#each listItem in controller.sortedItems}}
-          {{view Noted.ItemView listItemBinding=listItem}}
-        {{/each}}
+        {{#if controller.sortedItems}}
+          {{#each listItem in controller.sortedItems}}
+            {{view Noted.ItemView listItemBinding=listItem}}
+          {{/each}}
+        {{else}}
+          <div class="placeholder">This note has no body. Click here and press enter to create a new one.</div>
+        {{/if}}
       </ul>
     {{/view}}
   </div>

@@ -18,10 +18,10 @@ Noted.OutlineView = Ember.View.extend({
 
       if (newActive) {
         this.set("_active.isActive", true);
-        this.activeIndex = this.get("_active.order");
+        this._activeIndex = this.get("_active.order");
       }
       else {
-        this.activeIndex = null;
+        this._activeIndex = null;
       }
     }
 
@@ -50,63 +50,75 @@ Noted.OutlineView = Ember.View.extend({
   },
 
   keyDown: function(e) {
-    if (jwerty.is('tab/cmd+]', e)) {                    //tab, indent one level
-      e.preventDefault();
-      this.get("active").changeIndentBy(1);
-    }
-
-    if (jwerty.is('shift+tab/cmd+[', e)) {
-      e.preventDefault();
-      this.get("active").changeIndentBy(-1);
-    }
-    
-    if (!this.get("active").get('isEditing')) {
-      if (jwerty.is('k/up', e)) {                 //k, move up
-        e.preventDefault();
-        this._changeActiveByOffset(-1);
-      }; 
-      if (jwerty.is('j/down', e)) {                 //j, move down
-        e.preventDefault();
-        this._changeActiveByOffset(1);
-      }; 
-      if (jwerty.is('space/i',e )) {     //space or i, enter editing
-        e.preventDefault();
-        this.get("active").set('isEditing', true);
-      }; 
-      if (jwerty.is('enter/o', e)) {     //enter or o, insert new entry below cursor
-        e.preventDefault();
-        this.get("controller").insertItemAt(this.get("active").get("order")+1, this.get("active.indentionLevel"));
-        this._changeActiveByOffset(1);
-      }
-      if (jwerty.is('backspace/d', e)) {      //backspace/delete (mac) or d, delete
-        e.preventDefault();
-        this.get("controller").deleteItemAt(this.activeIndex);
-        this._changeActiveByOffset(0);
-      }
-      if (jwerty.is('h', e)) {                 //h, outdent one level
-        e.preventDefault();
-        this.get("active").changeIndentBy(-1);
-      }
-      if (jwerty.is('l', e)) {                 //l, indent one level
+    if (this.get("active")) {
+      if (jwerty.is('tab/cmd+]', e)) {                    //tab, indent one level
         e.preventDefault();
         this.get("active").changeIndentBy(1);
       }
+
+      if (jwerty.is('shift+tab/cmd+[', e)) {
+        e.preventDefault();
+        this.get("active").changeIndentBy(-1);
+      }
+
+      if (!this.get("active.isEditing")) {
+        if (jwerty.is('k/up', e)) {                 //k, move up
+          e.preventDefault();
+          this._changeActiveByOffset(-1);
+        }; 
+        if (jwerty.is('j/down', e)) {                 //j, move down
+          e.preventDefault();
+          this._changeActiveByOffset(1);
+        }; 
+        if (jwerty.is('space/i',e )) {     //space or i, enter editing
+          e.preventDefault();
+          this.get("active").set('isEditing', true);
+        }; 
+        if (jwerty.is('enter/o', e)) {     //enter or o, insert new entry below cursor
+          e.preventDefault();
+          this.get("controller").insertItemAt(this.get("active").get("order")+1, this.get("active.indentionLevel"));
+          this._changeActiveByOffset(1);
+        }
+        if (jwerty.is('backspace/d', e)) {      //backspace/delete (mac) or d, delete
+          e.preventDefault();
+          this.get("controller").deleteItemAt(this._activeIndex);
+          this._changeActiveByOffset(-1);
+        }
+        if (jwerty.is('h', e)) {                 //h, outdent one level
+          e.preventDefault();
+          this.get("active").changeIndentBy(-1);
+        }
+        if (jwerty.is('l', e)) {                 //l, indent one level
+          e.preventDefault();
+          this.get("active").changeIndentBy(1);
+        }
+      }
+      else {
+        e.stopPropagation();
+        if (jwerty.is('enter', e)) {     //enter, end editing & save
+          e.preventDefault();
+          var value = this.$("textarea").val();
+          this.get("active").set('isEditing', false);
+          this.$("ul").focusWithoutScrolling($(".scroller"));
+          this.get("active").set("text", value);
+          Noted.store.commit();
+        }; 
+        if (jwerty.is('esc', e)) {     //esc, CANCEL editing
+          e.preventDefault();
+          this.get("active").set('isEditing', false);
+          this.$("ul").focusWithoutScrolling($(".scroller"));
+        }
+      }
     }
+
     else {
-      e.stopPropagation();
-      if (jwerty.is('enter', e)) {     //enter, end editing & save
+      if (jwerty.is('enter', e)) {
         e.preventDefault();
-        var value = this.$("textarea").val();
-        this.get("active").set('isEditing', false);
-        this.$("ul").focus();
-        this.get("active").set("text", value);
-        Noted.store.commit();
-      }; 
-      if (jwerty.is('esc', e)) {     //esc, CANCEL editing
-        e.preventDefault();
-        this.get("active").set('isEditing', false);
-        this.$("ul").focus();
-      }; 
+        this.get("controller").insertItemAt(0, 0);
+        // below uses listItems instead of sortedList because sortedList breaks the store if it's accessed mid-save (weird, right?)
+        // obviously irrelevant with a one-item list, but still
+        this.set("active", this.get("controller.content.listItems").objectAt(0));
+      }
     }
   },
 
@@ -118,14 +130,16 @@ Noted.OutlineView = Ember.View.extend({
   },
 
   _changeActiveByOffset: function(offset) {
-    var newIndex = this.activeIndex + offset;
+    var newIndex = this._activeIndex + offset;
 
-    if (newIndex >= 0 && newIndex < this.items.get('length')) {
+    if (newIndex >= 0) {
       this.set("active", this.get('controller.sortedItems').objectAt(newIndex));
     } 
-    else if (newIndex <= 0) {
-      // make sure it's scrolled to true top
-      $(".body-pane .scroller").scrollTop(0);
+    else if (newIndex < 0) {
+      if (this.get('controller.sortedItems').length > 0)
+        $(".body-pane .scroller").scrollTop(0); //used when scrolling up past item 0 (show title)
+      else
+        this.set("active", undefined); //no items in the list!
     }
   }
 });
