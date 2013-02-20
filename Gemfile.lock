@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/wycats/rack-offline.git
+  revision: 5db88612cada7c846ac08dc12e7afa3e91a7613d
+  specs:
+    rack-offline (0.6.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -167,6 +173,7 @@ DEPENDENCIES
   jquery-rails
   less-rails
   pg
+  rack-offline!
   rails (= 3.2.12)
   rspec-rails
   sass-rails (~> 3.2.3)
