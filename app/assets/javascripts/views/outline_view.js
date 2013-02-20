@@ -96,23 +96,12 @@ Noted.OutlineView = Ember.View.extend({
       else {
         e.stopPropagation();
         if (jwerty.is('enter', e)) {     //enter, end editing & save
-          e.preventDefault();
-          var value = this.$("textarea").val();
-          
+          e.preventDefault();          
           this.$("ul").focusWithoutScrolling($(".scroller"));
-
-          //focusOut on the itemView takes it from here... hopefully.
-          
-          
-          /*else {
-            console.log("else");
-            this.get("active").set('isEditing', false);
-            this.get("active").set("text", value);
-          }*/
         }; 
         if (jwerty.is('esc', e)) {     //esc, CANCEL editing
           e.preventDefault();
-          this.get("active").set('isEditing', false);
+          this.set("active.isCanceling", true) // hacky state bit, for focusOut handler in item view
           this.$("ul").focusWithoutScrolling($(".scroller"));
         }
       }

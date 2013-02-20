@@ -8,7 +8,6 @@ Noted.ItemView = Ember.View.extend({
   },
 
   editingObserver: function() {
-    console.log(this.listItem.get("isEditing"));
     if (this.listItem.get("isEditing")) {
       this._toEditingView();
     }
@@ -43,17 +42,22 @@ Noted.ItemView = Ember.View.extend({
   },
 
   focusOut: function(e) {
-    console.log('focusOut');
-    var value = this.$("textarea").val();
-    if(/^\s+$/.test(value) || value == "") {
-      this.get('controller').deleteItem(this.get('listItem'));
-      this.get("parentView")._changeActiveByOffset(-1);
+    if (!this.get("listItem.isCanceling")) {
+      var value = this.$("textarea").val();
+      if(/^\s+$/.test(value) || value == "") {
+        this.get('controller').deleteItem(this.get('listItem'));
+        this.get("parentView")._changeActiveByOffset(-1);
+      }
+      else {
+        this.set('listItem.isEditing', false);
+        this.set('listItem.text', value);
+      }
+      Noted.store.commit();
     }
     else {
-      this.set('listItem.isEditing', false);
-      this.set('listItem.text', value);
+      this.set("listItem.isEditing", false);
+      this.set("listItem.isCanceling", false);
     }
-    Noted.store.commit();
   },
 
   doubleClick: function() {
@@ -93,6 +97,9 @@ Noted.ItemView = Ember.View.extend({
 });
 
 Noted.ItemTextArea = Ember.TextArea.extend({
+  old: undefined,
+  cancel: false,
+
   didInsertElement: function() {
     this._super();
     this.resize();
@@ -101,10 +108,17 @@ Noted.ItemTextArea = Ember.TextArea.extend({
       // workaround: paste actually fires BEFORE the text has been pasted in
       setTimeout(function() {this.resize()}.bind(this), 0);
     }.bind(this));
+
+    this.old = this.$().val();
   },
 
   willDestroyElement: function() {
+    this._super();
     this.$().unbind('paste');
+
+    if (this.get("item.isCanceling")) {
+      this.set("value", this.old);
+    }
   },
 
   keyDown: function() {

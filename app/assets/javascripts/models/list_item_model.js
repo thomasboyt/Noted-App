@@ -9,6 +9,7 @@ Noted.ListItem = DS.Model.extend({
   isEditing: false,
   isActive: false,     // currently highlighted (cursor is on)
   isSelected: false,   // multiple selections
+  isCanceling: false,  // for the esc key - workaround for focusout's inflexibility
 
   // computed properties
   computedIndentionStyle: function() {
