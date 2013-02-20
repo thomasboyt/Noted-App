@@ -14,6 +14,13 @@ Noted.NoteController = Ember.ObjectController.extend({
     Noted.store.commit();
   },
 
+  deleteItem: function(item) {
+    var index = this.get("sortedItems").indexOf(item);
+    item.deleteRecord();
+    this._shiftItemsAt(index, -1);
+    Noted.store.commit();
+  },
+
   deleteItemAt: function(index) {
     this.get("sortedItems").objectAt(index).deleteRecord();
 

@@ -98,10 +98,17 @@ Noted.OutlineView = Ember.View.extend({
         if (jwerty.is('enter', e)) {     //enter, end editing & save
           e.preventDefault();
           var value = this.$("textarea").val();
-          this.get("active").set('isEditing', false);
+          
           this.$("ul").focusWithoutScrolling($(".scroller"));
-          this.get("active").set("text", value);
-          Noted.store.commit();
+
+          //focusOut on the itemView takes it from here... hopefully.
+          
+          
+          /*else {
+            console.log("else");
+            this.get("active").set('isEditing', false);
+            this.get("active").set("text", value);
+          }*/
         }; 
         if (jwerty.is('esc', e)) {     //esc, CANCEL editing
           e.preventDefault();
@@ -132,12 +139,20 @@ Noted.OutlineView = Ember.View.extend({
   _changeActiveByOffset: function(offset) {
     var newIndex = this._activeIndex + offset;
 
-    if (newIndex >= 0) {
+    // normal behavior
+    if (newIndex >= 0 && !(newIndex >= this.get('controller.sortedItems.length'))) {
       this.set("active", this.get('controller.sortedItems').objectAt(newIndex));
     } 
+
     else if (newIndex < 0) {
-      if (this.get('controller.sortedItems').length > 0)
+
+      // scrolling past top OR deleting top item
+      if (this.get('controller.sortedItems.length') > 0) {
         $(".body-pane .scroller").scrollTop(0); //used when scrolling up past item 0 (show title)
+        $(this.set("active", this.get('controller.sortedItems').objectAt(0)));
+      }
+
+      // last item deleted
       else
         this.set("active", undefined); //no items in the list!
     }

@@ -8,13 +8,13 @@ Noted.ItemView = Ember.View.extend({
   },
 
   editingObserver: function() {
+    console.log(this.listItem.get("isEditing"));
     if (this.listItem.get("isEditing")) {
       this._toEditingView();
     }
     else {
       this.set("templateName", "item_static");
       this.rerender();
-      //this.didInsertElement = function() {this._updateScrollPosition()}
     }
 
   }.observes("listItem.isEditing"),
@@ -30,10 +30,6 @@ Noted.ItemView = Ember.View.extend({
     }
   }.observes('listItem.isActive'),
 
-  willDestroy: function() {
-    this._super();
-  },
-
   click: function(e) {
     if (this.get("listItem.isEditing")) {
       if ($(e.target).prop("tagName") != "TEXTAREA") {
@@ -44,6 +40,20 @@ Noted.ItemView = Ember.View.extend({
       this.set('parentView.active', this.get('listItem'));
     }
     
+  },
+
+  focusOut: function(e) {
+    console.log('focusOut');
+    var value = this.$("textarea").val();
+    if(/^\s+$/.test(value) || value == "") {
+      this.get('controller').deleteItem(this.get('listItem'));
+      this.get("parentView")._changeActiveByOffset(-1);
+    }
+    else {
+      this.set('listItem.isEditing', false);
+      this.set('listItem.text', value);
+    }
+    Noted.store.commit();
   },
 
   doubleClick: function() {
