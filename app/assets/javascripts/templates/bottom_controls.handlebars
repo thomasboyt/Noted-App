@@ -1,6 +1,7 @@
 <div class='left-controls '>
   <button class='btn btn-small' {{action "createNote"}}><i class='icon-plus'></i> New</button>
   {{#if controller.selected}}
+    <button class='btn btn-small' {{action "exportNote" target="view"}}><i class='icon-save'></i> Export</button>
     <button class='btn btn-small' {{action "deleteNote"}}><i class='icon-remove'></i> Delete</button>
   {{/if}}
 </div>
@@ -8,3 +9,17 @@
 <div class='right-controls'>
   {{! todo }}
 </div>
+
+{{#if controller.selected}}
+  <div id="export-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Export Modal" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Export</h3>
+    </div>
+    <textarea id='export-content' class="modal-body">
+    </textarea>
+    <div class="modal-footer">
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+  </div>
+{{/if}}
