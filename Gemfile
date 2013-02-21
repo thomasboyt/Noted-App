@@ -42,3 +42,5 @@ gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) support
 gem "twitter-bootstrap-rails"
 
 gem 'rack-offline', :git => 'git://github.com/wycats/rack-offline.git'
+
+gem 'redcarpet'
