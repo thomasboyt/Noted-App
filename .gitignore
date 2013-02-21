@@ -13,3 +13,6 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Temporary folder used in production tests (precompilation)
+/public/assets
