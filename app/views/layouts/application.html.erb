@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html manifest="/application.appcache">
+<% if Rails.env == "production" %>
+  <html manifest="/application.appcache">
+<% else %>
+  <html>
+<% end %>
 <head>
   <title>Noted</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
