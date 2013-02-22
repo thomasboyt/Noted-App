@@ -37,8 +37,7 @@ Noted.NoteRoute = Noted.IndexRoute.extend({
   },
 
   model: function(params) {
-    var m = Noted.Note.find(params.note_id)
-    return m;
+    return Noted.Note.find(params.note_id);
   },
 
   renderTemplate: function(some_controller, note) {

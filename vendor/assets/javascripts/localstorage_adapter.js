@@ -49,7 +49,7 @@ DS.LSAdapter = DS.Adapter.extend(Ember.Evented, {
       this.didFindRecord(store, type, copy, id);
     });
   },
-
+  
   findMany: function(store, type, ids) {
     var namespace = this._namespaceForType(type);
     this._async(function(){

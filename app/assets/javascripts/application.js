@@ -19,6 +19,7 @@
 //= require handlebars
 //= require ember
 //= require ember-data
+//= require rsvp
 //= require localstorage_adapter
 //= require lib/dropbox
 //= require_self

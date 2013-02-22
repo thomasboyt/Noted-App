@@ -41,11 +41,7 @@ Noted.NotesController = Ember.ArrayController.extend({
     if (willDelete) {
 
       // forEach breaks on deleteRecord (think about it: array gets smaller as it iterates) so we do it a somewhat old-fashioned way
-      var len = this.get("selected.listItems.length");
-      for (var i=0; i < len; i++) {
-        // every time delete record happens, rest of the objects are shifted down one index.
-        this.get("selected.listItems").objectAt(0).deleteRecord();
-      }
+      this.get("selected").deleteItems();
 
       this.get("selected").deleteRecord();
       this.set("selected", undefined);
