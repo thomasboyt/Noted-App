@@ -1,4 +1,4 @@
-Noted.DropboxView = Ember.View.extend({
+Noted.DropboxControlsView = Ember.View.extend({
   loginToDropbox: function() {
     Noted.dropbox.authenticate(function(error, client) {
       if (error) {

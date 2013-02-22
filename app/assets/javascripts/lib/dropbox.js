@@ -1369,7 +1369,10 @@
       }
       if (this.useQuery) {
         if (location.indexOf('?') === -1) {
-          fragment += "?" + querySuffix;
+          if (fragment)
+            fragment += "?" + querySuffix;
+          else
+            location += "?" + querySuffix;
         } else {
           location += "&" + querySuffix;
         }
