@@ -85,14 +85,20 @@ header {
       .clearfix();
     }
 
-    .left-controls {
-      margin-left:10px;
+    .btn {
+      .buttonBackground(rgb(228,228,228), darken(rgb(175,175,175), 10%), #333, none);
+      border-color:#555;
       margin-top:2px;
+    }
 
-      .btn {
-        .buttonBackground(rgb(228,228,228), darken(rgb(175,175,175), 10%), #333, none);
-        border-color:#555;
-      }
+    .left-controls {
+      float:left;
+      margin-left:10px;
+    }
+
+    .right-controls {
+      float:right;
+      margin-right:10px;
     }
   }
 
