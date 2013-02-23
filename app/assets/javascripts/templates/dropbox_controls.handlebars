@@ -2,8 +2,7 @@
   <button class='btn btn-small' {{action "importDropbox" target="view"}}><i class='icon-cloud-download'></i> Import from Dropbox</button>
   <button class='btn btn-small' {{action "exportDropbox" target="view"}}><i class='icon-cloud-upload'></i> Export to Dropbox</button>
 {{else}}
-  <button class='btn btn-small' {{action "loginToDropbox" target="view"}}><i class='icon-folder-open'></i> Sign in to Dropbox</button>
+  <button class='btn btn-small' {{action "loginToDropbox" target="view"}}><i class='icon-folder-open'></i> Sign in to Dropbox (BETA)</button>
 {{/if}}
-<button class='btn btn-small' {{action "showDropboxHelp" target="view"}}><i class='icon-question-sign'></i></button>
-
+<button class='btn btn-small' {{action "showDropboxHelp" target="view"}}><i class='icon-question-sign'></i> Dropbox Help</button>
 {{partial "static/dropbox_saving_modal"}}
