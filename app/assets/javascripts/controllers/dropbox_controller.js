@@ -96,6 +96,7 @@ Noted.DropboxController = Ember.Controller.extend({
 
     this.set("syncing", true);
     var notes = Noted.Note.find(); //todo: can we just get this from the notesController? seems costly
+    var listItems = Noted.ListItem.find(); //see above...
 
     var promiseWrite = function(filename, contents) {
       var promise = new RSVP.Promise();
