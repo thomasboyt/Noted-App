@@ -44,6 +44,10 @@ Noted.DropboxControlsView = Ember.View.extend({
     this.set("isExport", false);
   },
 
+  showDropboxHelp: function() {
+    this.$("#dropbox-help-modal").modal();
+  },
+
   confirm: function() {
     this.set("asking", false);
     if (this.get("isExport"))

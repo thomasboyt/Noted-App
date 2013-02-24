@@ -1,5 +1,3 @@
-# Noted
-
 Noted is a note-taking app that uses a modal interface. This makes it super easy to manipulate outlines - quickly move lines around, reindent them, etc.
 
 Below is a mostly-speculative user guide, since the majority of these commands are not implemented yet (thus the strikethroughs).
