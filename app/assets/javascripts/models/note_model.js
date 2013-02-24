@@ -22,7 +22,10 @@ Noted.Note = DS.Model.extend({
   serializeToTxt: function() {
     var noteString = "";
 
-    noteString += this.get("title") + "\n\n";
+    noteString += this.get("title") + "\n";
+    noteString += this.get("created_date").toString() + "\n";
+
+    noteString += "\n";
 
     this.get("sortedItems").forEach(function (item) {
       // spacing based on the item's indentation
@@ -38,8 +41,9 @@ Noted.Note = DS.Model.extend({
   parseFromTxt: function(text) {
     var lines = text.split("\n");
     this.set("title", lines[0]);
+    this.set("created_date", new Date(Date.parse(lines[1])));
 
-    for (var i=2; i<lines.length; i++) {
+    for (var i=3; i<lines.length; i++) {
       var line = lines[i];
 
       var asteriskIndex = line.indexOf("*");

@@ -46,6 +46,14 @@ Noted.DropboxController = Ember.Controller.extend({
     return promise;
   },
 
+  _handleSuccess: function() {
+    this.setProperties({
+      done: true,
+      syncing: false,
+      success: true
+    });
+  },
+
   _handleError: function(error) {
     this.set("done", true);
     this.set("syncing", false);
@@ -128,9 +136,7 @@ Noted.DropboxController = Ember.Controller.extend({
       return RSVP.all(promises);
     }.bind(this)).then(function (results) {
       // convert to this.setProperties() if that still works
-      this.set("done", true);
-      this.set("syncing", false);
-      this.set("success", true);
+      this._handleSuccess();
     }.bind(this), function (error) {
       this._handleError(error);
     }.bind(this));
@@ -156,24 +162,16 @@ Noted.DropboxController = Ember.Controller.extend({
     .then(function (file_contents) {
 
       file_contents.forEach(function (contents, idx) {
-        console.log(idx);
-        var note = Noted.Note.createRecord({
-          // todo: created date
-        });
+        var note = Noted.Note.createRecord();
         note.parseFromTxt(contents);
       });
 
       Noted.store.commit();
 
-      this.setProperties({
-        done: true,
-        syncing: false,
-        success: true
-      });
+      this._handleSuccess();
     }.bind(this), 
     function(error) {
-      console.log("error")
-      console.log(error);
+      this._handleError(error);
     });
   }
 })
