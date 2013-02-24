@@ -11,6 +11,11 @@ Noted.windowRenderHelper = function(ctx, notesController) {
     into: 'app_window',
     outlet: 'bottom_controls'
   });
+  ctx.render('dropbox_controls', {
+    controller: ctx.controllerFor('dropbox'),
+    into: 'bottom_controls',
+    outlet: 'dropbox_controls'
+  })
   ctx.render('list', {
     controller: notesController,
     into: 'app_window',
@@ -32,8 +37,7 @@ Noted.NoteRoute = Noted.IndexRoute.extend({
   },
 
   model: function(params) {
-    var m = Noted.Note.find(params.note_id)
-    return m;
+    return Noted.Note.find(params.note_id);
   },
 
   renderTemplate: function(some_controller, note) {

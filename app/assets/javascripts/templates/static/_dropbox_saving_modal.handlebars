@@ -1,0 +1,42 @@
+<div id="dropbox-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Dropbox Modal" aria-hidden="true">
+  <div class="modal-header">
+    <h3 id="myModalLabel">
+      {{#if view.isExport}}
+        Export to Dropbox
+      {{else}}
+        Import from Dropbox
+      {{/if}}
+    </h3>
+  </div>
+  <div class="modal-body">
+    {{#if controller.syncing}}
+      Syncing...
+    {{else}}
+      {{#if controller.done}}
+        {{#if controller.success}}
+          Success! Your notes have been synced.
+        {{else}}
+          Noted encountered an error while syncing. Try again.
+        {{/if}}
+      {{else}}
+        {{#if view.isExport}}
+          <p>Exporting your notes to Dropbox will place them in the folder <code>/Apps/Noted-App/</code>. <strong>It will replace the existing contents of that folder with your current notes.</strong></p>
+        {{else}}
+          <p>Importing from Dropbox will replace <strong>all existing notes</strong> with the contents of <code>/Apps/Noted-App/</code>.</p>
+        {{/if}}
+        <p>Would you like to continue?</p>
+      {{/if}}
+    {{/if}}
+  </div>
+  
+  <div class="modal-footer">
+    {{#unless controller.syncing}}
+      {{#if view.asking}}
+        <button class='btn btn-primary' {{action "confirm" target="view"}}>Yes</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+      {{else}}
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      {{/if}}
+    {{/unless}}
+  </div>
+</div>

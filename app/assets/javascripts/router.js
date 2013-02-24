@@ -1,5 +1,8 @@
 Noted.Router = Ember.Router.extend({
   handleURL: function(url) {
+    // how the hell does emberjs not handle this natively?
+    url = url.split('?')[0]
+
     var results = this.router.recognizer.recognize(url),
       objects = [];
 
@@ -12,6 +15,6 @@ Noted.Router = Ember.Router.extend({
   },
 
   handleRouteNotFound: function(url) {
-    this.transitionToRoute("static/404");
-  }
+    this.transitionTo("static/404");
+  },
 })

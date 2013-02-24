@@ -11,10 +11,21 @@ Noted.Note = DS.Model.extend({
     })
   }).property('listItems'),
 
+  deleteItems: function() {
+    var len = this.get("listItems.length");
+    for (var i=0; i < len; i++) {
+      // every time delete record happens, rest of the objects are shifted down one index.
+      this.get("listItems").objectAt(0).deleteRecord();
+    }
+  },
+
   serializeToTxt: function() {
     var noteString = "";
 
-    noteString += this.get("title") + "\n\n";
+    noteString += this.get("title") + "\n";
+    noteString += this.get("created_date").toString() + "\n";
+
+    noteString += "\n";
 
     this.get("sortedItems").forEach(function (item) {
       // spacing based on the item's indentation
@@ -25,5 +36,29 @@ Noted.Note = DS.Model.extend({
     });
 
     return noteString;
+  },
+
+  parseFromTxt: function(text) {
+    var lines = text.split("\n");
+    this.set("title", lines[0]);
+    this.set("created_date", new Date(Date.parse(lines[1])));
+
+    for (var i=3; i<lines.length; i++) {
+      var line = lines[i];
+
+      var asteriskIndex = line.indexOf("*");
+      if (asteriskIndex > -1) {
+        var indent = (asteriskIndex / 4);
+        var text = line.slice(asteriskIndex+2);
+        var order = i - 2;
+
+        Noted.ListItem.createRecord({
+          indentionLevel: indent,
+          order: order,
+          text: text,
+          note: this
+        });
+      }
+    }
   }
 });
