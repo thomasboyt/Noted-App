@@ -55,9 +55,12 @@ Noted.DropboxController = Ember.Controller.extend({
   },
 
   _handleError: function(error) {
-    this.set("done", true);
-    this.set("syncing", false);
-    this.set("success", false);
+    this.setProperties({
+      done: true,
+      syncing: false,
+      success: false
+    })
+    console.log("Error while syncing: ");
     console.log(error);
   },
 
@@ -69,6 +72,37 @@ Noted.DropboxController = Ember.Controller.extend({
       promise.resolve(contents);
     })
     return promise;
+  },
+
+  _createPromiseWrite: function(filename, contents) {
+    var promise = new RSVP.Promise();
+
+    Noted.dropbox.writeFile(filename, contents, function(error, stat) {
+      if (error) {
+        promise.reject(error);
+      }
+      promise.resolve(stat);
+    });
+
+    return promise;
+  },
+
+  // fn : as -> cb -> void
+  // should return a new function that returns a promise
+  _createPromise: function(fn) {
+    var wrapped = function() {
+      var promise = new RSVP.Promise();
+      var args = Array.prototype.slice.call(arguments, 0);
+      args.push(function(error, stat) {
+        if (error) {
+          promise.reject(error);
+        }
+        promise.resolve(stat);
+      })
+      fn.apply(Noted.dropbox, args)
+      return promise; 
+    }
+    return wrapped;
   },
 
   _destroyNoteset: function() {
@@ -103,21 +137,8 @@ Noted.DropboxController = Ember.Controller.extend({
   exportDropbox: function(viewCallback) {
 
     this.set("syncing", true);
-    var notes = Noted.Note.find(); //todo: can we just get this from the notesController? seems costly
-    var listItems = Noted.ListItem.find(); //see above...
-
-    var promiseWrite = function(filename, contents) {
-      var promise = new RSVP.Promise();
-
-      Noted.dropbox.writeFile(filename, contents, function(error, stat) {
-        if (error) {
-          promise.reject(error);
-        }
-        promise.resolve(stat);
-      });
-
-      return promise;
-    }
+    var notes = Noted.Note.find();
+    var listItems = Noted.ListItem.find();
 
     this._clearNotesFolder().then(function(stat) {
       var promises = [];
@@ -130,8 +151,9 @@ Noted.DropboxController = Ember.Controller.extend({
         title.replace("\\", "");
         var filename = "notes/" + note.get("id") + "-" + title + ".txt";
 
-        promises.push(promiseWrite(filename, txt));
-      });
+        var promise = this._createPromise(Noted.dropbox.writeFile)(filename, txt);
+        promises.push(promise);
+      }.bind(this));
 
       return RSVP.all(promises);
     }.bind(this)).then(function (results) {
@@ -154,6 +176,7 @@ Noted.DropboxController = Ember.Controller.extend({
 
       files.forEach(function(filename) {
         var path = "notes/" + filename;
+        var promise = this._createPromise(Noted.dropbox.readFile, arguments)
         promises.push(this._createPromiseRead(path));
       }.bind(this));
 

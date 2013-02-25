@@ -4,7 +4,10 @@ Noted.Router.map(function() {
 });
 
 // this is a little weird but convenient at least
-Noted.windowRenderHelper = function(ctx, notesController) {
+Noted.windowRenderHelper = function(ctx) {
+  var notesController = ctx.controllerFor('notes');
+  notesController.set('content', Noted.Note.find());
+
   ctx.render('app_window');
   ctx.render('bottom_controls', {
     controller: notesController,
@@ -25,11 +28,9 @@ Noted.windowRenderHelper = function(ctx, notesController) {
 
 Noted.IndexRoute = Ember.Route.extend({
   renderTemplate: function() {
-    var notesController = this.controllerFor('notes');
-    notesController.set('content', Noted.Note.find());
-    Noted.windowRenderHelper(this, notesController);
+    Noted.windowRenderHelper(this);
   }
-})
+});
 
 Noted.NoteRoute = Noted.IndexRoute.extend({
   setupController: function(controller, note) {
