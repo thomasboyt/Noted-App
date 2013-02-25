@@ -154,8 +154,8 @@ Noted.DropboxController = Ember.Controller.extend({
 
       files.forEach(function(filename) {
         var path = "notes/" + filename;
-        var promise = this._createPromise(Noted.dropbox.readFile, arguments)
-        promises.push(this._createPromiseRead(path));
+        var promise = this._createPromise(Noted.dropbox.readFile)(path);
+        promises.push(promise);
       }.bind(this));
 
       return RSVP.all(promises);

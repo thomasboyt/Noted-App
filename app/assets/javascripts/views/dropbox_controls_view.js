@@ -10,12 +10,14 @@ Noted.ControlsDropboxView = Ember.View.extend({
   },
 
   resetState: function() {
-    this.set("asking", false);
-    this.set("controller.saving", false);
-    this.set("controller.done", false);
-    this.set("controller.success", undefined);
-    this.set("controller.error", undefined);
-    this.set("isExport", undefined);
+    this.setProperties({
+      asking: false,
+      "controller.saving": false,
+      "controller.done": false,
+      "controller.success": undefined,
+      "controller.error": undefined,
+      isExport: undefined
+    })
   },
 
   loginToDropbox: function() {
