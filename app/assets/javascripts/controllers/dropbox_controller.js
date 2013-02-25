@@ -13,7 +13,7 @@ Noted.DropboxController = Ember.Controller.extend({
       }
       if (Noted.dropbox.isAuthenticated()) {
         this.set("loggedIn", true);
-        console.log("Dropbox Authenticated");
+        console.log("Dropbox: Authenticated");
       } else {
         console.log("Dropbox: No authentication");
       }
@@ -30,7 +30,6 @@ Noted.DropboxController = Ember.Controller.extend({
       if (error && error.status != 404) {
         promise.reject(error);
       }
-      console.log("resolving");
       promise.resolve(stat);
     })
 
@@ -65,29 +64,6 @@ Noted.DropboxController = Ember.Controller.extend({
     })
     console.log("Error while syncing: ");
     console.log(error);
-  },
-
-  _createPromiseRead: function(filename) {
-    var promise = new RSVP.Promise();
-    Noted.dropbox.readFile(filename, function(error, contents, stat) {
-      if (error)
-        promise.reject(error);
-      promise.resolve(contents);
-    })
-    return promise;
-  },
-
-  _createPromiseWrite: function(filename, contents) {
-    var promise = new RSVP.Promise();
-
-    Noted.dropbox.writeFile(filename, contents, function(error, stat) {
-      if (error) {
-        promise.reject(error);
-      }
-      promise.resolve(stat);
-    });
-
-    return promise;
   },
 
   // fn : as -> cb -> void
@@ -160,7 +136,6 @@ Noted.DropboxController = Ember.Controller.extend({
 
       return RSVP.all(promises);
     }.bind(this)).then(function (results) {
-      // convert to this.setProperties() if that still works
       this._handleSuccess();
     }.bind(this), function (error) {
       this._handleError(error);
