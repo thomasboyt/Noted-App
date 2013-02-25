@@ -1,4 +1,5 @@
-Noted.DropboxControlsView = Ember.View.extend({
+Noted.controls = {};
+Noted.ControlsDropboxView = Ember.View.extend({
   asking: false,
   isExport: undefined,
 
@@ -20,7 +21,7 @@ Noted.DropboxControlsView = Ember.View.extend({
   loginToDropbox: function() {
     Noted.dropbox.authenticate(function(error, client) {
       if (error) {
-        console.log('error loggin in');
+        console.log('Error authenticating');
       }
     });  
   },

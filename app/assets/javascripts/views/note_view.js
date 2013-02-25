@@ -2,7 +2,7 @@
 // Renders items, tracks the user's current position/selected item, etc.
 // ***Try to remove the "state tracking" from the model. It's not a bad pattern but not a good one either.
 
-Noted.OutlineView = Ember.View.extend({
+Noted.NoteView = Ember.View.extend({
   _active: undefined,
   _activeIndex: 0,
 
@@ -120,7 +120,7 @@ Noted.OutlineView = Ember.View.extend({
 
   willDestroy: function() {
     this._super();
-    this.items.forEach(function(item) {
+    this.get("controller.content.listItems").forEach(function(item) {
       item.resetState();
     })
   },

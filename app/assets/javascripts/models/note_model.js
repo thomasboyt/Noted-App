@@ -50,7 +50,7 @@ Noted.Note = DS.Model.extend({
       if (asteriskIndex > -1) {
         var indent = (asteriskIndex / 4);
         var text = line.slice(asteriskIndex+2);
-        var order = i - 2;
+        var order = i - 3;
 
         Noted.ListItem.createRecord({
           indentionLevel: indent,

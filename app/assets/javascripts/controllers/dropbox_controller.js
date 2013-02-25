@@ -1,4 +1,6 @@
 Noted.DropboxController = Ember.Controller.extend({
+  didAuth: false,
+  loggedIn: false,
   syncing: false,
   done: false,
   success: undefined,
@@ -15,6 +17,7 @@ Noted.DropboxController = Ember.Controller.extend({
       } else {
         console.log("Dropbox: No authentication");
       }
+      this.set("didAuth", true);
     }.bind(this));
     this._super();
   },

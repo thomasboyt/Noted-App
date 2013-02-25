@@ -1,4 +1,4 @@
-Noted.BottomControlsView = Ember.View.extend({
+Noted.ControlsBottomView = Ember.View.extend({  
   exportNote: function() {
     var txt = this.get("controller.selected").serializeToTxt();
 

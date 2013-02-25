@@ -8,18 +8,20 @@ Noted.windowRenderHelper = function(ctx) {
   var notesController = ctx.controllerFor('notes');
   notesController.set('content', Noted.Note.find());
 
+  var dropboxController = ctx.controllerFor("dropbox");
+
   ctx.render('app_window');
-  ctx.render('bottom_controls', {
+  ctx.render('controls/bottom', {
     controller: notesController,
     into: 'app_window',
     outlet: 'bottom_controls'
   });
-  ctx.render('dropbox_controls', {
-    controller: ctx.controllerFor('dropbox'),
-    into: 'bottom_controls',
+  ctx.render('controls/dropbox', {
+    controller: dropboxController,
+    into: 'controls/bottom',
     outlet: 'dropbox_controls'
-  })
-  ctx.render('list', {
+  });
+  ctx.render('note_list', {
     controller: notesController,
     into: 'app_window',
     outlet: 'list'

@@ -1,0 +1,12 @@
+{{#if controller.didAuth}}
+  {{#if controller.loggedIn}}
+    <button class='btn btn-small' {{action "importDropbox" target="view"}}><i class='icon-cloud-download'></i> Import from Dropbox</button>
+    <button class='btn btn-small' {{action "exportDropbox" target="view"}}><i class='icon-cloud-upload'></i> Export to Dropbox</button>
+  {{else}}
+    <button class='btn btn-small' {{action "loginToDropbox" target="view"}}><i class='icon-cloud'></i> Sign in to Dropbox (BETA)</button>
+  {{/if}}
+{{/if}}
+<button class='btn btn-small' {{action "showDropboxHelp" target="view"}}><i class='icon-question-sign'></i> Dropbox Help</button>
+
+{{partial "modals/dropbox/dropbox_saving_modal"}}
+{{partial "modals/dropbox/dropbox_help_modal"}}
