@@ -32,7 +32,7 @@ In addition to the below bindings, there's also some secret-ish VIM bindings (th
 
 #### Clipboard
 
-* x - cut item(s)
+* x - cut item(s) (*deleting items with backspace or d also cuts automatically*)
 * c - copy item(s)
 * v - paste item(s) below current line
 
