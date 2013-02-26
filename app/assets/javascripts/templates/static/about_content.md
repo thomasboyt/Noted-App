@@ -1,13 +1,37 @@
-# About Noted
+## About
 
-Here's some test text content. And now some lorem ipsum
+Noted is a note-taking app that uses a modal interface. This makes it super easy to manipulate outlines - quickly move lines around, reindent them, etc.
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam cursus. Morbi ut mi. Nullam enim leo, egestas id, condimentum at, laoreet mattis, massa. Sed eleifend nonummy diam. Praesent mauris ante, elementum et, bibendum at, posuere sit amet, nibh. Duis tincidunt lectus quis dui viverra vestibulum. Suspendisse vulputate aliquam dui. Nulla elementum dui ut augue. Aliquam vehicula mi at mauris. Maecenas placerat, nisl at consequat rhoncus, sem nunc gravida justo, quis eleifend arcu velit quis lacus. Morbi magna magna, tincidunt a, mattis non, imperdiet vitae, tellus. Sed odio est, auctor ac, sollicitudin in, consequat vitae, orci. Fusce id felis. Vivamus sollicitudin metus eget eros.
+It was made by Thomas Boyt. You should probably follow him on [Twitter](https://twitter.com/thomasaboyt) and [GitHub](https://github.com/thomasboyt).
 
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In posuere felis nec tortor. Pellentesque faucibus. Ut accumsan ultricies elit. Maecenas at justo id velit placerat molestie. Donec dictum lectus non odio. Cras a ante vitae enim iaculis aliquam. Mauris nunc quam, venenatis nec, euismod sit amet, egestas placerat, est. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras id elit. Integer quis urna. Ut ante enim, dapibus malesuada, fringilla eu, condimentum quis, tellus. Aenean porttitor eros vel dolor. Donec convallis pede venenatis nibh. Duis quam. Nam eget lacus. Aliquam erat volutpat. Quisque dignissim congue leo.
+## What's New?
 
-Mauris vel lacus vitae felis vestibulum volutpat. Etiam est nunc, venenatis in, tristique eu, imperdiet ac, nisl. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In iaculis facilisis massa. Etiam eu urna. Sed porta. Suspendisse quam leo, molestie sed, luctus quis, feugiat in, pede. Fusce tellus. Sed metus augue, convallis et, vehicula ut, pulvinar eu, ante. Integer orci tellus, tristique vitae, consequat nec, porta vel, lectus. Nulla sit amet diam. Duis non nunc. Nulla rhoncus dictum metus. Curabitur tristique mi condimentum orci. Phasellus pellentesque aliquam enim. Proin dui lectus, cursus eu, mattis laoreet, viverra sit amet, quam. Curabitur vel dolor ultrices ipsum dictum tristique. Praesent vitae lacus. Ut velit enim, vestibulum non, fermentum nec, hendrerit quis, leo. Pellentesque rutrum malesuada neque.
+*2/26*
 
-Nunc tempus felis vitae urna. Vivamus porttitor, neque at volutpat rutrum, purus nisi eleifend libero, a tempus libero lectus feugiat felis. Morbi diam mauris, viverra in, gravida eu, mattis in, ante. Morbi eget arcu. Morbi porta, libero id ullamcorper nonummy, nibh ligula pulvinar metus, eget consectetuer augue nisi quis lacus. Ut ac mi quis lacus mollis aliquam. Curabitur iaculis tempus eros. Curabitur vel mi sit amet magna malesuada ultrices. Ut nisi erat, fermentum vel, congue id, euismod in, elit. Fusce ultricies, orci ac feugiat suscipit, leo massa sodales velit, et scelerisque mi tortor at ipsum. Proin orci odio, commodo ac, gravida non, tristique vel, tellus. Pellentesque nibh libero, ultricies eu, sagittis non, mollis sed, justo. Praesent metus ipsum, pulvinar pulvinar, porta id, fringilla at, est.
+* You can now "full-screen" the faux-window in Noted with `shift+f`.
+* This about page now exists!
+* Noted now features a full clipboard
+    * Deleting an item, whether with d, backspace, or x, will place a copy in your clipboard
+    * You can also copy an item with c...
+    * ...and, either way, press v to paste it.
+* Noted also has very beta Dropbox support!
+    * You can sign in with Dropbox using the button in the bottom right, and import or export all of your notes as flat text files
+    * This is an early feature, and should not be relied on as your exclusive backup choice! If you care about your notes, make sure to make copies of your notes folder in Dropbox every now and then.
+    * Also, heed the various warnings in the sync dialogs - when you import or export, your entire note set will be replaced! test test
+* Finally, Noted now has offline support.
+    * Visiting http://noted.herokuapp.com, even while completely offline (literally; try disabling your wi-fi), will give you a totally usable version of the page.
+    * The flip side to this is that when Noted gets an update, it won't actually update in your browser until you refresh the page. You'll soon start seeing popups informing you when an update is available . Don't blame me, blame HTML5!
 
-Phasellus felis dolor, scelerisque a, tempus eget, lobortis id, libero. Donec scelerisque leo ac risus. Praesent sit amet est. In dictum, dolor eu dictum porttitor, enim felis viverra mi, eget luctus massa purus quis odio. Etiam nulla massa, pharetra facilisis, volutpat in, imperdiet sit amet, sem. Aliquam nec erat at purus cursus interdum. Vestibulum ligula augue, bibendum accumsan, vestibulum ut, commodo a, mi. Morbi ornare gravida elit. Integer congue, augue et malesuada iaculis, ipsum dui aliquet felis, at cursus magna nisl nec elit. Donec iaculis diam a nisi accumsan viverra. Duis sed tellus et tortor vestibulum gravida. Praesent elementum elit at tellus. Curabitur metus ipsum, luctus eu, malesuada ut, tincidunt sed, diam. Donec quis mi sed magna hendrerit accumsan. Suspendisse risus nibh, ultricies eu, volutpat non, condimentum hendrerit, augue. Etiam eleifend, metus vitae adipiscing semper, mauris ipsum iaculis elit, congue gravida elit mi egestas orci. Curabitur pede.
+## Technical Details
+
+**Front-end:** Noted uses [Ember.js](http://emberjs.com) as its framework, along with several other libraries, including RSVP.js, several of Ben Alman's jQuery plugins, jwerty, Dropbox.js, and finally [rpflorence's invaluable localStorage adapter for ember-data](https://github.com/rpflorence/ember-localstorage-adapter). 
+
+For styling, Noted uses LESS with Bootstrap. Noted also uses HTML5's Application Cache abilities for offline support.
+
+**Back-end:** While Noted has no actual backend API, it relies on Rails (and the Ember-Rails gem) for building and serving its content. It also uses wycats's [Rack::Offline](https://github.com/wycats/rack-offline) to generate its application cache manifest.
+
+Theoretically, at some point, Noted will use RSpec + Capybara + Selenium for integration/acceptance testing the app. Until then, I just try not to break stuff too often.
+
+Oh, and finally, this about page and several other templates were written in Markdown compiled with Redcarpet.
+
+I think that's everything!
