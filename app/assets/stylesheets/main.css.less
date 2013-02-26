@@ -8,11 +8,6 @@ html, body {
   overflow:hidden;
 }
 
-.scrollable() {
-  overflow:auto;
-  height:inherit;
-}
-
 // http://stackoverflow.com/questions/13119906/turning-off-twitter-bootstrap-navbar-transition-animation
 .no-transition {
   -webkit-transition: height 0;
@@ -190,7 +185,8 @@ header {
 }
 
 .sidebar-pane {
-  .scrollable();
+  overflow:auto;
+  height:inherit;
 
   border-right: 1px #aaa solid;
   cursor:default;
@@ -229,6 +225,10 @@ header {
   margin-left:180px;
   position:relative;
   margin-right:5px;
+
+  &.full-width {
+    margin-left:5px;
+  }
 
   .scroller {
     position:absolute;
@@ -321,9 +321,5 @@ header {
 
     width:100%;
   }
-}
-
-.text-content {
-  padding:10px;
 }
 

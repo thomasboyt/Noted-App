@@ -1,5 +1,6 @@
 Noted.Router.map(function() {
   this.route("static/404", {path: "404"});
+  this.route("static/about", {path: "about"})
   this.resource('note', {path: "/notes/:note_id"});
 });
 
