@@ -9,11 +9,11 @@
     </h3>
   </div>
   <div class="modal-body">
-    {{#if controller.syncing}}
+    {{#if controller.state.syncing}}
       Syncing...
     {{else}}
-      {{#if controller.done}}
-        {{#if controller.success}}
+      {{#if controller.state.done}}
+        {{#if controller.state.success}}
           Success! Your notes have been synced.
         {{else}}
           Noted encountered an error while syncing. Try again.
@@ -30,7 +30,7 @@
   </div>
   
   <div class="modal-footer">
-    {{#unless controller.syncing}}
+    {{#unless controller.state.syncing}}
       {{#if view.asking}}
         <button class='btn btn-primary' {{action "confirm" target="view"}}>Yes</button>
         <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>

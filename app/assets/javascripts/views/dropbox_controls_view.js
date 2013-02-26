@@ -10,12 +10,9 @@ Noted.ControlsDropboxView = Ember.View.extend({
   },
 
   resetState: function() {
+    this.get("controller").resetState();
     this.setProperties({
       asking: false,
-      "controller.saving": false,
-      "controller.done": false,
-      "controller.success": undefined,
-      "controller.error": undefined,
       isExport: undefined
     })
   },
