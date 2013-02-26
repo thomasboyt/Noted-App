@@ -1,4 +1,3 @@
-Noted.controls = {};
 Noted.ControlsDropboxView = Ember.View.extend({
   asking: false,
   isExport: undefined,
