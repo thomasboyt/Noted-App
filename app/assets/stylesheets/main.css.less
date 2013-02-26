@@ -74,21 +74,50 @@ header {
   bottom:80px;
   width:96%;
 
+  -moz-transition-property: top, bottom, width, margin-left;
+  -moz-transition-duration: 0.2s;
+  -webkit-transition-property: top, bottom, width, margin-left;
+  -webkit-transition-duration: 0.2s;
+  transition-property: top, bottom, width, margin-left;
+  transition-duration: 0.2s;
 
   &.full-screen {
-    padding-top:20px;
+    top:0px;
+    bottom:62px;
+    width:100%;
+    margin-left:-50%;
+  }
+
+  &:not(.full-screen) {
+    .controls.top {
+      .border-radius-custom(10px, 10px, 0, 0);
+    }
+    .controls.bottom {
+      .border-radius-custom(0, 0, 10px, 10px);
+    }
   }
 
   .controls {
     height:30px;
-    &:bottom {
+
+    &.top {
+      border-bottom: 1px rgb(125,125,125) solid;
+    }
+
+    &.bottom {
+      border-top: 1px rgb(125,125,125) solid;
       .clearfix();
     }
 
     .btn {
-      .buttonBackground(rgb(228,228,228), darken(rgb(175,175,175), 10%), #333, none);
+      .buttonBackground(rgb(228,228,228), darken(rgb(175,175,175), 10%), #333, 0 1px 1px rgba(255, 255, 255, 0.75));
       border-color:#555;
       margin-top:2px;
+      font-weight:500;
+
+      &:hover {
+        background-position:0 0;
+      }
     }
 
     .left-controls {
@@ -153,17 +182,7 @@ header {
 // ------------
 
 .controls {
-  height:30px;
-  &.top {
-    border-bottom: 1px rgb(125,125,125) solid;
-    .border-radius-custom(10px, 10px, 0, 0)
-  }
-  &.bottom {
-    border-top: 1px rgb(125,125,125) solid;
-    .border-radius-custom(0, 0, 10px, 10px)
-  }
   .controls-gradient();
-
 }
 
 .window > * {  

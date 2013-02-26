@@ -51,6 +51,11 @@ In addition to the below bindings, there's also some secret-ish VIM bindings (th
 * tab - Indent one level
 * shift+tab - Outdent one level
 
+### Misc.
+
+* shift+f - fullscreen (experimental)
+* ? - show help
+
 ## Formatting
 
 * <del>`_underscores_` put text in italics</del>

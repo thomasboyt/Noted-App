@@ -8,6 +8,10 @@ Noted.ApplicationView = Ember.View.extend({
       if (jwerty.is('shift+/', e)) {
         $("#shortcuts-modal").modal();
       }
+      if (jwerty.is('shift+f', e)) {
+        console.log("togglin");
+        $(".window").toggleClass("full-screen");
+      }
     })
   }
 });
