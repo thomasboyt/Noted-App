@@ -49,9 +49,11 @@ Noted.NoteView = Ember.View.extend({
     this.$().unbind('clickoutside');
   },
 
+  // todo: move as much logic as possible out of here and into either other
+  // view functions or to controller functions
   keyDown: function(e) {
     if (this.get("active")) {
-      if (jwerty.is('tab/cmd+]', e)) {                    //tab, indent one level
+      if (jwerty.is('tab/cmd+]', e)) {
         e.preventDefault();
         this.get("active").changeIndentBy(1);
       }
@@ -62,44 +64,58 @@ Noted.NoteView = Ember.View.extend({
       }
 
       if (!this.get("active.isEditing")) {
-        if (jwerty.is('k/up', e)) {                 //k, move up
+        if (jwerty.is('k/up', e)) {
           e.preventDefault();
           this._changeActiveByOffset(-1);
         }; 
-        if (jwerty.is('j/down', e)) {                 //j, move down
+        if (jwerty.is('j/down', e)) {
           e.preventDefault();
           this._changeActiveByOffset(1);
         }; 
-        if (jwerty.is('space/i',e )) {     //space or i, enter editing
+        if (jwerty.is('space/i',e )) {
           e.preventDefault();
           this.get("active").set('isEditing', true);
         }; 
-        if (jwerty.is('enter/o', e)) {     //enter or o, insert new entry below cursor
+        if (jwerty.is('enter/o', e)) {
           e.preventDefault();
           this.get("controller").insertItemAt(this.get("active").get("order")+1, this.get("active.indentionLevel"));
           this._changeActiveByOffset(1);
         }
-        if (jwerty.is('backspace/d', e)) {      //backspace/delete (mac) or d, delete
+        if (jwerty.is('backspace/d/x', e)) {
           e.preventDefault();
+          this.set("controller.clipboardProps", this.get("active"));
           this.get("controller").deleteItemAt(this._activeIndex);
           this._changeActiveByOffset(-1);
         }
-        if (jwerty.is('h', e)) {                 //h, outdent one level
+        if (jwerty.is('h', e)) {
           e.preventDefault();
           this.get("active").changeIndentBy(-1);
         }
-        if (jwerty.is('l', e)) {                 //l, indent one level
+        if (jwerty.is('l', e)) {
           e.preventDefault();
           this.get("active").changeIndentBy(1);
+        }
+
+        // Clipboard
+        if (jwerty.is('c', e)) {
+          e.preventDefault();
+          this.set("controller.clipboardProps", this.get("active"));
+        }
+        if (jwerty.is('v', e)) {
+          e.preventDefault();
+          if (this.get("controller.clipboardProps")) {
+            this.get("controller").insertClipboardAt(this.get("active").get("order") +1);
+            this._changeActiveByOffset(1);
+          }
         }
       }
       else {
         e.stopPropagation();
-        if (jwerty.is('enter', e)) {     //enter, end editing & save
+        if (jwerty.is('enter', e)) {
           e.preventDefault();          
           this.$("ul").focusWithoutScrolling($(".scroller"));
         }; 
-        if (jwerty.is('esc', e)) {     //esc, CANCEL editing
+        if (jwerty.is('esc', e)) {
           e.preventDefault();
           this.set("active.isCanceling", true) // hacky state bit, for focusOut handler in item view
           this.$("ul").focusWithoutScrolling($(".scroller"));

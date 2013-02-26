@@ -1,4 +1,16 @@
 Noted.NoteController = Ember.ObjectController.extend({
+
+  // set a listItem model, return a new listItem model with the same properties.
+  clipboardProps: function (key, value) {
+    if (arguments.length > 1) {
+      if (value instanceof Noted.ListItem) {
+        value = value.getProperties("text", "indentionLevel", "note");
+      }
+      this.set("_clipboardProps", value);
+    }
+    return this.get("_clipboardProps");
+  }.property("_clipboardProps"),
+
   insertItemAt: function(index, indent) {
 
     this._shiftItemsAt(index, 1);
@@ -12,6 +24,17 @@ Noted.NoteController = Ember.ObjectController.extend({
     });
     
     Noted.store.commit();
+  },
+
+  insertClipboardAt: function(index) {
+    var props = this.get("clipboardProps");
+    if (props) {
+      this._shiftItemsAt(index, 1);
+      // todo: why is $.extend() needed? for some reason props is getting an "id" property set on it, which is insane.
+      var item = Noted.ListItem.createRecord($.extend({}, props));
+      item.set("order", index);
+      Noted.store.commit();
+    }
   },
 
   deleteItem: function(item) {
