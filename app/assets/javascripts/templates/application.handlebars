@@ -2,10 +2,10 @@
 
   <header>
     <div class='left'>
-      <h1>Noted</h1>
+      <h1>noted</h1>
     </div>
     <div class='right'>
-      press ? for help
+      {{#linkTo "index"}}home{{/linkTo}} / {{#linkTo "static/about"}}about{{/linkTo}} / press ? for <a id="help-link" href="#">help</a>
     </div>
   </header>
 
@@ -16,3 +16,5 @@
   </footer>
 
 </div>
+
+{{partial "modals/shortcuts/shortcuts_modal"}}

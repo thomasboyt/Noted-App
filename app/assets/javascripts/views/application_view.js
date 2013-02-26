@@ -17,5 +17,12 @@ Noted.ApplicationView = Ember.View.extend({
           localStorage.setItem("shouldFullscreen", "true");
       }
     })
+  },
+
+  didInsertElement: function() {
+    this.$("a#help-link").click(function(e) {
+      e.preventDefault();
+      $("#shortcuts-modal").modal();
+    })
   }
 });
