@@ -25,16 +25,16 @@ In addition to the below bindings, there's also some secret-ish VIM bindings (th
 #### Editing
 
 * space/double click - Edit item
-* <del>c - Change item (same as edit item but highlights all text so it can be replaced, copied, cut, etc)</del>
+* <del>??? - Change item (same as edit item but highlights all text so it can be replaced, copied, cut, etc)</del>
 * backspace/d - Delete item(s)
 * tab/l - Indent item(s) one level
 * shift+tab/h - Outdent (probably not a word) item(s) one level
 
 #### Clipboard
 
-* <del>x - cut item(s)</del>
-* <del>c - copy item(s)</del>
-* <del>v - paste item(s) below current line</del>
+* x - cut item(s)
+* c - copy item(s)
+* v - paste item(s) below current line
 
 (VIM bindings mode will be different)
 
