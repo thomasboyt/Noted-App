@@ -48,34 +48,58 @@ Noted.DropboxController = Ember.Controller.extend({
     return promise;
   },
 
+  _deleteListItems: function(note) {
+    var promise = new RSVP.Promise();
+    var items = note.get("listItems");
+
+    if (items.objectAt(0)._data) {
+      for (var j = items.get("length") - 1; j >= 0; j--) {
+        items.objectAt(j).deleteRecord();
+      }
+      promise.resolve(note);
+    }
+
+    else {
+      items.forEach(function (item) {
+        item.on("didLoad", function() {
+          item.deleteRecord();
+          if (items.get("length") == 0) {
+            promise.resolve(note);
+          }
+        })
+      })
+    }
+    return promise;
+  },
+
   // clears out local noteset before importing
   _destroyNoteset: function() {
     var promise = new RSVP.Promise();
 
-    var notes = Noted.Note.find();
+    var notes = this.get("notes");
 
-    // This horrifying little bit is a workaround for find()'s asynchronicity.
-    // This almost needs an FAQ of its own, but the most obvious part, "why
-    // iterate over notes' listItems instead of find()ing all" - when you
-    // iterate over a hasMany assocation, you at least have the count of how
-    // many there will be (though it won't actually load the data until after
-    // you try to .get() it), but if I were to attempt to iterate over
-    // Noted.listItem.find(), ember would have no idea how many there are
     if (notes.get("length") > 0) {
-      notes.forEach(function (note) {
-        note.get("listItems").forEach(function(item) {
-          item.on('didLoad', function() {
-            item.deleteRecord();
-            if (note.get("listItems.length") == 0) {
-              note.deleteRecord();
-              if (notes.get('length') == 0) {
-                Noted.store.commit();
-                promise.resolve();
-              }
-            }
-          });
-        });
-      });
+
+      // yeah.
+      var afterDeletedItems = function(note) {
+        note.deleteRecord();
+
+        if (notes.get("length") == 0) {
+          promise.resolve();
+        }
+      }
+
+      for (var i = notes.get("length") - 1; i >= 0; i--) {
+        var note = notes.objectAt(i);
+        var items = note.get("listItems");
+
+        if (items.get("length") > 0) {
+          this._deleteListItems(note).then(afterDeletedItems);
+        }
+        else {
+          afterDeletedItems(note);
+        }  
+      }
     }
     else {
       promise.resolve();
@@ -166,7 +190,7 @@ Noted.DropboxController = Ember.Controller.extend({
 
   },
 
-  importDropbox: function() {
+  importDropbox: function() {    
     this.set("state.syncing", true);
 
     var filePromises = [];
