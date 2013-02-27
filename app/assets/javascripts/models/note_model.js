@@ -11,6 +11,7 @@ Noted.Note = DS.Model.extend({
     })
   }).property('listItems'),
 
+  // only works on a note that is currently loaded (i.e. listItems are loaded)
   deleteItems: function() {
     var len = this.get("listItems.length");
     for (var i=0; i < len; i++) {

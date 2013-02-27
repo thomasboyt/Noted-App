@@ -17,6 +17,11 @@ Noted.ListItem = DS.Model.extend({
     return "margin-left: " + offset + "px";
   }.property('indentionLevel'),
 
+  markedText: function() {
+    if (this.get("text"))
+      return marked(this.get("text"));
+  }.property('text'),
+
   // methods
   changeIndentBy: function(add) {
     var newIndent = this.get("indentionLevel") + add;
