@@ -6,7 +6,12 @@ It was made by Thomas Boyt. You should probably follow him on [Twitter](https://
 
 ## What's New?
 
-*2/26*
+*February 27*
+
+* Added Markdown formatting! You now use `*italics*`, `**bold**`, `[links](http://placekitten.com)`, ``code/fixed-width/monospace bits``, and `![images](http://placekitten.com/200/300)`.
+* Fixed Dropbox syncing bugs, and actually enabled Dropbox for users besides me (turns out there's an approval process and everything!).
+
+*February 26*
 
 * You can now "full-screen" the faux-window in Noted with `shift+f`.
 * This about page now exists!
@@ -24,7 +29,7 @@ It was made by Thomas Boyt. You should probably follow him on [Twitter](https://
 
 ## Technical Details
 
-**Front-end:** Noted uses [Ember.js](http://emberjs.com) as its framework, along with several other libraries, including RSVP.js, several of Ben Alman's jQuery plugins, jwerty, Dropbox.js, and finally [rpflorence's invaluable localStorage adapter for ember-data](https://github.com/rpflorence/ember-localstorage-adapter). 
+**Front-end:** Noted uses [Ember.js](http://emberjs.com) as its framework, along with several other libraries, including RSVP.js, several of Ben Alman's jQuery plugins, jwerty, Dropbox.js, Marked (for Markdown formatting), and finally [rpflorence's invaluable localStorage adapter for ember-data](https://github.com/rpflorence/ember-localstorage-adapter). 
 
 For styling, Noted uses LESS with Bootstrap. Noted also uses HTML5's Application Cache abilities for offline support.
 
