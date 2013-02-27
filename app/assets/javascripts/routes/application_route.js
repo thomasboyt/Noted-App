@@ -48,7 +48,7 @@ Noted.NoteRoute = Noted.IndexRoute.extend({
   renderTemplate: function(some_controller, note) {
     var notesController = this.controllerFor('notes').set('content', Noted.Note.find());
     var noteController = this.controllerFor('note').set('content', note);
-    //notesController.set("acti", note);
+    notesController.set("selected", note);
 
     // todo: best way to not re-render window + list if already rendered (coming from index)
     // possible options: check referrer http://stackoverflow.com/questions/14831668/the-route-i-came-from-or-previous-route
