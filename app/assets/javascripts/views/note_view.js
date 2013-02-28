@@ -49,87 +49,140 @@ Noted.NoteView = Ember.View.extend({
     this.$().unbind('clickoutside');
   },
 
-  // todo: move as much logic as possible out of here and into either other
-  // view functions or to controller functions
-  keyDown: function(e) {
-    if (this.get("active")) {
-      if (jwerty.is('tab/cmd+]', e)) {
-        e.preventDefault();
+  keyBindings: {
+    'indent': {
+      keys: {
+        hasSelected: ['tab', 'cmd+]', 'l'],
+        isEditing: ['tab', 'cmd+]']
+      },
+      fn: function() {
         this.get("active").changeIndentBy(1);
       }
-
-      if (jwerty.is('shift+tab/cmd+[', e)) {
-        e.preventDefault();
+    },
+    'unindent': {
+      keys: {
+        hasSelected: ['shift+tab', 'cmd+[', 'h'],
+        isEditing: ['shift+tab', 'cmd+[']
+      },
+      fn: function() {
         this.get("active").changeIndentBy(-1);
       }
+    },
+    'scrollUp': {
+      keys: {
+        hasSelected: ['k', 'up']
+      },
+      fn: function() {
+        this._changeActiveByOffset(-1);
+      }
+    },
+    'scrollDown': {
+      keys: {
+        hasSelected: ['j', 'down']
+      },
+      fn: function() {
+        this._changeActiveByOffset(1);
+      }
+    },
 
-      if (!this.get("active.isEditing")) {
-        if (jwerty.is('k/up', e)) {
-          e.preventDefault();
-          this._changeActiveByOffset(-1);
-        }; 
-        if (jwerty.is('j/down', e)) {
-          e.preventDefault();
-          this._changeActiveByOffset(1);
-        }; 
-        if (jwerty.is('space/i',e )) {
-          e.preventDefault();
-          this.get("active").set('isEditing', true);
-        }; 
-        if (jwerty.is('enter/o', e)) {
-          e.preventDefault();
-          this.get("controller").insertItemAt(this.get("active").get("order")+1, this.get("active.indentionLevel"));
-          this._changeActiveByOffset(1);
-        }
-        if (jwerty.is('backspace/d/x', e)) {
-          e.preventDefault();
-          this.set("controller.clipboardProps", this.get("active"));
-          this.get("controller").deleteItemAt(this._activeIndex);
-          this._changeActiveByOffset(-1);
-        }
-        if (jwerty.is('h', e)) {
-          e.preventDefault();
-          this.get("active").changeIndentBy(-1);
-        }
-        if (jwerty.is('l', e)) {
-          e.preventDefault();
-          this.get("active").changeIndentBy(1);
-        }
+    'enterEditing': {
+      keys: {
+        hasSelected: ['space', 'i']
+      },
+      fn: function() {
+        this.get("active").set('isEditing', true);
+      }
+    },
+    'endEditing': {
+      keys: {
+        isEditing: ['enter']
+      },
+      fn: function() {
+        this.$("ul").focusWithoutScrolling($(".scroller"));
+      }
+    },
+    'cancelEditing': {
+      keys: {
+        isEditing: ['esc']
+      },
+      fn: function() {
+        this.set("active.isCanceling", true) // hacky state bit, for focusOut handler in item view
+        this.$("ul").focusWithoutScrolling($(".scroller"));
+      }
+    },
 
-        // Clipboard
-        if (jwerty.is('c', e)) {
-          e.preventDefault();
-          this.set("controller.clipboardProps", this.get("active"));
-        }
-        if (jwerty.is('v', e)) {
-          e.preventDefault();
-          if (this.get("controller.clipboardProps")) {
-            this.get("controller").insertClipboardAt(this.get("active").get("order") +1);
-            this._changeActiveByOffset(1);
-          }
+    'delete': {
+      keys: {
+        hasSelected: ['d', 'x', 'backspace', 'delete']
+      },
+      fn: function() {
+        this.set("controller.clipboardProps", this.get("active"));
+        this.get("controller").deleteItemAt(this._activeIndex);
+        this._changeActiveByOffset(-1);
+      }
+    },
+    'copy': {
+      keys: {
+        hasSelected: ['c']
+      },
+      fn: function() {
+        this.set("controller.clipboardProps", this.get("active"));
+      }
+    },
+    'paste': {
+      keys: {
+        hasSelected: ['v', 'p']
+      },
+      fn: function() {
+        if (this.get("controller.clipboardProps")) {
+          this.get("controller").insertClipboardAt(this.get("active").get("order") +1);
+          this._changeActiveByOffset(1);
         }
       }
-      else {
-        e.stopPropagation();
-        if (jwerty.is('enter', e)) {
-          e.preventDefault();          
-          this.$("ul").focusWithoutScrolling($(".scroller"));
-        }; 
-        if (jwerty.is('esc', e)) {
-          e.preventDefault();
-          this.set("active.isCanceling", true) // hacky state bit, for focusOut handler in item view
-          this.$("ul").focusWithoutScrolling($(".scroller"));
-        }
-      }
-    }
+    },
 
-    else {
-      if (jwerty.is('enter', e)) {
-        e.preventDefault();
+    'insertNew': {
+      keys: {
+        hasSelected: ['enter', 'o']
+      },
+      fn: function() {
+        this.get("controller").insertItemAt(this.get("active").get("order")+1, this.get("active.indentionLevel"));
+        this._changeActiveByOffset(1);
+      }
+    },
+    'insertFirst': {
+      keys: {
+        noItems: ['enter']
+      },
+      fn: function() {
         this.get("controller").insertItemAt(0, 0);
         // below uses listItems instead of sortedList because sortedList breaks the store if it's accessed mid-save (weird, right?)
         // obviously irrelevant with a one-item list, but still
         this.set("active", this.get("controller.content.listItems").objectAt(0));
+      }
+    }
+  },
+
+  keyDown: function(e) {
+    for (key in this.keyBindings) {
+      var binding = this.keyBindings[key];
+      console.log(binding);
+
+      var state;
+      if (this.get("active")) {
+        if (this.get("active.isEditing") == true) state = "isEditing";
+        else state = "hasSelected";
+      }
+      else state = "noItems";
+
+      var bindings = binding.keys[state];
+      if (bindings) bindings = bindings.join("/");
+
+      if (jwerty.is(bindings, e)) {
+        e.preventDefault();
+        e.stopPropagation();
+        binding.fn.bind(this)();
+        break;
       }
     }
   },
