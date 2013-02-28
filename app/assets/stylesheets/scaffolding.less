@@ -1,0 +1,172 @@
+// Scaffolding.less
+// Defines the structure of the page.
+
+@import "twitter/bootstrap/bootstrap";
+
+html, body {
+  height:100%;
+  overflow:hidden;
+}
+
+.wrapper {
+  margin:0px auto 0;
+  width:90%;
+  height:100%;
+  min-height:100%;
+}
+
+header {
+  position:relative;
+  margin: 0px auto 0px auto;
+  height:64px;
+  margin-bottom:-64px;
+
+  div.left {
+    position:absolute;
+    left:0px;
+    bottom:10px;
+  }
+}
+
+.window {
+  position:absolute;
+  left:50%;
+  margin-left:-48%;
+  top:60px;
+  bottom:80px;
+  width:96%;
+
+  &.full-screen {
+    top:0px;
+    bottom:62px;
+    width:100%;
+    margin-left:-50%;
+  }
+
+  .controls {
+    height:30px;
+
+    &.top {
+      border-bottom: 1px rgb(125,125,125) solid;
+    }
+
+    &.bottom {
+      border-top: 1px rgb(125,125,125) solid;
+      .clearfix();
+    }
+
+    .btn {
+      margin-top:2px;
+    }
+
+    .left-controls {
+      float:left;
+      margin-left:10px;
+    }
+
+    .right-controls {
+      float:right;
+      margin-right:10px;
+    }
+  }
+
+  .main {
+    height:100%;
+    width:100%;
+    .clearfix();
+  }
+
+  .sidebar-pane {
+    display: inline;
+    float: left;
+    overflow: scroll;
+    width:200px;
+    max-width:400px;
+    resize: horizontal; 
+    height:inherit;
+
+    border-right: 1px #aaa solid;
+
+    li {
+      padding:5px;
+      border-bottom:1px solid #aaa;
+
+      //:last-child doesn't work due to metamorph tags
+      &:nth-last-of-type(1) {
+        border-top:none;
+      }
+    }
+  }
+
+  .body-pane {
+    overflow:hidden;
+    height:inherit;
+    margin-left:180px;
+    position:relative;
+    margin-right:5px;
+
+     &.full-width {
+      margin-left:5px;
+    }
+
+    .scroller {
+      position:absolute;
+      overflow-x:hidden;
+      overflow-y:scroll;
+      top:0px;
+      bottom:0px;
+      width:100%;
+
+      .scroller-content {
+        position:relative;
+
+        &.text-content {
+          padding:10px 20px;
+        }
+
+        ul.note-item-list {
+          padding-right:10px;
+
+          div.placeholder { 
+            text-align:center;
+            padding:100px 300px;
+            border:1px #000 solid;
+          }
+
+          li {
+            position:relative;
+            &.is-editing {
+              margin-right:10px;
+            }
+            line-height:24px;
+            padding:0;
+            vertical-align:top;
+
+            span {
+              display:block;
+              padding-left:1px;
+              padding-top:1px;
+              padding-bottom:1px;
+            }
+
+            textarea {
+              display:inline-block;
+              box-sizing:border-box;
+              resize:none;
+              vertical-align:top;
+
+              height:24px;
+              line-height:24px;
+              margin:0;
+              margin-left:-2px;
+
+              padding:0 2px;
+              
+              width:100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
