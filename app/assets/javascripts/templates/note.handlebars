@@ -1,7 +1,7 @@
 <div class='scroller' >
   <div class='scroller-content'>
     <h3>{{view Noted.TitleView valueBinding="title"}}</h3>
-      <ul tabindex='0'>
+      <ul class='note-item-list' tabindex='0'>
         {{#if controller.sortedItems}}
           {{#each listItem in controller.sortedItems}}
             {{view Noted.ItemView listItemBinding=listItem}}

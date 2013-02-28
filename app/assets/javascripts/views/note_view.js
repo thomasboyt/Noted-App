@@ -49,6 +49,21 @@ Noted.NoteView = Ember.View.extend({
     this.$().unbind('clickoutside');
   },
 
+  keyBindings: [
+    'indent': {
+      keys: {
+        selected: '',
+        editing: ''
+      }
+      fn: function() {
+        this.get("active").changeIndentBy(1);
+      }
+    },
+    'unindent': {
+      'state': 
+    }
+  ],
+
   // todo: move as much logic as possible out of here and into either other
   // view functions or to controller functions
   keyDown: function(e) {

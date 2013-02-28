@@ -1,0 +1,154 @@
+// Styling.less
+// Defines the look of various elements.
+
+@import "twitter/bootstrap/bootstrap";
+
+.border-radius-custom(@topLeft, @topRight, @bottomRight, @bottomLeft) {
+  -webkit-border-top-left-radius: @topLeft;
+      -moz-border-radius-topleft: @topLeft;
+          border-top-left-radius: @topLeft;
+  -webkit-border-top-right-radius: @topRight;
+      -moz-border-radius-topright: @topRight;
+          border-top-right-radius: @topRight;
+  -webkit-border-bottom-right-radius: @bottomRight;
+      -moz-border-radius-bottomright: @bottomRight;
+          border-bottom-right-radius: @bottomRight;
+  -webkit-border-bottom-left-radius: @bottomLeft;
+      -moz-border-radius-bottomleft: @bottomLeft;
+          border-bottom-left-radius: @bottomLeft;
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+}
+
+html, body {
+  background-color: @notedBackground;
+}
+
+.controls-gradient() {
+  #gradient > .vertical(@controlsGradientTop, @controlsGradientBottom);
+}
+
+header {
+  div.left {
+    h1 {
+      font-size:38px;
+      line-height:38px;
+      margin:0;
+      padding:0;
+      font-weight:bold;
+      color: @headerLink;
+    }
+  }
+
+  div.right {
+    position:absolute;
+    bottom:15px;
+    right:0px;
+    text-align:right;
+    font-size:24px;
+    line-height:24px;
+    color:@headerText;
+    a {
+      color: @headerLink;
+    }
+  }
+}
+
+.window > * {
+  background-color: @windowBackground;
+}
+
+.window {  
+
+  -moz-transition-property: top, bottom, width, margin-left;
+  -moz-transition-duration: 0.2s;
+  -webkit-transition-property: top, bottom, width, margin-left;
+  -webkit-transition-duration: 0.2s;
+  transition-property: top, bottom, width, margin-left;
+  transition-duration: 0.2s;
+
+  &:not(.full-screen) {
+    .controls.top {
+      .border-radius-custom(10px, 10px, 0, 0);
+    }
+    .controls.bottom {
+      .border-radius-custom(0, 0, 10px, 10px);
+    }
+  }
+
+  .controls {
+    .controls-gradient();
+
+    .btn {
+      .buttonBackground(@controlsButtonTop, @controlsButtonBottom, @controlsButtonText, @controlsButtonTextShadow);
+      border-color:@controlsButtonBorder;
+      font-weight:500;
+
+      &:hover {
+        background-position:0 0;
+      }
+    }
+  }
+}
+
+.sidebar-pane {
+  a:hover {
+    text-decoration:none !important;
+  }
+
+  li {
+    font-size:14px;
+
+    &.is-selected {
+      color:@noteListIsSelectedText;
+      background-color:@noteListIsSelectedBackground;
+    }
+  }
+}
+
+.scroller-content {
+
+  ul.note-item-list {
+
+    &:focus {
+      outline:none !important;
+
+      div.placeholder {
+        background-color:@highlighterYellow;
+      }
+    }
+
+    li {
+      &.is-active, &.is-editing {
+        background-color:@highlighterYellow;
+      }
+
+      textarea {
+        background:@listItemTextarea;
+        .border-radius(0px);
+        box-shadow: none;
+        color: @grayDark;
+      }
+    }
+  }
+
+  h3 {
+    margin-right:20px;
+    margin-top:0px;
+  }
+
+  h3 input {
+    margin:5px;
+    background:none;
+    .border-radius(0px);
+    box-shadow: none;
+
+    font-size:30px;
+    height: @baseLineHeight * 2;
+    color:@grayDark;
+    font-weight:bold;
+
+    width:100%;
+  }
+}
