@@ -8,7 +8,7 @@ It was made by Thomas Boyt. You should probably follow him on [Twitter](https://
 
 *February 27*
 
-* Added Markdown formatting! You now use `*italics*`, `**bold**`, `[links](http://placekitten.com)`, ``code/fixed-width/monospace bits``, and `![images](http://placekitten.com/200/300)`.
+* Added Markdown formatting! You now use `*italics*`, `**bold**`, `[links](http://placekitten.com)`, `` `code/fixed-width/monospace bits` ``, and `![images](http://placekitten.com/200/300)`.
 * Fixed Dropbox syncing bugs, and actually enabled Dropbox for users besides me (turns out there's an approval process and everything!).
 
 *February 26*

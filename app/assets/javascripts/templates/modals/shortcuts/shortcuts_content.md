@@ -1,4 +1,4 @@
-## Command Reference
+## Key Reference
 
 (ctrl/cmd are interchangeable)
 
@@ -54,5 +54,10 @@ In addition to the below bindings, there's also some secret-ish VIM bindings (th
 
 ## Formatting
 
-* <del>`_underscores_` put text in italics</del>
-* <del>`*asterisks*` bold text</del>
+Noted supports a small subset of [Markdown](http://daringfireball.net/projects/markdown/) for formatting.
+
+* Italics: `*italicized text*` or `_italicized text_`
+* Bold: `**bolded text**` or `__bolded text__`
+* Fixed/monospace: `` `monospace text` ``
+* Links: `http://google.com` will be automatically made into a link, or you can use the `[title](link)` format (i.e.) `[Google](http://google.com)`
+* Images: `![](http://placekitten.com/200/300)` *(note that images will not be saved for offline viewing)*
