@@ -221,5 +221,10 @@ Noted.NoteView = Ember.View.extend({
 Noted.TitleView = Ember.TextField.extend({
   focusOut: function(e) {
     Noted.store.commit();
+  },
+
+  keyDown: function(e) {
+    e.stopPropagation();
+    this._super();
   }
 })
