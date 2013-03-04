@@ -29,9 +29,9 @@ Noted.NoteView = Ember.View.extend({
   }.property("_active"),
 
   didInsertElement: function() {
-    this.$().bind('clickoutside', function(e) {
+    this.$("ul").bind('clickoutside', function(e) {
       e.preventDefault();
-      
+
       // so, normally, any element inside this.$() (i.e. the view div) would not trigger clickoutside. the problem is, if you have an editing item view and then click on another (or the same) list item to get out of it, the editing list view is updated before the handler is reached. because of this, e.target.parents() totally breaks (since the DOM's been updated and e.target no longer is attached!).
       // terribly lazy workaround: if it's an input or an li with class 'entry-item', we know it's inside. seems to be the only major cause of this issue. may change with circumstances.
 
@@ -46,7 +46,7 @@ Noted.NoteView = Ember.View.extend({
   },
 
   willDestroyElement: function() {
-    this.$().unbind('clickoutside');
+    this.$("ul").unbind('clickoutside');
   },
 
   keyBindings: {
@@ -106,7 +106,7 @@ Noted.NoteView = Ember.View.extend({
         isEditing: ['esc']
       },
       fn: function() {
-        this.set("active.isCanceling", true) // hacky state bit, for focusOut handler in item view
+        this.set("active.isCanceling", true); // hacky state bit, for focusOut handler in item view
         this.$("ul").focusWithoutScrolling($(".scroller"));
       }
     },
@@ -164,23 +164,24 @@ Noted.NoteView = Ember.View.extend({
   },
 
   keyDown: function(e) {
-    for (key in this.keyBindings) {
+    for (var key in this.keyBindings) {
       var binding = this.keyBindings[key];
-      console.log(binding);
 
       var state;
       if (this.get("active")) {
-        if (this.get("active.isEditing") == true) state = "isEditing";
+        if (this.get("active.isEditing") === true) {
+          e.stopPropagation();  // keeps ? from bubbling up, etc
+          state = "isEditing";
+        }
         else state = "hasSelected";
       }
       else state = "noItems";
 
       var bindings = binding.keys[state];
       if (bindings) bindings = bindings.join("/");
-
       if (jwerty.is(bindings, e)) {
         e.preventDefault();
-        e.stopPropagation();
+
         binding.fn.bind(this)();
         break;
       }
@@ -191,7 +192,7 @@ Noted.NoteView = Ember.View.extend({
     this._super();
     this.get("controller.content.listItems").forEach(function(item) {
       item.resetState();
-    })
+    });
   },
 
   _changeActiveByOffset: function(offset) {
@@ -200,7 +201,7 @@ Noted.NoteView = Ember.View.extend({
     // normal behavior
     if (newIndex >= 0 && !(newIndex >= this.get('controller.sortedItems.length'))) {
       this.set("active", this.get('controller.sortedItems').objectAt(newIndex));
-    } 
+    }
 
     else if (newIndex < 0) {
 
@@ -225,6 +226,10 @@ Noted.TitleView = Ember.TextField.extend({
 
   keyDown: function(e) {
     e.stopPropagation();
+    // override default tab behavior
+    if (jwerty.is('tab', e)) {
+      this.set("parentView.active", this.get("controller.sortedItems").objectAt(0));
+    }
     this._super();
   }
-})
+});

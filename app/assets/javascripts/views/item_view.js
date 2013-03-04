@@ -1,8 +1,8 @@
 Noted.ItemView = Ember.View.extend({
   templateName: "item_static",
-  
+
   didInsertElement: function() {
-    if (this.listItem.get("isEditing") == true) {
+    if (this.listItem.get("isEditing") === true) {
       this._toEditingView();
     }
   },
@@ -38,13 +38,12 @@ Noted.ItemView = Ember.View.extend({
     else {
       this.set('parentView.active', this.get('listItem'));
     }
-    
   },
 
   focusOut: function(e) {
     if (!this.get("listItem.isCanceling")) {
       var value = this.$("textarea").val();
-      if(/^\s+$/.test(value) || value == "") {
+      if(/^\s+$/.test(value) || value === "") {
         this.get('controller').deleteItem(this.get('listItem'));
         this.get("parentView")._changeActiveByOffset(-1);
       }
@@ -71,14 +70,14 @@ Noted.ItemView = Ember.View.extend({
     this.didInsertElement = function() {
       this.$("textarea").focus();
       this.$("textarea").height(this.$("textarea").prop("scrollHeight"));
-    }
+    };
   },
 
   _updateScrollPosition: function() {
     var activeView = this.$();
     var container = $(".body-pane .scroller"); // don't like how hard coded this is - alternatives?
 
-    var viewportTop = $(container).scrollTop()
+    var viewportTop = $(container).scrollTop();
     var viewportBottom = viewportTop + $(container).height();
     var activeTop = $(activeView).position().top;
     var activeBottom = activeTop + $(activeView).height();
@@ -106,7 +105,7 @@ Noted.ItemTextArea = Ember.TextArea.extend({
 
     this.$().bind('paste', function(e) {
       // workaround: paste actually fires BEFORE the text has been pasted in
-      setTimeout(function() {this.resize()}.bind(this), 0);
+      setTimeout(function() {this.resize();}.bind(this), 0);
     }.bind(this));
 
     this.old = this.$().val();
@@ -130,4 +129,4 @@ Noted.ItemTextArea = Ember.TextArea.extend({
     var textarea = this.$();
     textarea.height(textarea.prop('scrollHeight'));
   }
-})
+});
