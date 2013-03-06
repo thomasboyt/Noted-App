@@ -227,7 +227,7 @@ Noted.TitleView = Ember.TextField.extend({
   keyDown: function(e) {
     e.stopPropagation();
     // override default tab behavior
-    if (jwerty.is('tab', e)) {
+    if (jwerty.is('tab/enter', e)) {
       this.set("parentView.active", this.get("controller.sortedItems").objectAt(0));
     }
     this._super();
