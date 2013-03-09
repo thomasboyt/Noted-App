@@ -1,20 +1,16 @@
-<div class="wrapper">
+<header>
+  <div class='left'>
+    <h1>noted</h1>
+  </div>
+  <div class='right'>
+    {{#linkTo "index"}}home{{/linkTo}} / {{#linkTo "static/about"}}about{{/linkTo}} / press ? for <a id="help-link" href="#">help</a>
+  </div>
+</header>
 
-  <header>
-    <div class='left'>
-      <h1>noted</h1>
-    </div>
-    <div class='right'>
-      {{#linkTo "index"}}home{{/linkTo}} / {{#linkTo "static/about"}}about{{/linkTo}} / press ? for <a id="help-link" href="#">help</a>
-    </div>
-  </header>
+{{outlet}}
 
-  {{outlet}}
-
-  <footer>
-    <!-- ... -->
-  </footer>
-
-</div>
+<footer>
+  <!-- ... -->
+</footer>
 
 {{partial "modals/shortcuts/shortcuts_modal"}}

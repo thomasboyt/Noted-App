@@ -22,7 +22,7 @@ Noted.NoteController = Ember.ObjectController.extend({
       note: this.content,
       isEditing: true
     });
-    
+
     Noted.store.commit();
   },
 
@@ -57,14 +57,14 @@ Noted.NoteController = Ember.ObjectController.extend({
     return Ember.ArrayProxy.createWithMixins(Ember.SortableMixin, {
       sortProperties: ['order'],
       content: this.get('content.listItems')
-    })
+    });
   }).property('content.listItems'),
 
   _shiftItemsAt: function(index, shift) {
     this.get("sortedItems").forEach(function(item) {
       if (item.get("order") >= index) {
-        item.set("order", item.get("order") + shift)
+        item.set("order", item.get("order") + shift);
       }
-    })
+    });
   }
-})
+});

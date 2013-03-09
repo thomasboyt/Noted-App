@@ -1,4 +1,5 @@
 Noted.ApplicationView = Ember.View.extend({
+  classNames: ['wrapper'],
   init: function() {
     this._super();
 

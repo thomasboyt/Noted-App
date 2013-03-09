@@ -19,7 +19,9 @@ Noted.ItemView = Ember.View.extend({
   }.observes("listItem.isEditing"),
 
   activeObserver: function() {
+    console.log("active observer triggered");
     if (this.get('listItem.isActive')) {
+      console.log('is active')
       this._updateScrollPosition();
     }
     else {
@@ -60,6 +62,7 @@ Noted.ItemView = Ember.View.extend({
   },
 
   doubleClick: function() {
+    // make de-selectable so that a triple click will not select
     this.listItem.set("isEditing", true);
   },
 
@@ -74,6 +77,8 @@ Noted.ItemView = Ember.View.extend({
   },
 
   _updateScrollPosition: function() {
+    console.log("updating scroll pos");
+
     var activeView = this.$();
     var container = $(".body-pane .scroller"); // don't like how hard coded this is - alternatives?
 
