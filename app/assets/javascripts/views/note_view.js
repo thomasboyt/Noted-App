@@ -118,7 +118,7 @@ Noted.NoteView = Ember.View.extend({
       fn: function() {
         this.set("controller.clipboardProps", this.get("active"));
         this.get("controller").deleteItemAt(this._activeIndex);
-        this._changeActiveByOffset(-1);
+        this._changeActiveByOffset(0);
       }
     },
     'copy': {
@@ -205,15 +205,19 @@ Noted.NoteView = Ember.View.extend({
 
     else if (newIndex < 0) {
 
-      // scrolling past top OR deleting top item
+      // scrolling past top
       if (this.get('controller.sortedItems.length') > 0) {
         $(".body-pane .scroller").scrollTop(0); //used when scrolling up past item 0 (show title)
-        $(this.set("active", this.get('controller.sortedItems').objectAt(0)));
+        $(this.set("active", this.get('controller.sortedItems.firstObject')));
       }
 
       // last item deleted
       else
         this.set("active", undefined); //no items in the list!
+    }
+
+    else if (newIndex >= this.get("controller.sortedItems.length")) {
+      this.set("active", this.get("controller.sortedItems.lastObject"));
     }
   }
 });
