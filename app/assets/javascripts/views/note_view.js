@@ -208,7 +208,7 @@ Noted.NoteView = Ember.View.extend({
       // scrolling past top
       if (this.get('controller.sortedItems.length') > 0) {
         $(".body-pane .scroller").scrollTop(0); //used when scrolling up past item 0 (show title)
-        $(this.set("active", this.get('controller.sortedItems.firstObject')));
+        this.set("active", this.get('controller.sortedItems.firstObject'));
       }
 
       // last item deleted
