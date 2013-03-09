@@ -16,3 +16,7 @@
 
 # Temporary folder used in production tests (precompilation)
 /public/assets
+
+# VIM swap files
+*.swp
+*.old
