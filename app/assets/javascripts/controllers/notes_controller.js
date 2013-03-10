@@ -20,14 +20,19 @@ Noted.NotesController = Ember.ArrayController.extend({
   createNote: function() {
     var note = Noted.Note.createRecord({
       title: "New Note",
-      created_date: new Date()
+      created_date: new Date(),
     });
+
+    note.set("masterNode", Noted.ListItem.createRecord({
+      text: "~~master node~~"
+    }));
 
     // add a single default list entry to the note
     note.get("listItems").addObject(Noted.ListItem.createRecord({
       text: "Edit me!",
       order: 0,
       indentionLevel: 0,
+      parent: note.get("masterNode")
     }));
 
     Noted.store.commit();

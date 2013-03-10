@@ -4,6 +4,14 @@ Noted.Note = DS.Model.extend({
 
   listItems: DS.hasMany('Noted.ListItem'),
 
+  // we just store masterNode's ID for later retrieval
+  masterNode: function(key, val) {
+    if (arguments.length > 1) {
+      this.set("_masterNodeId", val.get("id"));
+    }
+    return Noted.ListItem.find(this.get("_masterNodeId"));
+  }.property("masterNode"),
+
   sortedItems: (function() {
     return Ember.ArrayProxy.createWithMixins(Ember.SortableMixin, {
       sortProperties: ['order'],
@@ -61,5 +69,11 @@ Noted.Note = DS.Model.extend({
         });
       }
     }
+  },
+
+  didLoad: function() {
+    // hacky: forces masterNode's children to be loaded.
+    this.get("masterNode");
+    this._super();
   }
 });

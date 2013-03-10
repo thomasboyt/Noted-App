@@ -1,5 +1,9 @@
 Noted.NoteController = Ember.ObjectController.extend({
 
+  // masternode is a fake item that is the parent of top-level items. 
+  // it should have the same interface for getting children (array of
+  // uuids)
+  
   // set a listItem model, return a new listItem model with the same properties.
   clipboardProps: function (key, value) {
     if (arguments.length > 1) {
@@ -15,15 +19,41 @@ Noted.NoteController = Ember.ObjectController.extend({
 
     this._shiftItemsAt(index, 1);
 
+    var parent = this.get("sortedItems").objectAt(index-1).get("parent");
+
     var item = Noted.ListItem.createRecord({
       text: "",
       order: index,
       indentionLevel: indent,
       note: this.content,
-      isEditing: true
+      isEditing: true,
+      parent: parent
     });
+    console.log(parent);
 
     Noted.store.commit();
+  },
+
+  indent: function(item, prevIndex) {
+    item.set("indentionLevel", item.get("indentionLevel") + 1);
+    var prevItem = this.get("sortedItems").objectAt(prevIndex);
+    var prevIdentation = prevItem.get("indentionLevel");
+
+    //this._lookupNewParent
+    // to find new parent: first figure out where we're trying to go
+    // to the left: find parent's parent
+    // to the right: find last sibling, set as parent
+    // assume to the right for now
+    
+    // ewwww
+    var sib = this._findLastSibling(item, this.get("sortedItems").indexOf(item));
+    console.log(sib);
+    // if (prevIndentation < item.get("indentionLevel")
+    //     item.set("parent", prevItem);
+    // else 
+    //     item.set("parent", item.get("parent.parent");
+    // else if (prevIndentation > item.get("indentationLevel")
+    //     item.set("parent", item.get("parent.parent");
   },
 
   insertClipboardAt: function(index) {
@@ -66,5 +96,28 @@ Noted.NoteController = Ember.ObjectController.extend({
         item.set("order", item.get("order") + shift);
       }
     });
+  },
+
+  _findLastSibling: function(item, idx) {
+    var siblings = item.get("parent.children");
+    
+    // sort siblings by order
+    // todo: keep this on the model as a computed property?
+    // alternatively sort without creating a whole damn array controller 
+    // every time! this is expensive and temporary
+    var sortedSiblings = Ember.ArrayController.create({
+      content: siblings,
+      sortProperties: ['order'],
+      sortAscending: true
+    });
+
+    console.log(siblings.get("content"));
+    console.log(sortedSiblings.objectAt(0));
+
+    var closest = sortedSiblings.filter(function(item) {
+      return item.get("order") < idx;
+    }).get("lastObject");
+
+    return closest;
   }
 });

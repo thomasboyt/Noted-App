@@ -19,9 +19,7 @@ Noted.ItemView = Ember.View.extend({
   }.observes("listItem.isEditing"),
 
   activeObserver: function() {
-    console.log("active observer triggered");
     if (this.get('listItem.isActive')) {
-      console.log('is active')
       this._updateScrollPosition();
     }
     else {
@@ -77,8 +75,6 @@ Noted.ItemView = Ember.View.extend({
   },
 
   _updateScrollPosition: function() {
-    console.log("updating scroll pos");
-
     var activeView = this.$();
     var container = $(".body-pane .scroller"); // don't like how hard coded this is - alternatives?
 

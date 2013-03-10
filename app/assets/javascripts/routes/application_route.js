@@ -5,7 +5,7 @@ Noted.Router.map(function() {
 });
 
 // this is a little weird but convenient at least
-Noted.windowRenderHelper = function(ctx) {
+Noted.renderWindow = function(ctx) {
   var notesController = ctx.controllerFor('notes');
   notesController.set('content', Noted.Note.find());
 
@@ -32,7 +32,7 @@ Noted.windowRenderHelper = function(ctx) {
 
 Noted.IndexRoute = Ember.Route.extend({
   renderTemplate: function() {
-    Noted.windowRenderHelper(this);
+    Noted.renderWindow(this);
   }
 });
 
@@ -50,12 +50,7 @@ Noted.NoteRoute = Noted.IndexRoute.extend({
     var noteController = this.controllerFor('note').set('content', note);
     notesController.set("selected", note);
 
-    // todo: best way to not re-render window + list if already rendered (coming from index)
-    // possible options: check referrer http://stackoverflow.com/questions/14831668/the-route-i-came-from-or-previous-route
-    // or possibly test for list template's render status? is that accessible?
-    // alt set some sort of Noted.listIsRendered global but that's crazy gross
-
-    Noted.windowRenderHelper(this, notesController);
+    Noted.renderWindow(this, notesController);
     this.render('note', {
       controller: noteController,
       into: 'app_window',
