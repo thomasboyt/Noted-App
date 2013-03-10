@@ -24,7 +24,8 @@ Noted.NotesController = Ember.ArrayController.extend({
     });
 
     note.set("masterNode", Noted.ListItem.createRecord({
-      text: "~~master node~~"
+      text: "~~master node~~",
+      depth: -1
     }));
 
     // add a single default list entry to the note

@@ -29,24 +29,34 @@ Noted.NoteController = Ember.ObjectController.extend({
       isEditing: true,
       parent: parent
     });
-    console.log(parent);
 
     Noted.store.commit();
   },
 
   indent: function(item, prevIndex) {
     item.set("indentionLevel", item.get("indentionLevel") + 1);
-    
-    // ewwww, re: indexOf
-    var newParent = this._findLastSibling(item, this.get("sortedItems").indexOf(item));
-
-    item.set("parent", newParent);
+    var newParent = this._findLastSibling(item);
+    if (newParent)
+      item.set("parent", newParent);
   },
 
   unindent: function(item, prevIndex) {
     item.set("indentionLevel", item.get("indentionLevel") - 1);
     var newParent = item.get("parent.parent");
-    item.set("parent", newParent);
+    if (newParent) {
+      item.set("parent", newParent);
+      var lastSiblingChildren = this._findLastSibling(item).get("children");
+      var newChildren = lastSiblingChildren.filter(function(child) {
+        return child.get("order") > item.get("order");
+      });
+      newChildren.forEach(function(child) {
+        child.set("parent", item);
+      });
+    }
+  },
+
+  // indent without pulling children along
+  indentOnly: function(item) {
   },
       
   insertClipboardAt: function(index) {
@@ -91,9 +101,9 @@ Noted.NoteController = Ember.ObjectController.extend({
     });
   },
 
-  _findLastSibling: function(item, idx) {
+  _findLastSibling: function(item) {
+    var idx = this.get("sortedItems").indexOf(item);
     var siblings = item.get("parent.children");
-    
     // sort siblings by order
     // todo: keep this on the model as a computed property?
     // alternatively sort without creating a whole damn array controller 
@@ -104,13 +114,13 @@ Noted.NoteController = Ember.ObjectController.extend({
       sortAscending: true
     });
 
-    console.log(siblings.get("content"));
-    console.log(sortedSiblings.objectAt(0));
-
     var closest = sortedSiblings.filter(function(item) {
       return item.get("order") < idx;
     }).get("lastObject");
 
     return closest;
-  }
+  },
+
+  //_findNewChildren: function(item, idx) {
+  //  var siblings = item.get("
 });
