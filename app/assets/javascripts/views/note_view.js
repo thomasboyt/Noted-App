@@ -59,6 +59,14 @@ Noted.NoteView = Ember.View.extend({
         this.get("controller").indentOnly(this.get("active"));
       }
     },
+    'indentGroup': {
+      keys: {
+        hasSelected: ['shift+l'],
+      },
+      fn: function() {
+        this.get("controller").indentPull(this.get("active"));
+      }
+    },
     'unindent': {
       keys: {
         hasSelected: ['shift+tab', 'cmd+[', 'h'],
