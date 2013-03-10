@@ -56,8 +56,7 @@ Noted.NoteView = Ember.View.extend({
         isEditing: ['tab', 'cmd+]']
       },
       fn: function() {
-        this.get("controller").indent(this.get("active"), 
-                                      this.get("_activeIndex"));
+        this.get("controller").indentOnly(this.get("active"));
       }
     },
     'unindent': {
@@ -66,8 +65,7 @@ Noted.NoteView = Ember.View.extend({
         isEditing: ['shift+tab', 'cmd+[']
       },
       fn: function() {
-        this.get("controller").unindent(this.get("active"), 
-                                        this.get("_activeIndex"));
+        this.get("controller").unindent(this.get("active"));
       }
     },
     'scrollUp': {

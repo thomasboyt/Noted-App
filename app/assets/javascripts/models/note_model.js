@@ -38,7 +38,7 @@ Noted.Note = DS.Model.extend({
 
     this.get("sortedItems").forEach(function (item) {
       // spacing based on the item's indentation
-      for (var i=0; i < item.get("indentionLevel"); i++) {
+      for (var i=0; i < item.get("depth"); i++) {
         noteString += "    ";
       }
       noteString += "* " + item.get("text") + "\n";
@@ -47,6 +47,10 @@ Noted.Note = DS.Model.extend({
     return noteString;
   },
 
+  // TODO: FIX THIS
+  // Don't really need to be *that* smart to compute parent/children...
+  // ...more worried about how to hold references to previous created
+  // notes, etc.
   parseFromTxt: function(text) {
     var lines = text.split("\n");
     this.set("title", lines[0]);
@@ -62,7 +66,6 @@ Noted.Note = DS.Model.extend({
         var order = i - 3;
 
         Noted.ListItem.createRecord({
-          indentionLevel: indent,
           order: order,
           text: text,
           note: this

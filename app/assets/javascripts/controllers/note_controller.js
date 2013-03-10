@@ -33,15 +33,25 @@ Noted.NoteController = Ember.ObjectController.extend({
     Noted.store.commit();
   },
 
-  indent: function(item, prevIndex) {
-    item.set("indentionLevel", item.get("indentionLevel") + 1);
+  // indent and pull children along
+  indentPull: function(item, prevIndex) {
     var newParent = this._findLastSibling(item);
     if (newParent)
       item.set("parent", newParent);
   },
 
+  // indent without pulling children along
+  indentOnly: function(item) {
+    var newParent = this._findLastSibling(item);
+    if (newParent) {
+      item.set("parent", newParent);
+      item.get("children").forEach(function(child) {
+        child.set("parent", newParent);
+      });
+    }
+  },
+
   unindent: function(item, prevIndex) {
-    item.set("indentionLevel", item.get("indentionLevel") - 1);
     var newParent = item.get("parent.parent");
     if (newParent) {
       item.set("parent", newParent);
@@ -53,10 +63,6 @@ Noted.NoteController = Ember.ObjectController.extend({
         child.set("parent", item);
       });
     }
-  },
-
-  // indent without pulling children along
-  indentOnly: function(item) {
   },
       
   insertClipboardAt: function(index) {
@@ -71,7 +77,7 @@ Noted.NoteController = Ember.ObjectController.extend({
   },
 
   deleteItem: function(item) {
-    var index = this.get("sortedItems").indexOf(item);
+    var index = item.get("order");
     item.deleteRecord();
     this._shiftItemsAt(index, -1);
     Noted.store.commit();
@@ -79,9 +85,7 @@ Noted.NoteController = Ember.ObjectController.extend({
 
   deleteItemAt: function(index) {
     this.get("sortedItems").objectAt(index).deleteRecord();
-
     this._shiftItemsAt(index, -1);
-
     Noted.store.commit();
   },
 
@@ -102,8 +106,9 @@ Noted.NoteController = Ember.ObjectController.extend({
   },
 
   _findLastSibling: function(item) {
-    var idx = this.get("sortedItems").indexOf(item);
+    var idx = item.get("order"); 
     var siblings = item.get("parent.children");
+
     // sort siblings by order
     // todo: keep this on the model as a computed property?
     // alternatively sort without creating a whole damn array controller 
@@ -121,6 +126,4 @@ Noted.NoteController = Ember.ObjectController.extend({
     return closest;
   },
 
-  //_findNewChildren: function(item, idx) {
-  //  var siblings = item.get("
 });

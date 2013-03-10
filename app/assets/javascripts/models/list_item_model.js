@@ -71,23 +71,21 @@ Noted.ListItem = DS.Model.extend({
   }.property('parent'),
 
   // methods
-  changeIndentBy: function(add) {
-    var newIndent = this.get("indentionLevel") + add;
-    
-    if (newIndent > -1)
-      this.set("indentionLevel", newIndent);
-    Noted.store.commit();
-  },
-
   resetState: function() {
     this.set("isEditing", false);
     this.set("isActive", false);
     this.set("isSelected", false);
   },
 
-  didLoad: function() {
-    // "initialize" the children array
-    // this.get("children").objectAt(0);
+  deleteRecord: function() {
+    // remove association from parent
+    this.get("parent.children").removeObject(this);
+
+    this.get("children").forEach(function (child) {
+      child.set("parent", this.get("parent"));
+    }.bind(this));
+
     this._super();
   }
+
 });
