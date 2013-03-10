@@ -36,26 +36,19 @@ Noted.NoteController = Ember.ObjectController.extend({
 
   indent: function(item, prevIndex) {
     item.set("indentionLevel", item.get("indentionLevel") + 1);
-    var prevItem = this.get("sortedItems").objectAt(prevIndex);
-    var prevIdentation = prevItem.get("indentionLevel");
-
-    //this._lookupNewParent
-    // to find new parent: first figure out where we're trying to go
-    // to the left: find parent's parent
-    // to the right: find last sibling, set as parent
-    // assume to the right for now
     
-    // ewwww
-    var sib = this._findLastSibling(item, this.get("sortedItems").indexOf(item));
-    console.log(sib);
-    // if (prevIndentation < item.get("indentionLevel")
-    //     item.set("parent", prevItem);
-    // else 
-    //     item.set("parent", item.get("parent.parent");
-    // else if (prevIndentation > item.get("indentationLevel")
-    //     item.set("parent", item.get("parent.parent");
+    // ewwww, re: indexOf
+    var newParent = this._findLastSibling(item, this.get("sortedItems").indexOf(item));
+
+    item.set("parent", newParent);
   },
 
+  unindent: function(item, prevIndex) {
+    item.set("indentionLevel", item.get("indentionLevel") - 1);
+    var newParent = item.get("parent.parent");
+    item.set("parent", newParent);
+  },
+      
   insertClipboardAt: function(index) {
     var props = this.get("clipboardProps");
     if (props) {

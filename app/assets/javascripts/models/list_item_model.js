@@ -28,8 +28,13 @@ Noted.ListItem = DS.Model.extend({
 
   parent: function(key, newParent) {
     if (arguments.length > 1) {
+      console.log("setting parent");
+      if (this.get("_parent")) {
+        this.get("_parent.children").removeObject(this);
+      }
       this.set("_parent", newParent);
       this.get("_parent.children").pushObject(this);
+      console.log(this.get("_parent.text"));
     }
     return this.get("_parent");
   }.property("parent"), 
