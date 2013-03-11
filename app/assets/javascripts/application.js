@@ -16,7 +16,6 @@
 //= require rsvp
 //= require localstorage_adapter
 //= require lib/dropbox
-//= require fixture
 //= require_self
 //= require noted
 //= require_tree .
