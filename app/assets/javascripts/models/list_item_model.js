@@ -16,7 +16,6 @@ Noted.ListItem = DS.Model.extend({
 
   // computed properties
   computedIndentionStyle: function() {
-    console.log("called indention style");
     var offset = this.get("depth") * 40;
     return "margin-left: " + offset + "px";
   }.property('depth'),
@@ -38,8 +37,6 @@ Noted.ListItem = DS.Model.extend({
   // }.property('parent'),
 
   updateDepth: function() {
-    console.log('updated depth');
-    console.log(this.get('_parent.depth')+1);
     this.set('depth', this.get("_parent.depth")+1);
   },
 
@@ -52,15 +49,12 @@ Noted.ListItem = DS.Model.extend({
   }.property('text'),
 
   parent: function(key, newParent) {
-    console.log(newParent);
     if (arguments.length > 1) {
-      console.log("setting parent");
       if (this.get("_parent")) {
         this.get("_parent.children").removeObject(this);
       }
       this.set("_parent", newParent);
       this.get("_parent.children").pushObject(this);
-      console.log(this.get("_parent.text"));
 
       this.updateDepth();
       this.get("children").forEach(function (child) {

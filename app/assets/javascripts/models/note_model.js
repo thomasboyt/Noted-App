@@ -53,22 +53,46 @@ Noted.Note = DS.Model.extend({
   // notes, etc.
   parseFromTxt: function(text) {
     var lines = text.split("\n");
-    this.set("title", lines[0]);
-    this.set("created_date", new Date(Date.parse(lines[1])));
+
+    this.set("title", lines[0])
+    this.set("created_date", new Date(Date.parse(lines[1])))
+
+    this.set("masterNode", Noted.ListItem.createRecord({
+      text: "~~master node~~",
+      depth: -1
+    }));
+    
+    var lastNode = this.get("masterNode");
 
     for (var i=3; i<lines.length; i++) {
       var line = lines[i];
 
       var asteriskIndex = line.indexOf("*");
       if (asteriskIndex > -1) {
-        var indent = (asteriskIndex / 4);
+        var depth = (asteriskIndex / 4);
+
+        var parent;
+        if (depth > lastNode.get("depth"))
+          parent = lastNode;  // assume it only increases by one at a time
+        else if (depth == lastNode.get("depth"))
+          parent = lastNode.get("parent");
+        else {
+          var diff = lastNode.get("depth") - depth;
+          parent = lastNode.get("parent");
+          for (var j = 0; j < diff; j++) {
+            parent = parent.get("parent");    // this is just goofy as hell
+          }
+        }
+
         var text = line.slice(asteriskIndex+2);
         var order = i - 3;
 
-        Noted.ListItem.createRecord({
+        lastNode = Noted.ListItem.createRecord({
           order: order,
           text: text,
-          note: this
+          depth: depth,
+          parent: parent,
+          note: this,
         });
       }
     }
