@@ -21,7 +21,12 @@ Noted.ListItem = DS.Model.extend({
   }.property('depth'),
 
   updateDepth: function() {
+    console.log("updating depth of " + this.get("text"));
     this.set('depth', this.get("_parent.depth")+1);
+
+    this.get("children").forEach(function(child) {
+      child.updateDepth();
+    });
   },
 
   // todo: consider some degree of caching for better initial load performance
@@ -39,9 +44,6 @@ Noted.ListItem = DS.Model.extend({
       this.get("_parent.children").pushObject(this);
 
       this.updateDepth();
-      this.get("children").forEach(function (child) {
-        child.updateDepth();
-      });
     }
     return this.get("_parent");
   }.property('parent'),
