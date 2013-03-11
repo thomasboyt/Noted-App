@@ -35,13 +35,9 @@ Noted.NoteController = Ember.ObjectController.extend({
     props.order = index;
     var item = Noted.ListItem.createRecord(props);
 
-    // handle inserting between parent and child: steal children
+    // handle inserting between parent and child
     if (item.get("depth") == previous.get("depth")) {
-      for (var i = previous.get("children.length") - 1; i > -1; i--) {
-        // still the dumbest pattern. necessary since setting parent will
-        // remove it from the children array. isn't mutability grand?
-        previous.get("children").objectAt(i).set("parent", item);
-      };
+      previous.stealChildren(item);
     }
   },
 
@@ -59,13 +55,7 @@ Noted.NoteController = Ember.ObjectController.extend({
     var newParent = this._findLastSibling(item);
     if (newParent) {
       item.set("parent", newParent);
-      
-      for (var i = item.get("children.length") - 1; i > -1; i--) {
-        // still the dumbest pattern. necessary since setting parent will
-        // remove it from the children array. isn't mutability grand?
-        item.get("children").objectAt(i).set("parent", newParent);
-      };
-
+      item.stealChildren(newParent);
       Noted.store.commit();
     }
   },

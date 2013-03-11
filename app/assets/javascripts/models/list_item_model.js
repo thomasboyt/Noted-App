@@ -20,27 +20,9 @@ Noted.ListItem = DS.Model.extend({
     return "margin-left: " + offset + "px";
   }.property('depth'),
 
-  // todo: cache current depth somehow, and only call this when
-  // parent has actually changed. maybe just call a parentChanged()
-  // from parent's setter?
-  // ofc, once this is cache'd, all you need to do is parent.depth+1...
-  // depth: function() {
-  //   var depthFinder = function(parent, inc) {
-  //     if (!inc) var inc = 0;
-  //     var next = parent.get("parent");
-  //     if (next)
-  //       return depthFinder(next, inc+1);
-  //     else
-  //       return inc;
-  //   }
-  //   return depthFinder(this);
-  // }.property('parent'),
-
   updateDepth: function() {
     this.set('depth', this.get("_parent.depth")+1);
   },
-
-  // only works for the changing item, not children of it!
 
   // todo: consider some degree of caching for better initial load performance
   markedText: function() {
@@ -64,6 +46,14 @@ Noted.ListItem = DS.Model.extend({
     return this.get("_parent");
   }.property('parent'),
 
+  stealChildren: function(newParent) {
+    for (var i = this.get("children.length") - 1; i > -1; i--) {
+      // still the dumbest pattern. necessary since setting parent will
+      // remove it from the children array. isn't mutability grand?
+      this.get("children").objectAt(i).set("parent", newParent);
+    };
+  },
+
   // methods
   resetState: function() {
     this.set("isEditing", false);
@@ -75,11 +65,7 @@ Noted.ListItem = DS.Model.extend({
     // remove association from parent
     this.get("parent.children").removeObject(this);
 
-    for (var i = this.get("children.length") - 1; i > -1; i--) {
-      // still the dumbest pattern. necessary since setting parent will
-      // remove it from the children array. isn't mutability grand?
-      this.get("children").objectAt(i).set("parent", this.get("parent"));
-    };
+    this.stealChildren(this.get("parent"));
 
     this._super();
   }
