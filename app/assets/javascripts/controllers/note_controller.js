@@ -16,11 +16,8 @@ Noted.NoteController = Ember.ObjectController.extend({
   }.property("_clipboardProps"),
 
   insertItemAt: function(index, indent) {
-
     this._shiftItemsAt(index, 1);
-
     var parent = this.get("sortedItems").objectAt(index-1).get("parent");
-
     var item = Noted.ListItem.createRecord({
       text: "",
       order: index,
@@ -45,9 +42,12 @@ Noted.NoteController = Ember.ObjectController.extend({
     var newParent = this._findLastSibling(item);
     if (newParent) {
       item.set("parent", newParent);
-      item.get("children").forEach(function(child) {
-        child.set("parent", newParent);
-      });
+      
+      for (var i = item.get("children.length") - 1; i > -1; i--) {
+        // still the dumbest pattern. necessary since setting parent will
+        // remove it from the children array. isn't mutability grand?
+        item.get("children").objectAt(i).set("parent", newParent);
+      };
     }
   },
 
@@ -60,6 +60,7 @@ Noted.NoteController = Ember.ObjectController.extend({
         return child.get("order") > item.get("order");
       });
       newChildren.forEach(function(child) {
+        console.log("new child " + child.get("text"));
         child.set("parent", item);
       });
     }
