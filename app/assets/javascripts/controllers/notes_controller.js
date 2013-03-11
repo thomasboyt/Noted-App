@@ -32,7 +32,7 @@ Noted.NotesController = Ember.ArrayController.extend({
     note.get("listItems").addObject(Noted.ListItem.createRecord({
       text: "Edit me!",
       order: 0,
-      indentionLevel: 0,
+      depth: 0,
       parent: note.get("masterNode")
     }));
 

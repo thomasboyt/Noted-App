@@ -8,33 +8,50 @@ Noted.NoteController = Ember.ObjectController.extend({
   clipboardProps: function (key, value) {
     if (arguments.length > 1) {
       if (value instanceof Noted.ListItem) {
-        value = value.getProperties("text", "indentionLevel", "note");
+        value = value.getProperties("text", "depth", "note");
       }
       this.set("_clipboardProps", value);
     }
     return this.get("_clipboardProps");
   }.property("_clipboardProps"),
 
-  insertItemAt: function(index, indent) {
-    this._shiftItemsAt(index, 1);
-    var parent = this.get("sortedItems").objectAt(index-1).get("parent");
-    var item = Noted.ListItem.createRecord({
+  insertItemAt: function(index) {
+    var props = {
       text: "",
-      order: index,
-      indentionLevel: indent,
       note: this.content,
       isEditing: true,
-      parent: parent
-    });
+    };
+
+    this._insertItem(index, props);
 
     Noted.store.commit();
+  },
+
+  _insertItem: function(index, props) {
+    this._shiftItemsAt(index, 1);
+    var previous = this.get("sortedItems").objectAt(index-1);
+    var parent = previous.get("parent");
+    props.parent = parent;
+    props.order = index;
+    var item = Noted.ListItem.createRecord(props);
+
+    // handle inserting between parent and child: steal children
+    if (item.get("depth") == previous.get("depth")) {
+      for (var i = previous.get("children.length") - 1; i > -1; i--) {
+        // still the dumbest pattern. necessary since setting parent will
+        // remove it from the children array. isn't mutability grand?
+        previous.get("children").objectAt(i).set("parent", item);
+      };
+    }
   },
 
   // indent and pull children along
   indentPull: function(item, prevIndex) {
     var newParent = this._findLastSibling(item);
-    if (newParent)
+    if (newParent) {
       item.set("parent", newParent);
+      Noted.store.commit();
+    }
   },
 
   // indent without pulling children along
@@ -48,6 +65,8 @@ Noted.NoteController = Ember.ObjectController.extend({
         // remove it from the children array. isn't mutability grand?
         item.get("children").objectAt(i).set("parent", newParent);
       };
+
+      Noted.store.commit();
     }
   },
 
@@ -60,9 +79,10 @@ Noted.NoteController = Ember.ObjectController.extend({
         return child.get("order") > item.get("order");
       });
       newChildren.forEach(function(child) {
-        console.log("new child " + child.get("text"));
         child.set("parent", item);
       });
+
+      Noted.store.commit();
     }
   },
       
@@ -71,8 +91,8 @@ Noted.NoteController = Ember.ObjectController.extend({
     if (props) {
       this._shiftItemsAt(index, 1);
       // todo: why is $.extend() needed? for some reason props is getting an "id" property set on it, which is insane.
-      var item = Noted.ListItem.createRecord($.extend({}, props));
-      item.set("order", index);
+      props = $.extend({}, props);
+      this._insertItem(index, props);
       Noted.store.commit();
     }
   },

@@ -154,7 +154,7 @@ Noted.NoteView = Ember.View.extend({
         hasSelected: ['enter', 'o']
       },
       fn: function() {
-        this.get("controller").insertItemAt(this.get("active").get("order")+1, this.get("active.indentionLevel"));
+        this.get("controller").insertItemAt(this.get("active").get("order")+1);
         this._changeActiveByOffset(1);
       }
     },

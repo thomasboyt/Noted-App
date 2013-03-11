@@ -75,9 +75,11 @@ Noted.ListItem = DS.Model.extend({
     // remove association from parent
     this.get("parent.children").removeObject(this);
 
-    this.get("children").forEach(function (child) {
-      child.set("parent", this.get("parent"));
-    }.bind(this));
+    for (var i = this.get("children.length") - 1; i > -1; i--) {
+      // still the dumbest pattern. necessary since setting parent will
+      // remove it from the children array. isn't mutability grand?
+      this.get("children").objectAt(i).set("parent", this.get("parent"));
+    };
 
     this._super();
   }
