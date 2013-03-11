@@ -12,7 +12,7 @@ group :test, :development do
 end
 
 group :production do
-  gem 'pg'
+  gem 'thin'
 end
 
 
@@ -29,7 +29,6 @@ group :assets do
 end
 
 gem 'jquery-rails'
-
 
 # Ember
 
