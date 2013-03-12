@@ -28,7 +28,7 @@ Noted.ListItem = DS.Model.extend({
       children = children.concat(child.get("recursiveChildren"));
     });
     return children;
-  }.property('children'),
+  }.property('children.@each'),
 
   updateDepth: function() {
     this.set('depth', this.get("_parent.depth")+1);
