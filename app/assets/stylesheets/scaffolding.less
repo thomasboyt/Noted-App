@@ -142,13 +142,23 @@ header {
             line-height:24px;
             padding:0;
             vertical-align:top;
-            list-style-position:inside;
+            list-style-type:none;
 
             span {
               display:block;
+              position:relative;
               padding-left:1px;
               padding-top:1px;
               padding-bottom:1px;
+              padding-left:20px;
+
+              &:before {
+                position:absolute;
+                content: "•";
+                width:24px;
+                height:24px;
+                left:0;
+              }
             }
 
             textarea {
