@@ -93,7 +93,7 @@ Noted.NoteController = Ember.ObjectController.extend({
     var index = item.get("order");
     var count = item.deleteRecord(recursive);
     this._shiftItemsAt(index, -count);
-    //Noted.store.commit();
+    Noted.store.commit();
   },
 
   // so I should probably figure out exactly how this works at some point
