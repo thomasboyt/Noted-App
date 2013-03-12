@@ -18,7 +18,7 @@ Noted.ListItem = DS.Model.extend({
   // computed properties
   computedIndentionStyle: function() {
     var offset = this.get("depth") * 40;
-    return "margin-left: " + offset + "px";
+    return "padding-left: " + offset + "px";
   }.property('depth'),
 
   recursiveChildren: function() {
