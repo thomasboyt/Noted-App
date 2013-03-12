@@ -1,6 +1,8 @@
 Noted::Application.routes.draw do
 
-  if Rails.env.production?
+  # rake assets:precompile (among other tasks) get hella broken here if 
+  # application.js/css don't exist yet
+  if not $PROGRAM_NAME.ends_with? 'rake'
     offline = Rack::Offline.configure :cache_interval => 120 do   
       cache ActionController::Base.helpers.asset_path("application.js")
       cache ActionController::Base.helpers.asset_path("application.css")
