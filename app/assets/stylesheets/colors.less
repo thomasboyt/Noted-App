@@ -1,14 +1,15 @@
 // Colors.less
 // Defines the various colors used throughout Noted
 
-@highlighterYellow: #eeee00;
+@activeColor: #eeee00;
+@highlightedColor: lighten(desaturate(@activeColor, 30%), 20%); 
 
 @notedBackground: #212133;
 
 @controlsGradientTop: rgb(228,228,228);
 @controlsGradientBottom: rgb(175,175,175);
 
-@headerLink: @highlighterYellow;
+@headerLink: @activeColor;
 @headerText: #ffffff;
 
 @windowBackground: #f3f3f3;

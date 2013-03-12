@@ -115,13 +115,17 @@ header {
       outline:none !important;
 
       div.placeholder {
-        background-color:@highlighterYellow;
+        background-color:@activeColor;
       }
     }
 
     li {
       &.is-active, &.is-editing {
-        background-color:@highlighterYellow;
+        background-color:@activeColor;
+      }
+
+      &.is-highlighted {
+        background-color:@highlightedColor;
       }
 
       textarea {

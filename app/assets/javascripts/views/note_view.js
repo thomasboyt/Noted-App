@@ -61,7 +61,7 @@ Noted.NoteView = Ember.View.extend({
     },
     'indentGroup': {
       keys: {
-        hasSelected: ['shift+l'],
+        hasSelected: ['shift+l', 'shift+period'], 
       },
       fn: function() {
         this.get("controller").indentPull(this.get("active"));
@@ -69,7 +69,7 @@ Noted.NoteView = Ember.View.extend({
     },
     'unindent': {
       keys: {
-        hasSelected: ['shift+tab', 'cmd+[', 'h'],
+        hasSelected: ['shift+tab', 'cmd+[', 'h', 'shift+h', 'shift+comma'],
         isEditing: ['shift+tab', 'cmd+[']
       },
       fn: function() {
@@ -172,6 +172,19 @@ Noted.NoteView = Ember.View.extend({
   },
 
   keyDown: function(e) {
+
+    // jwerty can't handle modifiers on their lonesome
+
+    // highlight items on shift:
+    if (e.keyCode == 16) {
+      e.preventDefault();
+      this.highlightActiveChildren(true);
+      this.$().one('keyup', function(e) {
+        this.highlightActiveChildren(false);
+      }.bind(this));
+      return;
+    }
+
     for (var key in this.keyBindings) {
       var binding = this.keyBindings[key];
 
@@ -189,7 +202,6 @@ Noted.NoteView = Ember.View.extend({
       if (bindings) bindings = bindings.join("/");
       if (jwerty.is(bindings, e)) {
         e.preventDefault();
-
         binding.fn.bind(this)();
         break;
       }
@@ -227,7 +239,14 @@ Noted.NoteView = Ember.View.extend({
     else if (newIndex >= this.get("controller.sortedItems.length")) {
       this.set("active", this.get("controller.sortedItems.lastObject"));
     }
-  }
+  },
+
+  highlightActiveChildren: function(isHighlighted) {
+    if (isHighlighted)
+      this.get("active.recursiveChildren").setEach("isHighlighted", true);
+    else
+      this.get("active.recursiveChildren").setEach("isHighlighted", false);
+  } 
 });
 
 

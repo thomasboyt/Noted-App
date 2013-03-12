@@ -13,6 +13,7 @@ Noted.ListItem = DS.Model.extend({
   isActive: false,     // currently highlighted (cursor is on)
   isSelected: false,   // multiple selections
   isCanceling: false,  // for the esc key - workaround for focusout's inflexibility
+  isHighlighted: false,
 
   // computed properties
   computedIndentionStyle: function() {
@@ -20,8 +21,16 @@ Noted.ListItem = DS.Model.extend({
     return "margin-left: " + offset + "px";
   }.property('depth'),
 
+  recursiveChildren: function() {
+    var children = [];
+    this.get("children").forEach(function (child) {
+      children.push(child);
+      children = children.concat(child.get("recursiveChildren"));
+    });
+    return children;
+  }.property('children'),
+
   updateDepth: function() {
-    console.log("updating depth of " + this.get("text"));
     this.set('depth', this.get("_parent.depth")+1);
 
     this.get("children").forEach(function(child) {
@@ -66,10 +75,7 @@ Noted.ListItem = DS.Model.extend({
   deleteRecord: function() {
     // remove association from parent
     this.get("parent.children").removeObject(this);
-
     this.stealChildren(this.get("parent"));
-
     this._super();
   }
-
 });
