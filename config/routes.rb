@@ -2,7 +2,7 @@ Noted::Application.routes.draw do
 
   # rake assets:precompile (among other tasks) get hella broken here if 
   # application.js/css don't exist yet
-  if not $PROGRAM_NAME.ends_with? 'rake'
+  begin
     offline = Rack::Offline.configure :cache_interval => 120 do   
       cache ActionController::Base.helpers.asset_path("application.js")
       cache ActionController::Base.helpers.asset_path("application.css")
@@ -15,6 +15,8 @@ Noted::Application.routes.draw do
       network "*"  
     end
     match "/application.appcache" => offline  
+  rescue
+    puts "skipped configuring offline cache"
   end
 
   root :to => 'assets#index'

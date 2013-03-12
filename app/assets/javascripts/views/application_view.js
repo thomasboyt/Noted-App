@@ -18,6 +18,11 @@ Noted.ApplicationView = Ember.View.extend({
           localStorage.setItem("shouldFullscreen", "true");
       }
     })
+
+    window.applicationCache.onupdateready = function(e) {
+      $("#update-modal").modal();
+    };
+
   },
 
   didInsertElement: function() {
@@ -25,5 +30,10 @@ Noted.ApplicationView = Ember.View.extend({
       e.preventDefault();
       $("#shortcuts-modal").modal();
     })
+
+    $("#update-confirm").click(function(e) {
+      window.applicationCache.swapCache();
+      window.location.reload();
+    });
   }
 });
