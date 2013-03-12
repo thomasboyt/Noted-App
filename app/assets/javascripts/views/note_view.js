@@ -281,6 +281,8 @@ Noted.TitleView = Ember.TextField.extend({
     // override default tab behavior
     if (jwerty.is('tab/enter', e)) {
       this.set("parentView.active", this.get("controller.sortedItems").objectAt(0));
+      if (jwerty.is('enter', e))
+        $('.note-item-list').focusWithoutScrolling($(".scroller"));
     }
     this._super();
   }
