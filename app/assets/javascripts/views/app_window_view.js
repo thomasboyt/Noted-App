@@ -3,9 +3,10 @@ Noted.AppWindowView = Ember.View.extend({
 
   init: function() {
     var shouldFullscreen = localStorage.getItem("shouldFullscreen");
-    if (shouldFullscreen == "true") {
-      this.classNames.push("full-screen");
-    }
+    if (shouldFullscreen == "true")
+      this.get("classNames").pushObject("full-screen");
+    else 
+      this.get("classNames").removeObject("full-screen");
     this._super();
   }
 });
