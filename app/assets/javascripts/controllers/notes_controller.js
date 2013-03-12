@@ -45,10 +45,7 @@ Noted.NotesController = Ember.ArrayController.extend({
   deleteNote: function() {
     var willDelete = window.confirm("Are you sure you want to delete this note?");
     if (willDelete) {
-
-      // forEach breaks on deleteRecord (think about it: array gets smaller as it iterates) so we do it a somewhat old-fashioned way
       this.get("selected").deleteItems();
-
       this.get("selected").deleteRecord();
       this.set("selected", undefined);
       Noted.store.commit();

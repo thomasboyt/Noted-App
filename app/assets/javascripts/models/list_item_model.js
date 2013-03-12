@@ -72,10 +72,26 @@ Noted.ListItem = DS.Model.extend({
     this.set("isSelected", false);
   },
 
-  deleteRecord: function() {
-    // remove association from parent
+  deleteRecord: function(deleteChildren) {
+    // count is used to determine how many items to "shift" the list by
+    // some day, i will want to delete non-contiguous blocks, and be totally
+    // fucked. until then, this is fine. hurray coding
+    
+    var count = 1;
+
+    if (arguments.length == 0) deleteChildren = false;
+
     this.get("parent.children").removeObject(this);
-    this.stealChildren(this.get("parent"));
+    if (deleteChildren === true) {
+      for (var i = this.get("children.length") -1; i > -1; i--) {
+        count += this.get("children").objectAt(i).deleteRecord(true);
+      };
+    }
+    else
+      this.stealChildren(this.get("parent"));
+    
     this._super();
+
+    return count;
   }
 });

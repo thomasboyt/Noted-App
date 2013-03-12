@@ -35,10 +35,7 @@ Noted.NoteView = Ember.View.extend({
       // so, normally, any element inside this.$() (i.e. the view div) would not trigger clickoutside. the problem is, if you have an editing item view and then click on another (or the same) list item to get out of it, the editing list view is updated before the handler is reached. because of this, e.target.parents() totally breaks (since the DOM's been updated and e.target no longer is attached!).
       // terribly lazy workaround: if it's an input or an li with class 'entry-item', we know it's inside. seems to be the only major cause of this issue. may change with circumstances.
 
-      if ($(e.target).parent().hasClass("entry-item") || $(e.target).hasClass('entry-item')) {
-        return; // no-op
-      }
-      else {
+      if (!($(e.target).parent().hasClass("entry-item") || $(e.target).hasClass('entry-item'))) {
         this.set("active", undefined);
       }
 
@@ -49,6 +46,9 @@ Noted.NoteView = Ember.View.extend({
     this.$("ul").unbind('clickoutside');
   },
 
+  // I'm a little bothered by how giant this object came out, but it's still
+  // better than an if/else tree, dammit. Plus, more flexible with my weird
+  // pseudo-states.
   keyBindings: {
     'indent': {
       keys: {
@@ -125,10 +125,11 @@ Noted.NoteView = Ember.View.extend({
       },
       fn: function() {
         this.set("controller.clipboardProps", this.get("active"));
-        this.get("controller").deleteItemAt(this._activeIndex);
+        this.get("controller").deleteItem(this.get("active"), false);
         this._changeActiveByOffset(0);
       }
     },
+
     'copy': {
       keys: {
         hasSelected: ['c']
@@ -146,6 +147,26 @@ Noted.NoteView = Ember.View.extend({
           this.get("controller").insertClipboardAt(this.get("active").get("order") +1);
           this._changeActiveByOffset(1);
         }
+      }
+    },
+
+    "blockDelete": {
+      keys: {
+        hasSelected: ['shift+delete', 'shift+d', 'shift+x', 'shift+backspace']
+      },
+      fn: function() {
+        // delete all, copy to clipboard...
+        this.get("controller").deleteItem(this.get("active"), true);
+        this._changeActiveByOffset(0);
+      }
+    },
+
+    "blockCopy": {
+      keys: {
+        hasSelected: ['shift+c']
+      },
+      fn: function() {
+        // ...
       }
     },
 
