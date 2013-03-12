@@ -123,7 +123,13 @@ Noted.ItemTextArea = Ember.TextArea.extend({
 
   keyDown: function() {
     this._super();
-    this.resize();
+
+    // wait for letter to be inserted before measuring resize
+    setTimeout(function () {
+      // checks to make sure the element still exists - i.e. ignore esc/enter
+      if (this.$())
+        this.resize();
+    }.bind(this), 0)
   },
 
   resize: function() {
