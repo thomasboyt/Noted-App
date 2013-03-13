@@ -79,7 +79,6 @@ Noted.NoteController = Ember.ObjectController.extend({
   insertClipboardAt: function(index) {
     var props = this.get("clipboardProps");
     if (props) {
-      this._shiftItemsAt(index, 1);
       // todo: why is $.extend() needed? for some reason props is getting an "id" property set on it, which is insane.
       props = $.extend({}, props);
       this._insertItem(index, props);
