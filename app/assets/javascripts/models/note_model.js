@@ -1,16 +1,17 @@
 Noted.Note = DS.Model.extend({
   title: DS.attr('string'),
   created_date: DS.attr('date'),
+  masterNodeId: DS.attr('string'),
 
   listItems: DS.hasMany('Noted.ListItem'),
 
   // we just store masterNode's ID for later retrieval
   masterNode: function(key, val) {
     if (arguments.length > 1) {
-      this.set("_masterNodeId", val.get("id"));
+      this.set("masterNodeId", val.get("id"));
     }
-    return Noted.ListItem.find(this.get("_masterNodeId"));
-  }.property("masterNode"),
+    return Noted.ListItem.find(this.get("masterNodeId"));
+  }.property(),
 
   sortedItems: (function() {
     return Ember.ArrayProxy.createWithMixins(Ember.SortableMixin, {
