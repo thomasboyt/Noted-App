@@ -92,6 +92,16 @@ Noted.NoteController = Ember.ObjectController.extend({
     var index = item.get("order");
     var count = item.deleteRecord(recursive);
     this._shiftItemsAt(index, -count);
+
+    if (this.get("listItems.length") == 0) {
+      this.get("listItems").addObject(Noted.ListItem.createRecord({
+        text: "Edit me!",
+        order: 0,
+        depth: 0,
+        parent: this.get("masterNode")
+      }));
+    }
+
     Noted.store.commit();
   },
 
