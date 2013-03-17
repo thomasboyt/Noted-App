@@ -42,7 +42,7 @@ Noted.ItemView = Ember.View.extend({
 
   focusOut: function(e) {
     if (!this.get("listItem.isCanceling")) {
-      var value = this.$("textarea").val();
+      var value = this.get("listItem.text");
       if(/^\s+$/.test(value) || value === "") {
         this.get('controller').deleteItem(this.get('listItem'));
         this.get("parentView")._changeActiveByOffset(-1);
@@ -54,6 +54,10 @@ Noted.ItemView = Ember.View.extend({
       Noted.store.commit();
     }
     else {
+      if (this.get("oldValue") === "") { 
+        this.get('controller').deleteItem(this.get('listItem'));
+        this.get("parentView")._changeActiveByOffset(-1);
+      };
       this.set("listItem.isEditing", false);
       this.set("listItem.isCanceling", false);
     }
@@ -110,6 +114,7 @@ Noted.ItemTextArea = Ember.TextArea.extend({
     }.bind(this));
 
     this.old = this.$().val();
+    this.set("parentView.oldValue", this.old);
   },
 
   willDestroyElement: function() {
