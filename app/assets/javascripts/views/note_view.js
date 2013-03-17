@@ -193,9 +193,16 @@ Noted.NoteView = Ember.View.extend({
   },
 
   keyDown: function(e) {
-
-    // jwerty can't handle modifiers on their lonesome
-
+    var state;
+    if (this.get("active")) {
+      if (this.get("active.isEditing") === true) {
+        e.stopPropagation();  // keeps ? from bubbling up, etc
+        state = "isEditing";
+      }
+      else state = "hasSelected";
+    }
+    else state = "noItems";
+    
     // highlight items on shift:
     if (e.keyCode == 16) {
       e.preventDefault();
@@ -208,16 +215,6 @@ Noted.NoteView = Ember.View.extend({
 
     for (var key in this.keyBindings) {
       var binding = this.keyBindings[key];
-
-      var state;
-      if (this.get("active")) {
-        if (this.get("active.isEditing") === true) {
-          e.stopPropagation();  // keeps ? from bubbling up, etc
-          state = "isEditing";
-        }
-        else state = "hasSelected";
-      }
-      else state = "noItems";
 
       var bindings = binding.keys[state];
       if (bindings) bindings = bindings.join("/");

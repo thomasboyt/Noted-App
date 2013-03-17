@@ -5,6 +5,9 @@ Noted.ItemView = Ember.View.extend({
     if (this.listItem.get("isEditing") === true) {
       this._toEditingView();
     }
+    if (this.get("listItem.isActive")) {
+      this._updateScrollPosition();
+    }
   },
 
   editingObserver: function() {
