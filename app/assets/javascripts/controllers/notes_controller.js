@@ -2,14 +2,15 @@ Noted.NotesController = Ember.ArrayController.extend({
   _selected: undefined,
 
   selected: function(key, note) {
-    if (arguments.length > 1) {
-      if (note===undefined) {
+    if (arguments.length > 1) { 
+      if (this.get("_selected")) {
+        this.get("_selected").set("isSelected", false);
+      }
+
+      if (note==undefined) {
         this.set("_selected", undefined);
       }
       else {
-        if (this.get("_selected")) {
-          this.get("_selected").set("isSelected", false);
-        }
         note.set("isSelected", true);
         this.set("_selected", note);
       }

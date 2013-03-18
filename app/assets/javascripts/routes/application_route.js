@@ -26,13 +26,22 @@ Noted.renderWindow = function(ctx) {
   ctx.render('note_list', {
     controller: notesController,
     into: 'app_window',
-    outlet: 'list'
+    outlet: 'sidebar'
   });
 }
 
 Noted.IndexRoute = Ember.Route.extend({
-  renderTemplate: function() {
+  renderTemplate: function(controller, model) {
     Noted.renderWindow(this);
+
+    if (this.controllerFor('note').get('content')) {
+      this.controllerFor('notes').set('selected', undefined);
+    }
+
+    this.render('static/index', {
+      into: "app_window",
+      outlet: "content"
+    });
   }
 });
 
@@ -54,7 +63,7 @@ Noted.NoteRoute = Noted.IndexRoute.extend({
     this.render('note', {
       controller: noteController,
       into: 'app_window',
-      outlet: 'note'
+      outlet: 'content'
     });
   }
 })
