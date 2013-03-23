@@ -52,7 +52,6 @@ Noted.ListItem = DS.Model.extend({
   // todo: consider some degree of caching for better initial load performance
   markedText: function() {
     if (this.get("text")) {
-      console.log("rendering markedText");
       return marked(this.get("text"));
     }
   }.property('text'),
