@@ -2,7 +2,7 @@
   <li {{bindAttr class=':entry-item isActive isHighlighted'}} {{bindAttr style='computedIndentionStyle'}}>
     {{! Doesn't show the span until text has been loaded }}
     {{#if text}}
-      <span>{{{markedText}}}</span>
+    <span>{{{markedText}}}</span>
     {{/if}}
   </li>
 {{/with}}

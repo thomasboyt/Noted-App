@@ -30,6 +30,17 @@ Noted.ListItem = DS.Model.extend({
     return children;
   }.property('children.@each'),
 
+  deepCopy: function(isChild) {
+    var children = [];
+    this.get("children").forEach(function (child) {
+      var copy = child.getProperties("text", "depth", "note");
+      copy.children = child.deepCopy();
+      children.push(copy);
+    });
+      
+    return children;
+  },
+
   updateDepth: function() {
     this.set('depth', this.get("_parent.depth")+1);
 

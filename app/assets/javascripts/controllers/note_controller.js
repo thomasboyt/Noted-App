@@ -1,11 +1,7 @@
 Noted.NoteController = Ember.ObjectController.extend({
 
-  // masternode is a fake item that is the parent of top-level items. 
-  // it should have the same interface for getting children (array of
-  // uuids)
-  
   // set a listItem model, return a new listItem model with the same properties.
-  clipboardProps: function (key, value) {
+  /*clipboardProps: function (key, value) {
     if (arguments.length > 1) {
       if (value instanceof Noted.ListItem) {
         value = value.getProperties("text", "depth", "note");
@@ -13,7 +9,14 @@ Noted.NoteController = Ember.ObjectController.extend({
       this.set("_clipboardProps", value);
     }
     return this.get("_clipboardProps");
-  }.property("_clipboardProps"),
+  }.property("_clipboardProps"),*/
+
+  copy: function (item, deep) {
+    var copy = item.getProperties("text", "depth", "note");
+    if (deep)
+      copy.children = item.deepCopy();
+    this.set("clipboardProps", copy);
+  },
 
   insertItemAt: function(index) {
     var props = {
@@ -33,12 +36,28 @@ Noted.NoteController = Ember.ObjectController.extend({
     var parent = previous.get("parent");
     props.parent = parent;
     props.order = index;
+
     var item = Noted.ListItem.createRecord(props);
 
-    // handle inserting between parent and child
-    if (item.get("depth") == previous.get("depth")) {
-      previous.stealChildren(item);
+    if (props.children) {
+      props.children.forEach(function(childProps) {
+        index += 1;
+        var res = this._insertItem(index, childProps)
+        var child = res.item;
+        child.set("parent", item);
+        index = res.index;
+        
+      }.bind(this));
     }
+
+    console.log(item.get("children.length"));
+
+    // handle inserting between parent and child
+    //if (item.get("depth") == previous.get("depth")) {
+    //  previous.stealChildren(item);
+    //}
+    
+   return {item: item, index: index};
   },
 
   // indent and pull children along
@@ -78,6 +97,7 @@ Noted.NoteController = Ember.ObjectController.extend({
       
   insertClipboardAt: function(index) {
     var props = this.get("clipboardProps");
+    console.log(props);
     if (props) {
       // todo: why is $.extend() needed? for some reason props is getting an "id" property set on it, which is insane.
       props = $.extend({}, props);
@@ -105,7 +125,6 @@ Noted.NoteController = Ember.ObjectController.extend({
     Noted.store.commit();
   },
 
-  // so I should probably figure out exactly how this works at some point
   sortedItems: (function() {
     return Ember.ArrayProxy.createWithMixins(Ember.SortableMixin, {
       sortProperties: ['order'],

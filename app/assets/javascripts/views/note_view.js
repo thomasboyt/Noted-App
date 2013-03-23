@@ -124,7 +124,7 @@ Noted.NoteView = Ember.View.extend({
         hasSelected: ['d', 'x', 'backspace', 'delete']
       },
       fn: function() {
-        this.set("controller.clipboardProps", this.get("active"));
+        this.get("controller").copy(this.get("active"));
         this.get("controller").deleteItem(this.get("active"), false);
         this._changeActiveByOffset(0);
       }
@@ -135,7 +135,7 @@ Noted.NoteView = Ember.View.extend({
         hasSelected: ['c']
       },
       fn: function() {
-        this.set("controller.clipboardProps", this.get("active"));
+        this.get("controller").copy(this.get("active"));
       }
     },
     'paste': {
@@ -156,6 +156,7 @@ Noted.NoteView = Ember.View.extend({
       },
       fn: function() {
         // delete all, copy to clipboard...
+        this.get("controller").copy(this.get("active"), true);
         this.get("controller").deleteItem(this.get("active"), true);
         this._changeActiveByOffset(0);
       }
@@ -166,7 +167,7 @@ Noted.NoteView = Ember.View.extend({
         hasSelected: ['shift+c']
       },
       fn: function() {
-        // ...
+        this.get("controller").copy(this.get("active"), true);
       }
     },
 
