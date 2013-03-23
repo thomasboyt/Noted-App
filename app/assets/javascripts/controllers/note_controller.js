@@ -1,16 +1,5 @@
 Noted.NoteController = Ember.ObjectController.extend({
 
-  // set a listItem model, return a new listItem model with the same properties.
-  /*clipboardProps: function (key, value) {
-    if (arguments.length > 1) {
-      if (value instanceof Noted.ListItem) {
-        value = value.getProperties("text", "depth", "note");
-      }
-      this.set("_clipboardProps", value);
-    }
-    return this.get("_clipboardProps");
-  }.property("_clipboardProps"),*/
-
   copy: function (item, deep) {
     var copy = item.getProperties("text", "depth", "note");
     if (deep)

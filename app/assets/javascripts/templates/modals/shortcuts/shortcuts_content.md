@@ -1,9 +1,5 @@
 ## Key Reference
 
-(ctrl/cmd are interchangeable)
-
-In addition to the below bindings, there's also some secret-ish VIM bindings (that are also half-implemented). Eventually there will be a toggle between "Noted" bindings and "VIM" bindings.
-
 ### Movement Mode
 
 #### Selecting
@@ -21,20 +17,18 @@ In addition to the below bindings, there's also some secret-ish VIM bindings (th
 * `space/double click` - Edit item
 * <del>??? - Change item (same as edit item but highlights all text so it can be replaced, copied, cut, etc)</del>
 * `backspace/d` - Delete item(s)
-* <del>`shift + (backspace/d)` - Delete item & children</del>
+* `shift + (backspace/d)` - Delete item & children
 * `tab/l` - Indent item(s) one level
 * `shift+l` - Indent item & children one level
 * `shift+tab/h` - Outdent (probably not a word) item(s) one level
 
 #### Clipboard
 
-* `x` - cut item (*deleting items with backspace or d also cuts automatically*)
+* `x` - cut item 
 * `c` - copy item
-* `v` - paste item below current line
-* <del>`shift+x` - cut item and children</del>
-* <del>`shift+c` - copy item and children</del>
-
-(VIM bindings mode will be different)
+* `v` - paste item(s) below current line
+* `shift+x` - cut item and children
+* `shift+c` - copy item and children
 
 #### Inserting
 

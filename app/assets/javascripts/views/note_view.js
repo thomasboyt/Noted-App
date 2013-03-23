@@ -121,7 +121,17 @@ Noted.NoteView = Ember.View.extend({
 
     'delete': {
       keys: {
-        hasSelected: ['d', 'x', 'backspace', 'delete']
+        hasSelected: ['d', 'backspace', 'delete']
+      },
+      fn: function() {
+        this.get("controller").deleteItem(this.get("active"), false);
+        this._changeActiveByOffset(0);
+      }
+    },
+
+    'cut': {
+      keys: {
+        hasSelected: ['x'],
       },
       fn: function() {
         this.get("controller").copy(this.get("active"));
@@ -152,10 +162,19 @@ Noted.NoteView = Ember.View.extend({
 
     "blockDelete": {
       keys: {
-        hasSelected: ['shift+delete', 'shift+d', 'shift+x', 'shift+backspace']
+        hasSelected: ['shift+delete', 'shift+d', 'shift+backspace']
       },
       fn: function() {
-        // delete all, copy to clipboard...
+        this.get("controller").deleteItem(this.get("active"), true);
+        this._changeActiveByOffset(0);
+      }
+    },
+
+    "blockCut": {
+      keys: {
+        hasSelected: ['shift+x']
+      },
+      fn: function() {
         this.get("controller").copy(this.get("active"), true);
         this.get("controller").deleteItem(this.get("active"), true);
         this._changeActiveByOffset(0);
