@@ -29,18 +29,7 @@ Noted.ListItem = DS.Model.extend({
     });
     return children;
   }.property('children.@each'),
-
-  deepCopy: function(isChild) {
-    var children = [];
-    this.get("children").forEach(function (child) {
-      var copy = child.getProperties("text", "depth", "note");
-      copy.children = child.deepCopy();
-      children.push(copy);
-    });
-      
-    return children;
-  },
-
+ 
   updateDepth: function() {
     this.set('depth', this.get("_parent.depth")+1);
 
@@ -68,15 +57,7 @@ Noted.ListItem = DS.Model.extend({
     }
     return this.get("_parent");
   }.property('parent'),
-
-  stealChildren: function(newParent) {
-    for (var i = this.get("children.length") - 1; i > -1; i--) {
-      // still the dumbest pattern. necessary since setting parent will
-      // remove it from the children array. isn't mutability grand?
-      this.get("children").objectAt(i).set("parent", newParent);
-    };
-  },
-
+  
   // methods
   resetState: function() {
     this.set("isEditing", false);
@@ -84,11 +65,25 @@ Noted.ListItem = DS.Model.extend({
     this.set("isSelected", false);
   },
 
+  stealChildren: function(newParent) {
+    for (var i = this.get("children.length") - 1; i > -1; i--) {
+      this.get("children").objectAt(i).set("parent", newParent);
+    };
+  },
+
+  // copies children properties into a nested object
+  deepCopy: function(isChild) {
+    var children = [];
+    this.get("children").forEach(function (child) {
+      var copy = child.getProperties("text", "depth", "note");
+      copy.children = child.deepCopy();
+      children.push(copy);
+    });
+      
+    return children;
+  },
+
   deleteRecord: function(deleteChildren) {
-    // count is used to determine how many items to "shift" the list by
-    // some day, i will want to delete non-contiguous blocks, and be totally
-    // fucked. until then, this is fine. hurray coding
-    
     var count = 1;
 
     if (arguments.length == 0) deleteChildren = false;
