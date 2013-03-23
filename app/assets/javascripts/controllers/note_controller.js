@@ -53,9 +53,9 @@ Noted.NoteController = Ember.ObjectController.extend({
     console.log(item.get("children.length"));
 
     // handle inserting between parent and child
-    //if (item.get("depth") == previous.get("depth")) {
-    //  previous.stealChildren(item);
-    //}
+    if (item.get("depth") == previous.get("depth")) {
+      previous.stealChildren(item);
+    }
     
    return {item: item, index: index};
   },
