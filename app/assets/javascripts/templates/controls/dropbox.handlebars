@@ -1,7 +1,9 @@
 {{#if controller.state.didAuth}}
   {{#if controller.state.loggedIn}}
-    <button class='btn btn-small' {{action "importDropbox" target="view"}}><i class='icon-cloud-download'></i> Import from Dropbox</button>
-    <button class='btn btn-small' {{action "exportDropbox" target="view"}}><i class='icon-cloud-upload'></i> Export to Dropbox</button>
+    {{#if controller.showImport}}
+      <button class='btn btn-small' {{action "importDropbox" target="view"}}><i class='icon-cloud-download'></i> Import notes from Dropbox</button>
+    {{/if}}
+    <button class='btn btn-small' {{action "exportDropbox" target="view"}}><i class='icon-cloud-upload'></i> Export notes to Dropbox</button>
   {{else}}
     <button class='btn btn-small' {{action "loginToDropbox" target="view"}}><i class='icon-cloud'></i> Sign in to Dropbox (BETA)</button>
   {{/if}}

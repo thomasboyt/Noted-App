@@ -5,12 +5,13 @@ Noted.Router.map(function() {
 });
 
 // this is a little weird but convenient at least
-Noted.renderWindow = function(ctx) {
+Noted.renderWindow = function(ctx, showImport) {
   var notesController = ctx.controllerFor('notes');
   notesController.set('content', Noted.Note.find());
 
   var dropboxController = ctx.controllerFor("dropbox");
   dropboxController.set('notes', notesController.get("content"));
+  dropboxController.set('showImport', showImport);
 
   ctx.render('app_window');
   ctx.render('controls/bottom', {
@@ -32,7 +33,7 @@ Noted.renderWindow = function(ctx) {
 
 Noted.IndexRoute = Ember.Route.extend({
   renderTemplate: function(controller, model) {
-    Noted.renderWindow(this);
+    Noted.renderWindow(this, true);
 
     if (this.controllerFor('note').get('content')) {
       this.controllerFor('notes').set('selected', undefined);
@@ -59,7 +60,7 @@ Noted.NoteRoute = Noted.IndexRoute.extend({
     var noteController = this.controllerFor('note').set('content', note);
     notesController.set("selected", note);
 
-    Noted.renderWindow(this, notesController);
+    Noted.renderWindow(this, false);
     this.render('note', {
       controller: noteController,
       into: 'app_window',
