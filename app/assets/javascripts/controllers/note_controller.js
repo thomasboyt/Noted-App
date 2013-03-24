@@ -101,7 +101,7 @@ Noted.NoteController = Ember.ObjectController.extend({
 
     if (this.get("listItems.length") == 0) {
       this.get("listItems").addObject(Noted.ListItem.createRecord({
-        text: "Edit me!",
+        text: "*(double click here to get started)*",
         order: 0,
         depth: 0,
         parent: this.get("masterNode")

@@ -31,7 +31,7 @@ Noted.NotesController = Ember.ArrayController.extend({
 
     // add a single default list entry to the note
     note.get("listItems").addObject(Noted.ListItem.createRecord({
-      text: "Edit me!",
+      text: "*(double click here to get started)*",
       order: 0,
       depth: 0,
       parent: note.get("masterNode")
