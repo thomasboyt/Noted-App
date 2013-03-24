@@ -26,7 +26,7 @@ Noted.ApplicationView = Ember.View.extend({
   },
 
   didInsertElement: function() {
-    this.$("a#help-link").click(function(e) {
+    this.$("a.help-link").click(function(e) {
       e.preventDefault();
       $("#shortcuts-modal").modal();
     })
