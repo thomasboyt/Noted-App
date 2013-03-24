@@ -9,7 +9,7 @@
 <p><em>March 23</em></p>
 
 <ul>
-<li>This was added a while ago, but there are now various <strong>block commands</strong> in place for moving around an item and the &quot;sub-items&quot; below and to the right of it:
+<li>This was begun a while ago, but there are now various <strong>block commands</strong> in place for moving around an item and the &quot;sub-items&quot; below and to the right of it:
 
 <ul>
 <li><code>shift+x</code> cuts a block of items</li>
@@ -18,7 +18,8 @@
 <li><code>shift+l</code> indents a block of items</li>
 <li><code>shift+tab</code> unindents a block of items</li>
 </ul></li>
-<li></li>
+<li>You will now be notified when an update to Noted is available.</li>
+<li>There is now a fancy new welcome screen on the home page.</li>
 </ul>
 
 <p><em>February 27</em></p>
@@ -59,12 +60,8 @@
 
 <p><strong>Front-end:</strong> Noted uses <a href="http://emberjs.com">Ember.js</a> as its framework, along with several other libraries, including RSVP.js, several of Ben Alman&#39;s jQuery plugins, jwerty, Dropbox.js, Marked (for Markdown formatting), and finally <a href="https://github.com/rpflorence/ember-localstorage-adapter">rpflorence&#39;s invaluable localStorage adapter for ember-data</a>. </p>
 
-<p>For styling, Noted uses LESS with Bootstrap. Noted also uses HTML5&#39;s Application Cache abilities for offline support.</p>
+<p>For styling, Noted uses LESS with Bootstrap and the Font Awesome icon font. Noted also uses HTML5&#39;s Application Cache abilities for offline support.</p>
 
 <p><strong>Back-end:</strong> While Noted has no actual backend API, it relies on Rails (and the Ember-Rails gem) for building and serving its content. It also uses wycats&#39;s <a href="https://github.com/wycats/rack-offline">Rack::Offline</a> to generate its application cache manifest.</p>
 
-<p>Theoretically, at some point, Noted will use RSpec + Capybara + Selenium for integration/acceptance testing the app. Until then, I just try not to break stuff too often.</p>
-
 <p>Oh, and finally, this about page and several other templates were written in Markdown compiled with Redcarpet.</p>
-
-<p>I think that&#39;s everything!</p>
