@@ -1,10 +1,21 @@
 ## About
 
-Noted is a note-taking app that uses a modal interface. This makes it super easy to manipulate outlines - quickly move lines around, reindent them, etc.
+Noted is a note-taking app that uses a modal interface. This makes it super easy to manipulate outlines - quickly move lines around, reindent them, etc. For more usage information, see the [Home](/) and <a href="#" class="help-link">Help</a> pages.
 
-It was made by Thomas Boyt. You should probably follow him on [Twitter](https://twitter.com/thomasaboyt) and [GitHub](https://github.com/thomasboyt).
+Noted was made by [Thomas Boyt](http://thomasboyt.com) at [Hacker School](http://hackerschool.com). You should totally follow him on [Twitter](https://twitter.com/thomasaboyt) and [GitHub](https://github.com/thomasboyt).
 
 ## What's New?
+
+*March 23*
+
+* This was begun a while ago, but there are now various **block commands** in place for moving around an item and the "sub-items" below and to the right of it:
+    * `shift+x` cuts a block of items
+    * `shift+c` copies a block of items
+    * `shift+delete` deletes a block of items
+    * `shift+l` indents a block of items
+    * `shift+tab` unindents a block of items
+* You will now be notified when an update to Noted is available.
+* There is now a fancy new welcome screen on the home page.
 
 *February 27*
 
@@ -31,12 +42,8 @@ It was made by Thomas Boyt. You should probably follow him on [Twitter](https://
 
 **Front-end:** Noted uses [Ember.js](http://emberjs.com) as its framework, along with several other libraries, including RSVP.js, several of Ben Alman's jQuery plugins, jwerty, Dropbox.js, Marked (for Markdown formatting), and finally [rpflorence's invaluable localStorage adapter for ember-data](https://github.com/rpflorence/ember-localstorage-adapter). 
 
-For styling, Noted uses LESS with Bootstrap. Noted also uses HTML5's Application Cache abilities for offline support.
+For styling, Noted uses LESS with Bootstrap and the Font Awesome icon font. Noted also uses HTML5's Application Cache abilities for offline support.
 
 **Back-end:** While Noted has no actual backend API, it relies on Rails (and the Ember-Rails gem) for building and serving its content. It also uses wycats's [Rack::Offline](https://github.com/wycats/rack-offline) to generate its application cache manifest.
 
-Theoretically, at some point, Noted will use RSpec + Capybara + Selenium for integration/acceptance testing the app. Until then, I just try not to break stuff too often.
-
 Oh, and finally, this about page and several other templates were written in Markdown compiled with Redcarpet.
-
-I think that's everything!

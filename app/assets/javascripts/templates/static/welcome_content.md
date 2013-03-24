@@ -6,7 +6,7 @@ Don't worry about registering a new account - Noted stores your notes offline on
 
 ### Write outlines as fast as you can type
 
-Noted's interface was inspired by modal text editors such as [Vim](http://en.wikipedia.org/wiki/Vim_(text_editor)). Check out the <a href="#" class="help-link">keyboard shortcuts</a> to learn how to easily navigate and change list items.
+Noted's interface was inspired by modal text editors such as [Vim](http://en.wikipedia.org/wiki/Vim_(text_editor\)). Check out the <a href="#" class="help-link">keyboard shortcuts</a> to learn how to easily navigate and change list items.
 
 ### Save your notes online...
 
