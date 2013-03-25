@@ -8,15 +8,15 @@
 * `j/down arrow` - Move selection down one item
 * `k/up arrow` - Move selection up one item
 
-#### Editing
+#### Modifying Items
 
 * `space/double click` - Edit item
 * `enter` - Insert new item on the next line with the same indention level
-* `backspace/d` - Delete item(s)
+* `backspace/d` - Delete item
 * `shift + (backspace/d)` - Delete item & children
-* `tab/l` - Indent item(s) one level
+* `l/tab` - Indent item one level
 * `shift+l/shift+>` - Indent item & children one level
-* `shift+tab/h/shift+<` - Unindent item & children one level
+* `h/shift+tab/shift+<` - Unindent item & children one level
 
 #### Clipboard
 
